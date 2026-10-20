@@ -43,7 +43,7 @@ export default function Home() {
         <GearTabs gear={gear} />
       </Section>
 
-      <footer className="pt-4 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} alyxx.com</footer>
+      <footer className="pt-4 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} byalyxx.com</footer>
     </main>
   );
 }

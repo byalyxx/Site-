@@ -1,30 +1,25 @@
 import { ArrowUpRight } from "lucide-react";
-import type { GearItem } from "@/content/site";
+import type { GearGroup } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const tabs = [
-  { key: "pcSpecs", label: "PC specs" },
-  { key: "peripherals", label: "Peripherals" },
-] as const;
-
-export function GearTabs({ gear }: { gear: { pcSpecs: GearItem[]; peripherals: GearItem[] } }) {
+export function GearTabs({ gear }: { gear: GearGroup[] }) {
   return (
-    <Tabs defaultValue="pcSpecs">
+    <Tabs defaultValue={gear[0]?.label}>
       <TabsList className="w-full">
-        {tabs.map((t) => (
-          <TabsTrigger key={t.key} value={t.key}>
-            {t.label}
+        {gear.map((g) => (
+          <TabsTrigger key={g.label} value={g.label}>
+            {g.label}
           </TabsTrigger>
         ))}
       </TabsList>
       {/* forceMount keeps both lists in the HTML so search engines see all gear */}
-      {tabs.map((t) => (
-        <TabsContent key={t.key} value={t.key} forceMount className="data-[state=inactive]:hidden">
+      {gear.map((g) => (
+        <TabsContent key={g.label} value={g.label} forceMount className="data-[state=inactive]:hidden">
           <Card className="gap-0 py-0">
             <ul className="divide-y">
-              {gear[t.key].map((item) => (
+              {g.items.map((item) => (
                 <li key={item.type} className="flex items-center justify-between gap-4 px-4 py-3">
                   <div className="min-w-0">
                     <p className="text-xs text-muted-foreground">{item.type}</p>

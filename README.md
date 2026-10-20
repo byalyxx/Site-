@@ -1,6 +1,6 @@
-# alyxx.com
+# byalyxx.com
 
-The self-hosted version of alyxx.com, moved off Framer. Built with Next.js, Tailwind and shadcn/ui (components in `components/ui`), exported as a plain static site.
+The self-hosted version of byalyxx.com, moved off Framer. Built with Next.js, Tailwind and shadcn/ui (components in `components/ui`), exported as a plain static site.
 
 ## Edit the content
 
@@ -25,4 +25,4 @@ npm run build    # writes the finished site to ./out
 
 **Option B, shared hosting:** run `npm run build` and upload the contents of `out/` to `public_html` with the File Manager or FTP.
 
-Point alyxx.com at Hostinger only once the new site looks right, since that switch takes the Framer site offline.
+Point byalyxx.com at Hostinger only once the new site looks right, since that switch takes the Framer site offline.
