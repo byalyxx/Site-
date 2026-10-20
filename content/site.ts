@@ -35,17 +35,6 @@ export const videos = [
 
 export const gear: GearGroup[] = [
   {
-    label: "PC specs",
-    items: [
-      { type: "Laptop", name: "Apple MacBook Pro M5", url: "https://link.amazon/B013GjAau" },
-      { type: "Monitor", name: "ASUS ROG Strix OLED XG27AQDMG", url: "https://link.amazon/B091Sj2NN" },
-      { type: "Monitor arm", name: "ARCTIC X1-3D", url: "https://link.amazon/B05ZyjaBq" },
-      { type: "Laptop stand", name: "UGREEN Vertical Laptop Stand", url: "https://link.amazon/B0gZhi4RB" },
-      { type: "USB hub", name: "UGREEN USB C Hub 5-in-1", url: "https://link.amazon/B0cd0PXuZ" },
-      { type: "DisplayPort cable", name: "UGREEN DisplayPort Cable", url: "https://link.amazon/B00IHHtHH" },
-    ],
-  },
-  {
     label: "Peripherals",
     items: [
       { type: "Keyboard", name: "Tofu60 Redux V2", url: "https://kbdfans.com/collections/60" },
@@ -59,6 +48,17 @@ export const gear: GearGroup[] = [
       { type: "Monitor lights", name: "Govee PC Strip lights", url: "https://link.amazon/B0gyx0bJ2" },
       { type: "Keyboard cable", name: "Chubby cable", url: "https://link.amazon/B02EqsOrm" },
       { type: "Cable management", name: "200PCS Cable Management", url: "https://link.amazon/B0bHyDOSs" },
+    ],
+  },
+  {
+    label: "PC specs",
+    items: [
+      { type: "Laptop", name: "Apple MacBook Pro M5", url: "https://link.amazon/B013GjAau" },
+      { type: "Monitor", name: "ASUS ROG Strix OLED XG27AQDMG", url: "https://link.amazon/B091Sj2NN" },
+      { type: "Monitor arm", name: "ARCTIC X1-3D", url: "https://link.amazon/B05ZyjaBq" },
+      { type: "Laptop stand", name: "UGREEN Vertical Laptop Stand", url: "https://link.amazon/B0gZhi4RB" },
+      { type: "USB hub", name: "UGREEN USB C Hub 5-in-1", url: "https://link.amazon/B0cd0PXuZ" },
+      { type: "DisplayPort cable", name: "UGREEN DisplayPort Cable", url: "https://link.amazon/B00IHHtHH" },
     ],
   },
 ];
