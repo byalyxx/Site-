@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* dark: utilities follow the visitor's system setting, same as the colour tokens below */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 
 /* shadcn/ui "neutral" theme. Dark mode follows the visitor's system setting. */
 :root {
@@ -82,4 +83,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Unlayered so it beats any host stylesheet that sets body colours (e.g. the preview viewer) */
+html,
+body {
+  background-color: var(--background);
+  color: var(--foreground);
 }
