@@ -1,8 +1,48 @@
-import { ArrowUpRight } from "lucide-react";
+import {
+  ArrowUpRight,
+  Cable,
+  Headphones,
+  Keyboard,
+  Laptop,
+  LaptopMinimal,
+  Lightbulb,
+  type LucideIcon,
+  Mic,
+  MicVocal,
+  Monitor,
+  MonitorUp,
+  Mouse,
+  Package,
+  PanelTop,
+  RectangleHorizontal,
+  Speaker,
+  Usb,
+} from "lucide-react";
 import type { GearGroup } from "@/content/site";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+// Icon per gear type. Anything not listed falls back to a generic box.
+const gearIcons: Record<string, LucideIcon> = {
+  Laptop: Laptop,
+  Monitor: Monitor,
+  "Monitor arm": MonitorUp,
+  "Monitor lights": Lightbulb,
+  "Laptop stand": LaptopMinimal,
+  "USB hub": Usb,
+  "DisplayPort cable": Cable,
+  "Keyboard cable": Cable,
+  "Cable management": Cable,
+  Keyboard: Keyboard,
+  Mouse: Mouse,
+  Mousemat: RectangleHorizontal,
+  Mic: Mic,
+  "Mic arm": MicVocal,
+  Speakers: Speaker,
+  Earphones: Headphones,
+  Desk: PanelTop,
+};
 
 export function GearTabs({ gear }: { gear: GearGroup[] }) {
   return (
@@ -20,8 +60,9 @@ export function GearTabs({ gear }: { gear: GearGroup[] }) {
           <Card className="gap-0 py-0">
             <ul className="divide-y">
               {g.items.map((item) => (
-                <li key={item.type} className="flex items-center justify-between gap-4 px-4 py-3">
-                  <div className="min-w-0">
+                <li key={item.type} className="flex items-center gap-3 px-4 py-3">
+                  <GearIcon type={item.type} />
+                  <div className="min-w-0 flex-1">
                     <p className="text-xs text-muted-foreground">{item.type}</p>
                     <p className="truncate text-sm font-medium">{item.name}</p>
                   </div>
@@ -39,5 +80,14 @@ export function GearTabs({ gear }: { gear: GearGroup[] }) {
         </TabsContent>
       ))}
     </Tabs>
+  );
+}
+
+function GearIcon({ type }: { type: string }) {
+  const Icon = gearIcons[type] ?? Package;
+  return (
+    <span className="grid size-9 shrink-0 place-items-center rounded-lg border bg-muted text-muted-foreground">
+      <Icon className="size-4" aria-hidden />
+    </span>
   );
 }
