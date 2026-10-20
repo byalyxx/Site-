@@ -1,12 +1,20 @@
 import {
   ArrowUpRight,
+  Box,
   Cable,
+  CircuitBoard,
+  Cpu,
+  Droplet,
+  Fan,
+  Gpu,
+  HardDrive,
   Headphones,
   Keyboard,
   Laptop,
   LaptopMinimal,
   Lightbulb,
   type LucideIcon,
+  MemoryStick,
   Mic,
   MicVocal,
   Monitor,
@@ -14,7 +22,9 @@ import {
   Mouse,
   Package,
   PanelTop,
+  PlugZap,
   RectangleHorizontal,
+  Snowflake,
   Speaker,
   Usb,
 } from "lucide-react";
@@ -25,7 +35,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Icon per gear type. Anything not listed falls back to a generic box.
 const gearIcons: Record<string, LucideIcon> = {
-  Laptop: Laptop,
+  MacBook: Laptop,
   Monitor: Monitor,
   "Monitor arm": MonitorUp,
   "Monitor lights": Lightbulb,
@@ -42,6 +52,17 @@ const gearIcons: Record<string, LucideIcon> = {
   Speakers: Speaker,
   Earphones: Headphones,
   Desk: PanelTop,
+  GPU: Gpu,
+  CPU: Cpu,
+  RAM: MemoryStick,
+  SSD: HardDrive,
+  PSU: PlugZap,
+  "CPU cooler": Snowflake,
+  "Fan swap": Fan,
+  "Thermal paste": Droplet,
+  Motherboard: CircuitBoard,
+  Case: Box,
+  "Case fans": Fan,
 };
 
 export function GearTabs({ gear }: { gear: GearGroup[] }) {
