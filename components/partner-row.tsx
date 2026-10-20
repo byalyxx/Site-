@@ -14,7 +14,7 @@ export function PartnerRow({ partner }: { partner: Partner }) {
     >
       <Card className="flex-row items-center gap-4 px-4 py-3 transition-colors group-hover:bg-accent">
         <Avatar className="size-11 rounded-lg border">
-          {partner.logo && <AvatarImage src={partner.logo} alt="" className="object-contain p-1.5" />}
+          {partner.logo && <AvatarImage src={partner.logo} alt="" className="object-cover" />}
           <AvatarFallback className="rounded-lg font-semibold">{partner.name.charAt(0)}</AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1 space-y-0.5">

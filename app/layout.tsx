@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     title: profile.name,
     description: profile.tagline,
     url: "https://byalyxx.com",
-    images: [profile.avatar],
+    images: ["/og.jpg"],
   },
 };
 

@@ -27,7 +27,7 @@ export function VideoCard({ id, title }: { id: string; title: string }) {
             aria-label={`Play ${title}`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" className="size-full object-cover" />
+            <img src={`/videos/${id}.jpg`} alt="" loading="lazy" className="size-full object-cover" />
             <span className="absolute left-1/2 top-1/2 grid size-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-background/90 text-foreground shadow-sm transition-transform group-hover:scale-105">
               <Play className="ml-0.5 size-5 fill-current" />
             </span>

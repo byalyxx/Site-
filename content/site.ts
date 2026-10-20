@@ -5,7 +5,7 @@ export type Partner = {
   name: string;
   description: string;
   url: string; // your affiliate link
-  logo?: string; // path under /public, e.g. "/partners/flexispot.png"
+  logo?: string; // path under /public, e.g. "/partners/flexispot.jpg"
   code?: string; // optional discount code shown on the row
 };
 
@@ -15,7 +15,7 @@ export type GearGroup = { label: string; items: GearItem[] };
 export const profile = {
   name: "byalyxx",
   tagline: "Creator & Tech Enthusiast",
-  avatar: "/avatar.svg", // TODO: replace with your portrait, e.g. public/avatar.jpg
+  avatar: "/avatar.jpg",
   email: "byalyxx@gmail.com",
   totalFollowers: "11k+",
   cta: { label: "Watch on YouTube", url: "https://www.youtube.com/@byalyxx" },
@@ -27,10 +27,10 @@ export const socials = [
   { label: "YouTube", icon: "youtube", url: "https://www.youtube.com/@byalyxx", followers: "1.1k+" },
 ] as const;
 
-// YouTube video IDs, newest first.
+// YouTube video IDs, newest first. Thumbnails live in public/videos/<id>.jpg.
 export const videos = [
-  { id: "x3XlALrMMuU", title: "Latest video" },
-  { id: "5G1u5PJHsxs", title: "Previous video" },
+  { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)" },
+  { id: "5G1u5PJHsxs", title: "the most powerful tiny pc i’ve ever built" },
 ];
 
 export const gear: GearGroup[] = [
@@ -65,9 +65,9 @@ export const gear: GearGroup[] = [
 
 // Recent partners and products. No discount codes are listed on the live site; add `code` to show one.
 export const partners: Partner[] = [
-  { name: "Flexispot", description: "The Flexispot E7 Pro", url: "https://flexispot.co.uk/e7-series" },
-  { name: "Blacklyte", description: "The Kraken Pro", url: "https://blacklyte.uk/products/blacklyte-kraken-pro-gaming-chair" },
-  { name: "Gravastar", description: "The V60 Pro series & more", url: "https://www.gravastar.co.uk/collections/he-keyboard" },
+  { name: "Flexispot", description: "The Flexispot E7 Pro", url: "https://flexispot.co.uk/e7-series", logo: "/partners/flexispot.jpg" },
+  { name: "Blacklyte", description: "The Kraken Pro", url: "https://blacklyte.uk/products/blacklyte-kraken-pro-gaming-chair", logo: "/partners/blacklyte.jpg" },
+  { name: "Gravastar", description: "The V60 Pro series & more", url: "https://www.gravastar.co.uk/collections/he-keyboard", logo: "/partners/gravastar.jpg" },
   // TODO: the live site points Hex Gaming at the Blacklyte chair link. Swap in the real Hex Gaming link.
-  { name: "Hex Gaming", description: "The Phantom Controller", url: "https://blacklyte.uk/products/blacklyte-kraken-pro-gaming-chair" },
+  { name: "Hex Gaming", description: "The Phantom Controller", url: "https://blacklyte.uk/products/blacklyte-kraken-pro-gaming-chair", logo: "/partners/hex-gaming.jpg" },
 ];
