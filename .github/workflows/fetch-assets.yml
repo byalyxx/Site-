@@ -1,0 +1,30 @@
+name: fetch-assets
+on:
+  push:
+    branches: [site-rebuild]
+    paths: [.github/workflows/fetch-assets.yml]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download pages and images
+        run: |
+          mkdir -p _fetched
+          UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36"
+          curl -sSL -A "$UA" https://byalyxx.com/ -o _fetched/home.html || true
+          curl -sSL -A "$UA" https://byalyxx.com/media-kit -o _fetched/media-kit.html || true
+          for id in x3XlALrMMuU 5G1u5PJHsxs; do curl -sSL "https://i.ytimg.com/vi/$id/hqdefault.jpg" -o "_fetched/yt-$id.jpg" || true; done
+          for d in flexispot.co.uk blacklyte.uk gravastar.co.uk hexgaming.com; do
+            curl -sSL "https://www.google.com/s2/favicons?domain=$d&sz=256" -o "_fetched/fav-$d.png" || true
+            curl -sSL -A "$UA" "https://$d/" -o "_fetched/site-$d.html" || true
+          done
+          ls -la _fetched
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add _fetched
+          git commit -m "Fetch remote assets" && git push
