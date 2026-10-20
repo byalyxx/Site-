@@ -1,6 +1,6 @@
 # alyxx.com
 
-The self-hosted version of alyxx.com, moved off Framer. Built with Next.js and Tailwind, exported as a plain static site.
+The self-hosted version of alyxx.com, moved off Framer. Built with Next.js, Tailwind and shadcn/ui (components in `components/ui`), exported as a plain static site.
 
 ## Edit the content
 

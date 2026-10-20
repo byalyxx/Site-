@@ -14,11 +14,3 @@ export function SocialIcon({ name, className = "size-5" }: { name: string; class
     </svg>
   );
 }
-
-export function ArrowIcon({ className = "size-4" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden className={className}>
-      <path d="M7 17 17 7M7 7h10v10" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}

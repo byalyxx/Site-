@@ -1,8 +1,8 @@
-"use client";
-
-import { useState } from "react";
+import { ArrowUpRight } from "lucide-react";
 import type { GearItem } from "@/content/site";
-import { ArrowIcon } from "./icons";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const tabs = [
   { key: "pcSpecs", label: "PC specs" },
@@ -10,56 +10,39 @@ const tabs = [
 ] as const;
 
 export function GearTabs({ gear }: { gear: { pcSpecs: GearItem[]; peripherals: GearItem[] } }) {
-  const [active, setActive] = useState<(typeof tabs)[number]["key"]>("pcSpecs");
-
   return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-lg font-semibold">My gear</h2>
-      <div role="tablist" className="flex gap-1 rounded-full bg-card p-1">
+    <Tabs defaultValue="pcSpecs">
+      <TabsList className="w-full">
         {tabs.map((t) => (
-          <button
-            key={t.key}
-            role="tab"
-            data-tab={t.key}
-            aria-selected={active === t.key}
-            onClick={() => setActive(t.key)}
-            className={`flex-1 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              active === t.key ? "bg-bg shadow-sm" : "text-muted hover:text-fg"
-            }`}
-          >
+          <TabsTrigger key={t.key} value={t.key}>
             {t.label}
-          </button>
+          </TabsTrigger>
         ))}
-      </div>
-      {/* Both lists are in the HTML so search engines see all gear; the inactive one is hidden */}
+      </TabsList>
+      {/* forceMount keeps both lists in the HTML so search engines see all gear */}
       {tabs.map((t) => (
-        <ul
-          key={t.key}
-          role="tabpanel"
-          data-tab={t.key}
-          hidden={active !== t.key}
-          className="divide-y divide-border rounded-2xl border border-border"
-        >
-          {gear[t.key].map((item) => (
-            <li key={item.type} className="flex items-center justify-between gap-4 px-4 py-3">
-              <div className="min-w-0">
-                <p className="text-xs text-muted">{item.type}</p>
-                <p className="truncate font-medium">{item.name}</p>
-              </div>
-              {item.url && (
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="sponsored noopener noreferrer"
-                  className="flex shrink-0 items-center gap-1 rounded-full bg-card px-3 py-1.5 text-xs font-medium hover:bg-card-hover"
-                >
-                  Open <ArrowIcon className="size-3" />
-                </a>
-              )}
-            </li>
-          ))}
-        </ul>
+        <TabsContent key={t.key} value={t.key} forceMount className="data-[state=inactive]:hidden">
+          <Card className="gap-0 py-0">
+            <ul className="divide-y">
+              {gear[t.key].map((item) => (
+                <li key={item.type} className="flex items-center justify-between gap-4 px-4 py-3">
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">{item.type}</p>
+                    <p className="truncate text-sm font-medium">{item.name}</p>
+                  </div>
+                  {item.url && (
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={item.url} target="_blank" rel="sponsored noopener noreferrer">
+                        Open <ArrowUpRight />
+                      </a>
+                    </Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </TabsContent>
       ))}
-    </section>
+    </Tabs>
   );
 }

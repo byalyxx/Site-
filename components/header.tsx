@@ -1,43 +1,34 @@
+import { Play } from "lucide-react";
 import { profile, socials } from "@/content/site";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { SocialIcon } from "./icons";
 
 export function Header() {
   return (
-    <header className="flex flex-col items-center gap-5 text-center">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={profile.avatar}
-        alt={profile.name}
-        width={96}
-        height={96}
-        className="size-24 rounded-full border border-border bg-card object-cover"
-      />
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight">{profile.name}</h1>
-        <p className="mt-1 text-muted">{profile.tagline}</p>
+    <header className="flex flex-col items-center gap-4 text-center">
+      <Avatar className="size-24 border">
+        <AvatarImage src={profile.avatar} alt={profile.name} className="object-cover" />
+        <AvatarFallback className="text-2xl font-semibold">{profile.name.charAt(0).toUpperCase()}</AvatarFallback>
+      </Avatar>
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight">{profile.name}</h1>
+        <p className="text-sm text-muted-foreground">{profile.tagline}</p>
       </div>
       <nav className="flex gap-2" aria-label="Social links">
         {socials.map((s) => (
-          <a
-            key={s.label}
-            href={s.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={s.label}
-            className="grid size-10 place-items-center rounded-full bg-card transition-colors hover:bg-card-hover"
-          >
-            <SocialIcon name={s.icon} />
-          </a>
+          <Button key={s.label} variant="outline" size="icon" className="rounded-full" asChild>
+            <a href={s.url} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+              <SocialIcon name={s.icon} className="size-4" />
+            </a>
+          </Button>
         ))}
       </nav>
-      <a
-        href={profile.cta.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="rounded-full bg-fg px-5 py-2.5 text-sm font-semibold text-bg transition-opacity hover:opacity-85"
-      >
-        {profile.cta.label}
-      </a>
+      <Button asChild className="rounded-full">
+        <a href={profile.cta.url} target="_blank" rel="noopener noreferrer">
+          <Play /> {profile.cta.label}
+        </a>
+      </Button>
     </header>
   );
 }

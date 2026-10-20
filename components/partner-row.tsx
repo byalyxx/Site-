@@ -1,5 +1,8 @@
+import { ArrowUpRight } from "lucide-react";
 import type { Partner } from "@/content/site";
-import { ArrowIcon } from "./icons";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
 
 export function PartnerRow({ partner }: { partner: Partner }) {
   return (
@@ -7,26 +10,22 @@ export function PartnerRow({ partner }: { partner: Partner }) {
       href={partner.url}
       target="_blank"
       rel="sponsored noopener noreferrer"
-      className="group flex items-center gap-4 rounded-2xl bg-card p-3 transition-colors hover:bg-card-hover"
+      className="group rounded-xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
     >
-      {partner.logo ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={partner.logo} alt="" className="size-12 shrink-0 rounded-xl object-cover" />
-      ) : (
-        <div className="grid size-12 shrink-0 place-items-center rounded-xl bg-bg text-lg font-bold">
-          {partner.name.charAt(0)}
+      <Card className="flex-row items-center gap-4 px-4 py-3 transition-colors group-hover:bg-accent">
+        <Avatar className="size-11 rounded-lg border">
+          {partner.logo && <AvatarImage src={partner.logo} alt="" className="object-contain p-1.5" />}
+          <AvatarFallback className="rounded-lg font-semibold">{partner.name.charAt(0)}</AvatarFallback>
+        </Avatar>
+        <div className="min-w-0 flex-1 space-y-0.5">
+          <div className="flex items-center gap-2">
+            <p className="truncate text-sm font-semibold">{partner.name}</p>
+            {partner.code && <Badge variant="secondary">Code: {partner.code}</Badge>}
+          </div>
+          <p className="line-clamp-2 text-sm text-muted-foreground">{partner.description}</p>
         </div>
-      )}
-      <div className="min-w-0 flex-1">
-        <p className="font-semibold">{partner.name}</p>
-        <p className="line-clamp-2 text-sm text-muted">{partner.description}</p>
-        {partner.code && (
-          <p className="mt-1 text-xs">
-            Code: <span className="font-mono font-semibold">{partner.code}</span>
-          </p>
-        )}
-      </div>
-      <ArrowIcon className="size-4 shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        <ArrowUpRight className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+      </Card>
     </a>
   );
 }
