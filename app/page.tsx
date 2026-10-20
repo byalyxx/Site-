@@ -4,16 +4,8 @@ import { GearTabs } from "@/components/gear-tabs";
 import { PartnerRow } from "@/components/partner-row";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Section } from "@/components/section";
 import { gear, partners, videos } from "@/content/site";
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-sm font-medium text-muted-foreground">{title}</h2>
-      {children}
-    </section>
-  );
-}
 
 export default function Home() {
   return (

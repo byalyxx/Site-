@@ -82,3 +82,20 @@ export const partners: Partner[] = [
   // TODO: the live site points Hex Gaming at the Blacklyte chair link. Swap in the real Hex Gaming link.
   { name: "Hex Gaming", description: "The Phantom Controller", url: "https://blacklyte.uk/products/blacklyte-kraken-pro-gaming-chair", logo: "/partners/hex-gaming.jpg" },
 ];
+
+// Media kit page (/media-kit). These stats were copied from the Framer media kit; update them as they grow.
+export const mediaKit = {
+  statsUpdated: "Sep 23, 2026",
+  totalFollowers: "8.5k+",
+  platforms: [
+    { label: "TikTok", icon: "tiktok", url: "https://www.tiktok.com/@byalyxx", followers: "7k+" },
+    { label: "Instagram", icon: "instagram", url: "https://www.instagram.com/byalyxx/", followers: "900+" },
+    { label: "YouTube", icon: "youtube", url: "https://www.youtube.com/@byalyxx", followers: "600+" },
+  ],
+  services: [
+    { icon: "short", title: "Short-form video", description: "Native product storytelling for social." },
+    { icon: "long", title: "Long-form review", description: "Detailed, considered coverage for YouTube." },
+    { icon: "photo", title: "Product photography", description: "Clean, desk-set imagery for your launch." },
+    { icon: "rights", title: "Usage rights", description: "Flexible amplification and licensing options." },
+  ],
+};

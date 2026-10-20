@@ -1,4 +1,4 @@
-import { Mail, Play } from "lucide-react";
+import { FileText, Mail, Play } from "lucide-react";
 import { profile, socials } from "@/content/site";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,11 @@ export function Header() {
         <Button asChild variant="secondary" className="rounded-full">
           <a href={`mailto:${profile.email}`}>
             <Mail /> Work with me
+          </a>
+        </Button>
+        <Button asChild variant="outline" className="rounded-full">
+          <a href="/media-kit">
+            <FileText /> Media kit
           </a>
         </Button>
       </div>
