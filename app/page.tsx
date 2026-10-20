@@ -3,6 +3,7 @@ import { VideoCard } from "@/components/video-card";
 import { GearTabs } from "@/components/gear-tabs";
 import { PartnerRow } from "@/components/partner-row";
 import { Separator } from "@/components/ui/separator";
+import { ModeToggle } from "@/components/mode-toggle";
 import { gear, partners, videos } from "@/content/site";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -16,7 +17,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function Home() {
   return (
-    <main className="mx-auto flex max-w-xl flex-col gap-8 px-4 py-12 sm:py-16">
+    <main className="relative mx-auto flex max-w-xl flex-col gap-8 px-4 py-12 sm:py-16">
+      <div className="absolute right-4 top-4">
+        <ModeToggle />
+      </div>
       <Header />
       <Separator />
 
