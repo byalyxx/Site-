@@ -27,10 +27,10 @@ export const socials = [
   { label: "YouTube", icon: "youtube", url: "https://www.youtube.com/@byalyxx", followers: "1.1k+" },
 ] as const;
 
-// YouTube video IDs, newest first. These two came from the Framer export.
+// YouTube video IDs, newest first.
 export const videos = [
-  { id: "8AHPXm9Y6mI", title: "Latest Video" },
-  { id: "6aioEoCdBJw", title: "Previous Video" },
+  { id: "x3XlALrMMuU", title: "Latest video" },
+  { id: "5G1u5PJHsxs", title: "Previous video" },
 ];
 
 export const gear: GearGroup[] = [
