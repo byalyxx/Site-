@@ -1,6 +1,6 @@
 # byalyxx.com
 
-The self-hosted version of byalyxx.com, moved off Framer. Built with Next.js, Tailwind and shadcn/ui (components in `components/ui`), exported as a plain static site.
+The self-hosted version of byalyxx.com, moved off Framer. Built with Next.js, Tailwind and shadcn/ui (components in `components/ui`), running as a Node.js app.
 
 ## Edit the content
 
@@ -14,15 +14,16 @@ Everything on the page lives in [`content/site.ts`](content/site.ts): profile, s
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm run build    # writes the finished site to ./out
+npm run build    # production build
+npm start        # serves it on http://localhost:3000 (or $PORT)
 ```
 
 ## Hosting on Hostinger
 
-`npm run build` produces a folder of static files (`out/`), so it runs on any Hostinger plan.
+This is a Node.js app, so it needs a Hostinger plan with Node.js web apps (Business or Cloud).
 
-**Option A, Node.js app with GitHub auto-deploy** (Business / Cloud plans): in hPanel, add a Node.js web app, connect this GitHub repo, set the build command to `npm run build` and the output directory to `out`. Every push to `main` redeploys.
+In hPanel, add a Node.js web app and connect this GitHub repo. Use Node 20 or newer, build command `npm run build`, start command `npm start`. Every push to `main` redeploys.
 
-**Option B, shared hosting:** run `npm run build` and upload the contents of `out/` to `public_html` with the File Manager or FTP.
+On a shared plan without Node.js, run `npm run build:static` and upload the contents of `out/` to `public_html` instead.
 
 Point byalyxx.com at Hostinger only once the new site looks right, since that switch takes the Framer site offline.

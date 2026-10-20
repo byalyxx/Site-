@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npx serve out"
+    "start": "next start -p ${PORT:-3000}",
+    "build:static": "STATIC_EXPORT=1 next build"
   },
   "dependencies": {
     "class-variance-authority": "^0.7.1",
@@ -24,5 +25,8 @@
     "@types/react": "19.2.0",
     "tailwindcss": "4.3.3",
     "typescript": "5.7.2"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

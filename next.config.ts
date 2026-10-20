@@ -1,10 +1,9 @@
 import type { NextConfig } from "next";
 
-// Static export: `npm run build` writes plain HTML/CSS/JS to ./out,
-// which Hostinger (or any static host) can serve as-is.
+// Runs as a Node.js app: `npm run build` then `npm start` (Hostinger Node.js web apps).
+// STATIC_EXPORT=1 npm run build still writes a plain static copy to ./out if you ever need one.
 const nextConfig: NextConfig = {
-  output: "export",
-  trailingSlash: true,
+  ...(process.env.STATIC_EXPORT ? { output: "export" as const, trailingSlash: true } : {}),
   images: { unoptimized: true },
 };
 
