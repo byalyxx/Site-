@@ -35,12 +35,19 @@ export const videos = [
 
 export const gear: GearGroup[] = [
   {
-    label: "Desk setup",
+    label: "PC specs",
     items: [
+      { type: "Laptop", name: "Apple MacBook Pro M5", url: "https://link.amazon/B013GjAau" },
       { type: "Monitor", name: "ASUS ROG Strix OLED XG27AQDMG", url: "https://link.amazon/B091Sj2NN" },
       { type: "Monitor arm", name: "ARCTIC X1-3D", url: "https://link.amazon/B05ZyjaBq" },
-      { type: "Monitor lights", name: "Govee PC Strip lights", url: "https://link.amazon/B0gyx0bJ2" },
-      { type: "Desk", name: "Flexispot E1 Plus", url: "https://link.amazon/B00piuxFB" },
+      { type: "Laptop stand", name: "UGREEN Vertical Laptop Stand", url: "https://link.amazon/B0gZhi4RB" },
+      { type: "USB hub", name: "UGREEN USB C Hub 5-in-1", url: "https://link.amazon/B0cd0PXuZ" },
+      { type: "DisplayPort cable", name: "UGREEN DisplayPort Cable", url: "https://link.amazon/B00IHHtHH" },
+    ],
+  },
+  {
+    label: "Peripherals",
+    items: [
       { type: "Keyboard", name: "Tofu60 Redux V2", url: "https://kbdfans.com/collections/60" },
       { type: "Mouse", name: "WLMOUSE Beast X Pro", url: "https://link.amazon/B0hGKdwUq" },
       { type: "Mousemat", name: "Artisan Ninja FX Zero Mid", url: "https://link.amazon/B09Hsul7S" },
@@ -48,15 +55,8 @@ export const gear: GearGroup[] = [
       { type: "Mic arm", name: "FIFINE BM88", url: "https://link.amazon/B00QOUeOL" },
       { type: "Speakers", name: "Creative Pebble Plus", url: "https://link.amazon/B0aaBj629" },
       { type: "Earphones", name: "Apple EarPods", url: "https://link.amazon/B0ea2NQgp" },
-    ],
-  },
-  {
-    label: "Laptop & cables",
-    items: [
-      { type: "Laptop", name: "Apple MacBook Pro M5", url: "https://link.amazon/B013GjAau" },
-      { type: "Laptop stand", name: "UGREEN Vertical Laptop Stand", url: "https://link.amazon/B0gZhi4RB" },
-      { type: "USB hub", name: "UGREEN USB C Hub 5-in-1", url: "https://link.amazon/B0cd0PXuZ" },
-      { type: "DisplayPort cable", name: "UGREEN DisplayPort Cable", url: "https://link.amazon/B00IHHtHH" },
+      { type: "Desk", name: "Flexispot E1 Plus", url: "https://link.amazon/B00piuxFB" },
+      { type: "Monitor lights", name: "Govee PC Strip lights", url: "https://link.amazon/B0gyx0bJ2" },
       { type: "Keyboard cable", name: "Chubby cable", url: "https://link.amazon/B02EqsOrm" },
       { type: "Cable management", name: "200PCS Cable Management", url: "https://link.amazon/B0bHyDOSs" },
     ],
