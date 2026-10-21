@@ -1,15 +1,12 @@
-import { ArrowUpRight, BarChart3, Eye, Globe, MapPin, MousePointerClick, Users, type LucideIcon } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Monitor, Smartphone, Tablet, type LucideIcon } from "lucide-react";
+import { SocialIcon } from "@/components/icons";
 import { cn } from "./cn";
 
-// Charts for the media kit. Plain SVG + tokens, no chart library: the numbers come from content/site.ts.
-
-const statIcons: Record<string, LucideIcon> = {
-  reach: Users,
-  activity: BarChart3,
-  taps: MousePointerClick,
-  visits: Eye,
-  country: MapPin,
-};
+// Media kit analytics in a dashboard layout: a row of figures, a line chart you can hover,
+// then ranked lists with a bar behind each row. Plain SVG + tokens, no chart library.
 
 export function ExampleTag() {
   return (
@@ -19,199 +16,180 @@ export function ExampleTag() {
   );
 }
 
-// A bordered panel: the one place on the site that uses a card, because it groups figures that belong together.
-export function Panel({
-  title,
-  aside,
-  children,
-  className,
-}: {
-  title: React.ReactNode;
-  aside?: React.ReactNode;
-  children: React.ReactNode;
-  className?: string;
-}) {
+export function StatRow({ stats }: { stats: { label: string; value: string }[] }) {
   return (
-    <div className={cn("flex flex-col gap-6 rounded-card border border-site-border bg-site-surface p-4 tab:p-5", className)}>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2 text-title font-semibold text-site-fg">{title}</div>
-        {aside && <div className="flex items-center gap-2 text-meta text-site-muted">{aside}</div>}
-      </div>
-      {children}
-    </div>
-  );
-}
-
-// Ring split between two shares (in percent), with the headline figure in the middle.
-export function AudienceRing({
-  label,
-  value,
-  note,
-  split,
-}: {
-  label: string;
-  value: string;
-  note?: string;
-  split: { followers: number; nonFollowers: number };
-}) {
-  const r = 84;
-  const c = 2 * Math.PI * r;
-  const gap = 26; // track left between the two arcs, including the 7px each round cap adds
-  const a = (split.followers / 100) * c;
-  const b = (split.nonFollowers / 100) * c;
-
-  return (
-    <figure className="flex flex-col items-center gap-5">
-      <div className="relative w-55 max-w-full">
-        <svg viewBox="0 0 200 200" className="block w-full -rotate-90" role="img" aria-label={`${split.followers}% of ${label.toLowerCase()} from followers, ${split.nonFollowers}% from non-followers`}>
-          <circle cx="100" cy="100" r={r} fill="none" strokeWidth="14" className="stroke-site-line" />
-          <circle
-            cx="100"
-            cy="100"
-            r={r}
-            fill="none"
-            strokeWidth="14"
-            strokeLinecap="round"
-            strokeDasharray={`${Math.max(a - gap, 0)} ${c}`}
-            strokeDashoffset={-gap / 2}
-            className="stroke-site-data"
-          />
-          <circle
-            cx="100"
-            cy="100"
-            r={r}
-            fill="none"
-            strokeWidth="14"
-            strokeLinecap="round"
-            strokeDasharray={`${Math.max(b - gap, 0)} ${c}`}
-            strokeDashoffset={-(a + gap / 2)}
-            className="stroke-site-data-soft"
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-center">
-          <span className="text-meta text-site-muted">{label}</span>
-          <span className="text-display tabular-nums text-site-fg">{value}</span>
-          {note && <span className="text-small text-site-muted">{note}</span>}
+    <dl className="grid grid-cols-2 gap-x-4 gap-y-5 border-y border-site-line py-5 tab:grid-cols-3">
+      {stats.map((s) => (
+        <div key={s.label} className="flex min-w-0 flex-col gap-1">
+          <dt className="text-meta text-site-muted">{s.label}</dt>
+          <dd className="text-figure font-medium tabular-nums text-site-fg">{s.value}</dd>
         </div>
-      </div>
-      <figcaption className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-meta text-site-muted">
-        <Legend swatch="bg-site-data">Followers {split.followers}%</Legend>
-        <Legend swatch="bg-site-data-soft">Non-followers {split.nonFollowers}%</Legend>
-      </figcaption>
-    </figure>
+      ))}
+    </dl>
   );
 }
 
-function Legend({ swatch, dashed, children }: { swatch?: string; dashed?: boolean; children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-2">
-      {dashed ? (
-        <span className="w-4 border-t-2 border-dotted border-site-muted" aria-hidden />
-      ) : (
-        <span className={cn("size-2 rounded-pill", swatch)} aria-hidden />
-      )}
-      {children}
-    </span>
-  );
-}
+type Series = { label: string; values: number[] };
 
-export function StatTile({
-  icon,
-  label,
-  value,
-  change,
-  className,
-}: {
-  icon: string;
-  label: string;
-  value: string;
-  change?: string;
-  className?: string;
-}) {
-  const Icon = statIcons[icon] ?? Globe;
-  return (
-    <div className={cn("flex min-w-0 flex-col items-center gap-1 rounded-control border border-site-border bg-site-bg px-2 py-4 text-center", className)}>
-      <Icon className="mb-1 size-4 text-site-muted" aria-hidden />
-      <span className="text-figure font-semibold tabular-nums text-site-fg">{value}</span>
-      <span className="text-meta text-site-muted">{label}</span>
-      {change && <span className="text-meta font-medium tabular-nums text-site-positive">{change}</span>}
-    </div>
-  );
-}
-
-// Line chart: this period as a solid line with a soft fill, the period before as a dotted line.
-export function GrowthChart({
-  current,
-  previous,
-  xLabels,
-}: {
-  current: { label: string; values: number[] };
-  previous: { label: string; values: number[] };
-  xLabels: string[];
-}) {
+// This period solid, the one before dotted. Hover, tap or use the arrow keys to read a day.
+export function TrendChart({ current, previous, pointLabel }: { current: Series; previous: Series; pointLabel: string }) {
+  const [active, setActive] = useState<number | null>(null);
   const W = 400;
-  const H = 160;
+  const H = 150;
+  const n = current.values.length;
   const max = niceMax(Math.max(...current.values, ...previous.values));
-  const ticks = [max, max / 2, 0];
-  const line = (values: number[]) => smoothPath(values.map((v, i) => [(i / (values.length - 1)) * W, H - (v / max) * H]));
-  const cur = line(current.values);
+  const x = (i: number) => (i / (n - 1)) * W;
+  const y = (v: number) => H - (v / max) * H;
+  const path = (values: number[]) => values.map((v, i) => `${i ? "L" : "M"} ${x(i)} ${y(v)}`).join(" ");
+  const cur = path(current.values);
+  const label = (i: number) => `${pointLabel} ${i + 1}`;
+
+  function pick(clientX: number, el: Element) {
+    const r = el.getBoundingClientRect();
+    setActive(Math.min(n - 1, Math.max(0, Math.round(((clientX - r.left) / r.width) * (n - 1)))));
+  }
+
+  const left = active === null ? 0 : (active / (n - 1)) * 100;
 
   return (
-    <figure className="flex flex-col gap-4">
-      <div className="flex gap-3">
-        <div className="flex flex-col justify-between text-small tabular-nums text-site-muted" aria-hidden style={{ height: H }}>
-          {ticks.map((t) => (
-            <span key={t}>
-              {format(t)}
-            </span>
-          ))}
-        </div>
-        <div className="relative min-w-0 flex-1">
-          <svg
-            viewBox={`0 0 ${W} ${H}`}
-            preserveAspectRatio="none"
-            className="block w-full overflow-visible text-site-data"
-            style={{ height: H }}
-            role="img"
-            aria-label={`${current.label} compared with ${previous.label}: highest point ${Math.max(...current.values)}, versus ${Math.max(...previous.values)} before`}
-          >
-            <defs>
-              <linearGradient id="growth-fill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0" stopColor="currentColor" stopOpacity="0.18" />
-                <stop offset="1" stopColor="currentColor" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            {ticks.map((t) => (
-              <line key={t} x1="0" x2={W} y1={H - (t / max) * H} y2={H - (t / max) * H} vectorEffect="non-scaling-stroke" className="stroke-site-line" />
-            ))}
-            <path d={`${cur} L ${W} ${H} L 0 ${H} Z`} fill="url(#growth-fill)" />
-            <path d={line(previous.values)} fill="none" strokeWidth="2" strokeDasharray="1 5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="stroke-site-muted" />
-            <path d={cur} fill="none" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" stroke="currentColor" />
-          </svg>
-          <div className="mt-2 flex justify-between text-small text-site-muted" aria-hidden>
-            {xLabels.map((l) => (
-              <span key={l}>{l}</span>
-            ))}
-          </div>
-        </div>
+    <figure className="flex flex-col gap-3">
+      <span className="text-small tabular-nums text-site-muted" aria-hidden>
+        {format(max)}
+      </span>
+      <div
+        className="relative touch-pan-y outline-none focus-visible:ring-2 focus-visible:ring-site-muted"
+        tabIndex={0}
+        role="img"
+        aria-label={`${current.label} over ${n} ${pointLabel.toLowerCase()}s, peaking at ${Math.max(...current.values)}. ${previous.label} peaked at ${Math.max(...previous.values)}. Use the arrow keys to read each ${pointLabel.toLowerCase()}.`}
+        onPointerMove={(e) => pick(e.clientX, e.currentTarget)}
+        onPointerDown={(e) => pick(e.clientX, e.currentTarget)}
+        onPointerLeave={() => setActive(null)}
+        onBlur={() => setActive(null)}
+        onKeyDown={(e) => {
+          if (e.key === "ArrowRight") setActive((a) => Math.min(n - 1, (a ?? -1) + 1));
+          else if (e.key === "ArrowLeft") setActive((a) => Math.max(0, (a ?? n) - 1));
+          else return;
+          e.preventDefault();
+        }}
+      >
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="block w-full overflow-visible text-site-data" style={{ height: H }}>
+          <defs>
+            <linearGradient id="trend-fill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stopColor="currentColor" stopOpacity="0.16" />
+              <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <line x1="0" x2={W} y1={H} y2={H} vectorEffect="non-scaling-stroke" className="stroke-site-line" />
+          <path d={`${cur} L ${W} ${H} L 0 ${H} Z`} fill="url(#trend-fill)" />
+          <path d={path(previous.values)} fill="none" strokeWidth="1.5" strokeDasharray="2 4" vectorEffect="non-scaling-stroke" className="stroke-site-muted" />
+          <path d={cur} fill="none" strokeWidth="2" strokeLinejoin="round" vectorEffect="non-scaling-stroke" stroke="currentColor" />
+          {active !== null && (
+            <line x1={x(active)} x2={x(active)} y1="0" y2={H} vectorEffect="non-scaling-stroke" className="stroke-site-border" />
+          )}
+        </svg>
+        {active !== null && (
+          <>
+            <Dot left={left} top={(y(current.values[active]) / H) * 100} className="bg-site-data" />
+            <Dot left={left} top={(y(previous.values[active]) / H) * 100} className="bg-site-muted" />
+            <div
+              className="pointer-events-none absolute top-0 z-10 w-52 rounded-control border border-site-border bg-site-surface p-3 shadow-sm"
+              style={left > 55 ? { right: `${100 - left}%`, marginRight: 12 } : { left: `${left}%`, marginLeft: 12 }}
+              aria-live="polite"
+            >
+              <p className="border-b border-site-line pb-2 text-meta text-site-muted">{label(active)}</p>
+              <dl className="flex flex-col gap-1.5 pt-2 text-copy">
+                <TipRow swatch="border-site-data" label={current.label} value={current.values[active]} />
+                <TipRow swatch="border-dotted border-site-muted" label={previous.label} value={previous.values[active]} />
+              </dl>
+            </div>
+          </>
+        )}
+      </div>
+      <div className="flex justify-between text-small text-site-muted" aria-hidden>
+        <span>{label(0)}</span>
+        <span>{label(Math.floor((n - 1) / 2))}</span>
+        <span>{label(n - 1)}</span>
       </div>
       <figcaption className="flex flex-wrap gap-x-5 gap-y-1 text-meta text-site-muted">
         <span className="inline-flex items-center gap-2">
           <span className="w-4 border-t-2 border-site-data" aria-hidden />
           {current.label}
         </span>
-        <Legend dashed>{previous.label}</Legend>
+        <span className="inline-flex items-center gap-2">
+          <span className="w-4 border-t-2 border-dotted border-site-muted" aria-hidden />
+          {previous.label}
+        </span>
       </figcaption>
     </figure>
   );
 }
 
-export function ChangeBadge({ children }: { children: React.ReactNode }) {
+function Dot({ left, top, className }: { left: number; top: number; className: string }) {
   return (
-    <span className="inline-flex items-center gap-0.5 text-copy font-semibold tabular-nums text-site-positive">
-      <ArrowUpRight className="size-3.5" aria-hidden />
-      {children}
-    </span>
+    <span
+      className={cn("pointer-events-none absolute size-2 -translate-x-1/2 -translate-y-1/2 rounded-pill ring-2 ring-site-bg", className)}
+      style={{ left: `${left}%`, top: `${top}%` }}
+      aria-hidden
+    />
+  );
+}
+
+function TipRow({ swatch, label, value }: { swatch: string; label: string; value: number }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className={cn("w-3 shrink-0 border-t-2", swatch)} aria-hidden />
+      <dt className="min-w-0 flex-1 truncate text-site-muted">{label}</dt>
+      <dd className="font-medium tabular-nums text-site-fg">{value}</dd>
+    </div>
+  );
+}
+
+const rowIcons: Record<string, LucideIcon> = { mobile: Smartphone, desktop: Monitor, tablet: Tablet };
+const socialIcons = ["tiktok", "instagram", "youtube"];
+
+export type BreakdownRow = { label: string; value: number; display?: string; icon?: string };
+
+// A ranked list: each row's bar is its share of the largest row.
+export function Breakdown({
+  title,
+  unit,
+  rows,
+  example,
+}: {
+  title: string;
+  unit: string;
+  rows: BreakdownRow[];
+  example?: boolean;
+}) {
+  const top = Math.max(...rows.map((r) => r.value));
+  return (
+    <div className="flex flex-col gap-3 border-t border-site-line pt-5">
+      <div className="flex items-center justify-between gap-2">
+        <h3 className="text-title font-semibold text-site-fg">{title}</h3>
+        <span className="flex items-center gap-2 text-meta text-site-muted">
+          {example && <ExampleTag />}
+          {unit}
+        </span>
+      </div>
+      <ul className="flex flex-col gap-1.5">
+        {rows.map((r) => {
+          const Icon = r.icon ? rowIcons[r.icon] : undefined;
+          return (
+            <li key={r.label} className="flex items-center gap-4">
+              <div className="relative flex h-field min-w-0 flex-1 items-center gap-3 px-3">
+                <span className="absolute inset-y-0 left-0 rounded-control bg-site-thumb" style={{ width: `${(r.value / top) * 100}%` }} aria-hidden />
+                <span className="relative flex min-w-0 items-center gap-3 text-copy text-site-fg">
+                  {r.icon && socialIcons.includes(r.icon) && <SocialIcon name={r.icon} className="size-4 shrink-0" />}
+                  {Icon && <Icon className="size-4 shrink-0 text-site-muted" aria-hidden />}
+                  <span className="truncate">{r.label}</span>
+                </span>
+              </div>
+              <span className="w-12 shrink-0 text-right text-copy font-medium tabular-nums text-site-fg">{r.display ?? r.value}</span>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -222,16 +200,4 @@ function niceMax(v: number) {
 
 function format(n: number) {
   return n >= 1000 ? `${n / 1000}K` : String(n);
-}
-
-// Catmull-Rom through the points, as cubic Béziers, clamped so the curve never overshoots below 0.
-function smoothPath(points: number[][]) {
-  let d = `M ${points[0][0]} ${points[0][1]}`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const [p0, p1, p2, p3] = [points[i - 1] ?? points[i], points[i], points[i + 1], points[i + 2] ?? points[i + 1]];
-    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
-    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
-    d += ` C ${c1[0]} ${c1[1]}, ${c2[0]} ${c2[1]}, ${p2[0]} ${p2[1]}`;
-  }
-  return d;
 }

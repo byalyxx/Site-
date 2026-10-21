@@ -18,8 +18,7 @@ Follows the visitor's system setting, and the theme button in the nav switches i
 | `site-muted` | #6b6b6b | #ababab | Second headline line, intros, labels, dates |
 | `site-accent` / `-fg` | #0a0a0a / #fff | #fafafa / #161616 | The one solid button (Submit) |
 | `site-on-media`, `site-scrim` | #fff, #000 | same | Caption over the video thumbnail |
-| `site-data` | #7c3aed | #a78bfa | The series that matters in a chart (this period, followers) |
-| `site-data-soft` | #c4b5fd | #5b4a8a | The other share in the audience ring |
+| `site-data` | #7c3aed | #a78bfa | The series that matters in a chart (this period) |
 | `site-positive` | #15803d | #4ade80 | Growth figures (+10%) |
 
 Violet is the only colour outside the greys, and it only appears inside charts. Comparison lines use `site-muted`, dotted.
@@ -59,9 +58,12 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - Buttons: 36px tall, 8px radius, 1px border, `site-surface` fill, 600 weight.
 - Inputs: 40px tall, 8px radius, same fill and border.
 
-## Media kit panels
+## Media kit analytics
 
-The analytics are the only cards on the site (border, `site-surface` fill, 10px radius), because each one groups figures that are read together. Inside a panel: a title row with the platform and period, the audience ring, stat tiles (`site-bg` fill, 8px radius, icon, figure, label, change), then a hairline and the top countries. The growth panel shows the total, the change, and a line chart: this period solid with a soft fill, the period before dotted. While figures are examples, each panel carries a dashed "Example data" tag.
+Laid out like an analytics dashboard, flat on the page with hairlines instead of cards: a title row (platform, "Example data" tag while figures are examples, period chip), a grid of figures (label over a `text-figure` number, 2 columns on phones, 3 from 810px), then the trend chart and ranked lists.
+
+- Trend chart: this period solid in `site-data` with a soft fill, the period before dotted in `site-muted`. Hover, tap or arrow keys show a day: a vertical rule, a dot on each line and a small tooltip card (`site-surface`, 8px radius).
+- Ranked lists (Audience, Geography, Devices): each row is a 40px bar in `site-thumb`, its width the row's share of the largest row, label inside, figure on the right.
 
 ## Spacing scale
 

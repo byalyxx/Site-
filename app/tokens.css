@@ -18,7 +18,6 @@
   --site-thumb: #ececec; /* icon tiles */
   /* Data: one hue for the series that matters, the muted grey for comparisons */
   --site-data: #7c3aed;
-  --site-data-soft: #c4b5fd;
   --site-positive: #15803d; /* growth figures */
 }
 
@@ -33,7 +32,6 @@
   --site-accent-fg: #161616;
   --site-thumb: #222222;
   --site-data: #a78bfa;
-  --site-data-soft: #5b4a8a;
   --site-positive: #4ade80;
 }
 
@@ -54,7 +52,6 @@ body:has(.site) {
   --color-site-accent-fg: var(--site-accent-fg);
   --color-site-thumb: var(--site-thumb);
   --color-site-data: var(--site-data);
-  --color-site-data-soft: var(--site-data-soft);
   --color-site-positive: var(--site-positive);
   /* Text and scrim over photos and thumbnails: fixed in both themes */
   --color-site-on-media: #ffffff;

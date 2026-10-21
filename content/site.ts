@@ -161,32 +161,34 @@ export const mediaKitAnalytics = {
   example: true,
   platform: "Instagram",
   period: "Last 30 days",
-  views: "100K",
-  viewsNote: "0% from ads",
-  // Share of views, in percent. Must add up to 100.
-  split: { followers: 25, nonFollowers: 75 },
   stats: [
-    { icon: "reach", label: "Accounts reached", value: "50K", change: "+10%" },
-    { icon: "activity", label: "Profile activity", value: "1,000", change: "+10%" },
-    { icon: "taps", label: "Link taps", value: "100", change: "+10%" },
-    { icon: "visits", label: "Profile visits", value: "1,000", change: "+10%" },
+    { label: "Views", value: "100K" },
+    { label: "Accounts reached", value: "50K" },
+    { label: "Profile visits", value: "1,000" },
+    { label: "Link taps", value: "100" },
+    { label: "Followers gained", value: "+200" },
+    { label: "Saves", value: "300" },
   ],
-  topCountries: [
-    { name: "Country 1", share: "40%" },
-    { name: "Country 2", share: "20%" },
-    { name: "Country 3", share: "10%" },
-    { name: "Country 4", share: "5%" },
+  // One value per day, oldest first. Both lists need the same length.
+  trend: {
+    current: { label: "Views", values: [3, 5, 4, 6, 9, 7, 5, 6, 8, 12, 10, 7, 6, 8, 9, 11, 14, 12, 9, 8, 10, 13, 16, 14, 11, 10, 12, 15, 13, 12] },
+    previous: { label: "Previous 30 days", values: [4, 4, 5, 4, 3, 4, 5, 6, 5, 4, 3, 4, 5, 5, 6, 5, 4, 5, 6, 7, 6, 5, 4, 5, 6, 8, 9, 8, 7, 7] },
+  },
+  // `value` sizes the bar, `display` is the text shown (defaults to the value).
+  geography: [
+    { label: "Country 1", value: 40, display: "40%" },
+    { label: "Country 2", value: 20, display: "20%" },
+    { label: "Country 3", value: 10, display: "10%" },
+    { label: "Country 4", value: 5, display: "5%" },
   ],
-};
-
-export const mediaKitGrowth = {
-  example: true,
-  title: "Views over time",
-  total: "100K",
-  change: "+10%",
-  current: { label: "Last 30 days", values: [3, 5, 4, 6, 9, 7, 5, 6, 8, 12, 10, 7, 6, 8, 9, 11, 14, 12, 9, 8, 10, 13, 16, 14, 11, 10, 12, 15, 13, 12] },
-  previous: { label: "30 days before", values: [4, 4, 5, 4, 3, 4, 5, 6, 5, 4, 3, 4, 5, 5, 6, 5, 4, 5, 6, 7, 6, 5, 4, 5, 6, 8, 9, 8, 7, 7] },
-  xLabels: ["Day 1", "Day 10", "Day 20", "Day 30"],
+  audience: [
+    { label: "Non-followers", value: 75, display: "75%" },
+    { label: "Followers", value: 25, display: "25%" },
+  ],
+  devices: [
+    { label: "Mobile", value: 90, display: "90%", icon: "mobile" },
+    { label: "Desktop", value: 10, display: "10%", icon: "desktop" },
+  ],
 };
 
 // Sponsored videos and other paid work. Add `href` (the post or video link) and `thumb`
