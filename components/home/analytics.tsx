@@ -60,6 +60,7 @@ export function TrendChart({ current, previous, pointLabel }: { current: Series;
         className="relative touch-pan-y outline-none focus-visible:ring-2 focus-visible:ring-site-muted"
         tabIndex={0}
         role="img"
+        data-trend={JSON.stringify({ current, previous, pointLabel, max })}
         aria-label={`${current.label} over ${n} ${pointLabel.toLowerCase()}s, peaking at ${Math.max(...current.values)}. ${previous.label} peaked at ${Math.max(...previous.values)}. Use the arrow keys to read each ${pointLabel.toLowerCase()}.`}
         onPointerMove={(e) => pick(e.clientX, e.currentTarget)}
         onPointerDown={(e) => pick(e.clientX, e.currentTarget)}
