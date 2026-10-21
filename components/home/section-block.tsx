@@ -1,5 +1,5 @@
 import { ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "./cn";
 
 type ViewAll = { href: string } | { placeholder: true };
 

@@ -4,7 +4,7 @@ import { Clapperboard, FileText, House, Layers, Moon, Send, Sun, type LucideIcon
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { nav } from "@/content/site";
-import { cn } from "@/lib/utils";
+import { cn } from "./cn";
 
 const icons: Record<(typeof nav)[number]["icon"], LucideIcon> = {
   home: House,

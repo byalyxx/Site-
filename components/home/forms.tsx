@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "./cn";
 
 const fieldClass =
   "w-full rounded-control border border-site-border bg-site-surface px-3 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-site-muted focus-visible:outline-none";
