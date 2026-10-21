@@ -150,3 +150,50 @@ export const newsletter = {
 export const contact = {
   line: "Brand and collaboration enquiries.",
 };
+
+// ---------------------------------------------------------------------------
+// Media kit extras. Every figure below is EXAMPLE data so the charts have
+// something to draw. Swap in your real numbers from Instagram / TikTok / YouTube
+// insights, then set `example: false` and the "Example data" tag disappears.
+// ---------------------------------------------------------------------------
+
+export const mediaKitAnalytics = {
+  example: true,
+  platform: "Instagram",
+  period: "Last 30 days",
+  views: "100K",
+  viewsNote: "0% from ads",
+  // Share of views, in percent. Must add up to 100.
+  split: { followers: 25, nonFollowers: 75 },
+  stats: [
+    { icon: "reach", label: "Accounts reached", value: "50K", change: "+10%" },
+    { icon: "activity", label: "Profile activity", value: "1,000", change: "+10%" },
+    { icon: "taps", label: "Link taps", value: "100", change: "+10%" },
+    { icon: "visits", label: "Profile visits", value: "1,000", change: "+10%" },
+  ],
+  topCountries: [
+    { name: "Country 1", share: "40%" },
+    { name: "Country 2", share: "20%" },
+    { name: "Country 3", share: "10%" },
+    { name: "Country 4", share: "5%" },
+  ],
+};
+
+export const mediaKitGrowth = {
+  example: true,
+  title: "Views over time",
+  total: "100K",
+  change: "+10%",
+  current: { label: "Last 30 days", values: [3, 5, 4, 6, 9, 7, 5, 6, 8, 12, 10, 7, 6, 8, 9, 11, 14, 12, 9, 8, 10, 13, 16, 14, 11, 10, 12, 15, 13, 12] },
+  previous: { label: "30 days before", values: [4, 4, 5, 4, 3, 4, 5, 6, 5, 4, 3, 4, 5, 5, 6, 5, 4, 5, 6, 7, 6, 5, 4, 5, 6, 8, 9, 8, 7, 7] },
+  xLabels: ["Day 1", "Day 10", "Day 20", "Day 30"],
+};
+
+// Sponsored videos and other paid work. Add `href` (the post or video link) and `thumb`
+// (an image in /public) to each real one.
+export type Deliverable = { title: string; brand: string; format: string; href?: string; thumb?: string; placeholder?: boolean };
+export const deliverables: Deliverable[] = [
+  { title: "PLACEHOLDER: sponsored video title", brand: "Brand", format: "YouTube integration", placeholder: true },
+  { title: "PLACEHOLDER: sponsored short title", brand: "Brand", format: "TikTok + Instagram Reel", placeholder: true },
+  { title: "PLACEHOLDER: product shoot", brand: "Brand", format: "Photo set + usage rights", placeholder: true },
+];

@@ -1,8 +1,8 @@
-# Design system (home page and /stack)
+# Design system (home page, /stack and /media-kit)
 
 The home page follows the layout and visual language of a reference portfolio template (anticode.framer.website). Nothing from that site is copied here: these notes were written from screenshots taken at 1440, 834 and 390px wide, and the code is our own.
 
-The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap and radius on the home page and /stack comes from there. The media kit page still uses the shadcn theme in `app/globals.css`.
+The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap and radius on the home page, /stack and /media-kit comes from there.
 
 ## Colour
 
@@ -18,6 +18,11 @@ Follows the visitor's system setting, and the theme button in the nav switches i
 | `site-muted` | #6b6b6b | #ababab | Second headline line, intros, labels, dates |
 | `site-accent` / `-fg` | #0a0a0a / #fff | #fafafa / #161616 | The one solid button (Submit) |
 | `site-on-media`, `site-scrim` | #fff, #000 | same | Caption over the video thumbnail |
+| `site-data` | #7c3aed | #a78bfa | The series that matters in a chart (this period, followers) |
+| `site-data-soft` | #c4b5fd | #5b4a8a | The other share in the audience ring |
+| `site-positive` | #15803d | #4ade80 | Growth figures (+10%) |
+
+Violet is the only colour outside the greys, and it only appears inside charts. Comparison lines use `site-muted`, dotted.
 
 The reference's light-mode grey is lighter than ours. It fails WCAG AA on white, so `site-muted` is darkened to #6b6b6b (5.3:1). Every text pair passes AA: lowest is light muted on surface at 5.1:1.
 
@@ -28,6 +33,7 @@ Inter (already loaded by `app/layout.tsx`). Small sizes, with weight doing the w
 | Token | Size / line height | Weight | Letter spacing | Used for |
 | --- | --- | --- | --- | --- |
 | `text-display` | 28 / 35 | 600 | -0.02em | Hero headline, page titles |
+| `text-figure` | 22 / 28 | 600 | -0.02em | Numbers in stat tiles |
 | `text-title` | 15 / 20 | 600 headings, 500 rows | -0.01em | Section headings, row titles |
 | `text-body` | 15 / 24 | 500 | 0 | Hero intro |
 | `text-copy` | 14 / 24 | 400, 600 buttons | 0 | Paragraphs, buttons, inputs |
@@ -52,6 +58,10 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - Featured card: full column width, 16:9, 10px radius, 1px border, caption bottom-left over a dark gradient. Hover: border brightens, image scales 2%.
 - Buttons: 36px tall, 8px radius, 1px border, `site-surface` fill, 600 weight.
 - Inputs: 40px tall, 8px radius, same fill and border.
+
+## Media kit panels
+
+The analytics are the only cards on the site (border, `site-surface` fill, 10px radius), because each one groups figures that are read together. Inside a panel: a title row with the platform and period, the audience ring, stat tiles (`site-bg` fill, 8px radius, icon, figure, label, change), then a hairline and the top countries. The growth panel shows the total, the change, and a line chart: this period solid with a soft fill, the period before dotted. While figures are examples, each panel carries a dashed "Example data" tag.
 
 ## Spacing scale
 

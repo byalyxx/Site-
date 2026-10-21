@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { ArrowLeft, Camera, Clapperboard, Mail, Smartphone, BadgeCheck } from "lucide-react";
-import { mediaKit, partners, profile, videos } from "@/content/site";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { ModeToggle } from "@/components/mode-toggle";
-import { PartnerRow } from "@/components/partner-row";
-import { Section } from "@/components/section";
+import { BadgeCheck, Camera, Clapperboard, ImageIcon, Smartphone } from "lucide-react";
+import { deliverables, hero, mediaKit, mediaKitAnalytics, mediaKitGrowth, partners, profile, videos } from "@/content/site";
+import { SiteShell } from "@/components/home/site-shell";
+import { buttonClass } from "@/components/home/hero";
+import { CopyEmail, LocalTime } from "@/components/home/hero-widgets";
+import { FeaturedVideo } from "@/components/home/featured-video";
+import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
+import { PartnerStackRow } from "@/components/home/stack-row";
+import { ContactForm } from "@/components/home/forms";
+import { AudienceRing, ChangeBadge, ExampleTag, GrowthChart, Panel, StatTile } from "@/components/home/analytics";
 import { SocialIcon } from "@/components/icons";
-import { VideoCard } from "@/components/video-card";
 
 export const metadata: Metadata = {
   title: `Media kit | ${profile.name}`,
@@ -19,124 +19,172 @@ export const metadata: Metadata = {
 const serviceIcons = { short: Smartphone, long: Clapperboard, photo: Camera, rights: BadgeCheck };
 
 export default function MediaKit() {
-  const latest = videos[0];
+  const [latest] = videos;
+  const ig = mediaKitAnalytics;
+  const growth = mediaKitGrowth;
+  const [topCountry] = ig.topCountries;
 
   return (
-    <main className="relative mx-auto flex max-w-xl flex-col gap-8 px-4 py-12 sm:py-16">
-      <div className="absolute inset-x-4 top-4 flex items-center justify-between">
-        <Button asChild variant="ghost" size="sm" className="rounded-full">
-          <a href="/">
-            <ArrowLeft /> Back
-          </a>
-        </Button>
-        <ModeToggle />
-      </div>
-
-      <header className="flex flex-col items-center gap-4 text-center">
-        <Avatar className="size-24 border">
-          <AvatarImage src={profile.avatar} alt={profile.name} className="object-cover" />
-          <AvatarFallback className="text-2xl font-semibold">{profile.name.charAt(0).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight">{profile.name}</h1>
-          <p className="text-sm text-muted-foreground">Media kit · {profile.tagline}</p>
-          <p className="text-xs text-muted-foreground">{mediaKit.totalFollowers} total followers</p>
-        </div>
-        <div className="flex flex-wrap justify-center gap-2">
-          <Button asChild className="rounded-full">
-            <a href={`mailto:${profile.email}`}>
-              <Mail /> Work with me
+    <SiteShell>
+      <header className="flex flex-col gap-4">
+        <h1 className="text-display text-site-fg">
+          <span className="block">Media kit.</span>
+          <span className="text-site-muted">Tech &amp; setup creator from </span>
+          <span className="inline-flex items-start gap-0.5 rounded-control border border-site-border bg-site-surface py-0.5 pl-1.5 pr-2 align-middle">
+            {hero.place}
+            <LocalTime timeZone={hero.timeZone} />
+          </span>
+        </h1>
+        <p className="text-body font-medium text-site-muted">
+          {mediaKit.totalFollowers} followers across TikTok, Instagram and YouTube. {profile.tagline}, making desk and PC setup content as @
+          {profile.name}.
+        </p>
+        <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex">
+            <a href={`mailto:${profile.email}`} className={`${buttonClass} rounded-r-none`}>
+              Work with me
             </a>
-          </Button>
+            <CopyEmail email={profile.email} className={`${buttonClass} -ml-px rounded-l-none px-3`} />
+          </div>
+          <a href="/stack" className={buttonClass}>
+            My setup
+          </a>
         </div>
       </header>
 
-      <Separator />
-
-      <Section title="Audience">
-        <Card className="gap-0 py-0">
-          <ul className="divide-y">
-            {mediaKit.platforms.map((p) => (
-              <li key={p.label}>
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-4 py-3 outline-none transition-colors hover:bg-accent focus-visible:bg-accent"
-                >
-                  <IconTile>
-                    <SocialIcon name={p.icon} className="size-4" />
-                  </IconTile>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-muted-foreground">{p.label}</p>
-                    <p className="text-sm font-medium">@{profile.name}</p>
-                  </div>
-                  <p className="text-sm font-semibold tabular-nums">{p.followers}</p>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Card>
-        <p className="text-xs text-muted-foreground">Stats last updated {mediaKit.statsUpdated}.</p>
-      </Section>
-
-      <Section title="What I offer">
-        <Card className="gap-0 py-0">
-          <ul className="divide-y">
-            {mediaKit.services.map((item) => {
-              const Icon = serviceIcons[item.icon as keyof typeof serviceIcons];
-              return (
-                <li key={item.title} className="flex items-center gap-3 px-4 py-3">
-                  <IconTile>
-                    <Icon className="size-4" aria-hidden />
-                  </IconTile>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium">{item.title}</p>
-                    <p className="text-xs text-muted-foreground">{item.description}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </Card>
-      </Section>
-
-      <Section title="Recent partners">
-        <div className="flex flex-col gap-2">
-          {partners.map((p, i) => (
-            <PartnerRow key={`${p.name}-${i}`} partner={p} />
+      <SectionBlock id="audience" title="Audience" footnote={`Follower counts last updated ${mediaKit.statsUpdated}.`}>
+        <RowList>
+          {mediaKit.platforms.map((p) => (
+            <Row
+              key={p.label}
+              href={p.url}
+              external
+              leading={
+                <Tile>
+                  <SocialIcon name={p.icon} className="size-5" />
+                </Tile>
+              }
+              title={`@${profile.name}`}
+              label={p.label}
+              trailing={<span className="text-title font-semibold tabular-nums text-site-fg">{p.followers}</span>}
+            />
           ))}
-        </div>
-      </Section>
+        </RowList>
+      </SectionBlock>
+
+      <SectionBlock id="analytics" title="Analytics">
+        <Panel
+          title={
+            <>
+              <SocialIcon name="instagram" className="size-4 text-site-fg" />
+              {ig.platform}
+            </>
+          }
+          aside={
+            <>
+              {ig.example && <ExampleTag />}
+              {ig.period}
+            </>
+          }
+        >
+          <AudienceRing label="Views" value={ig.views} note={ig.viewsNote} split={ig.split} />
+          <div className="grid grid-cols-3 gap-2">
+            {ig.stats.slice(0, 3).map((s) => (
+              <StatTile key={s.label} {...s} />
+            ))}
+          </div>
+          <div className="-mt-4 grid grid-cols-2 gap-2">
+            {ig.stats.slice(3).map((s) => (
+              <StatTile key={s.label} {...s} />
+            ))}
+            {topCountry && <StatTile icon="country" value={topCountry.name} label="Top country" change={topCountry.share} />}
+          </div>
+          <div className="flex flex-col gap-3 border-t border-site-line pt-4">
+            <span className="text-small font-semibold uppercase tracking-wide text-site-muted">Top countries</span>
+            <ul className="flex flex-wrap gap-x-5 gap-y-2 text-copy font-medium text-site-fg">
+              {ig.topCountries.map((c) => (
+                <li key={c.name}>
+                  {c.name} <span className="tabular-nums text-site-muted">{c.share}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Panel>
+
+        <Panel title={growth.title} aside={growth.example && <ExampleTag />}>
+          <div className="-mt-2 flex items-baseline gap-3">
+            <span className="text-display tabular-nums text-site-fg">{growth.total}</span>
+            <ChangeBadge>{growth.change}</ChangeBadge>
+          </div>
+          <GrowthChart current={growth.current} previous={growth.previous} xLabels={growth.xLabels} />
+        </Panel>
+      </SectionBlock>
+
+      <SectionBlock id="sponsors" title="Recent sponsors">
+        <RowList>
+          {partners.map((p, i) => (
+            <PartnerStackRow key={`${p.name}-${i}`} partner={p} />
+          ))}
+        </RowList>
+      </SectionBlock>
+
+      <SectionBlock id="deliverables" title="Sponsored videos & deliverables">
+        <RowList>
+          {deliverables.map((d, i) => (
+            <Row
+              key={i}
+              href={d.href}
+              external
+              placeholder={d.placeholder}
+              leading={
+                <Tile>
+                  {d.thumb ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={d.thumb} alt={`Still from ${d.title}`} className="size-full object-cover" />
+                  ) : (
+                    <ImageIcon className="size-5" aria-hidden />
+                  )}
+                </Tile>
+              }
+              title={d.title}
+              label={`${d.brand} · ${d.format}`}
+            />
+          ))}
+        </RowList>
+      </SectionBlock>
+
+      <SectionBlock id="services" title="What I offer">
+        <RowList>
+          {mediaKit.services.map((s) => {
+            const Icon = serviceIcons[s.icon as keyof typeof serviceIcons];
+            return (
+              <Row
+                key={s.title}
+                leading={
+                  <Tile>
+                    <Icon className="size-5" aria-hidden />
+                  </Tile>
+                }
+                title={s.title}
+                label={s.description}
+              />
+            );
+          })}
+        </RowList>
+      </SectionBlock>
 
       {latest && (
-        <Section title="Latest video">
-          <VideoCard id={latest.id} title={latest.title} />
-        </Section>
+        <SectionBlock id="latest" title="Latest video">
+          <FeaturedVideo id={latest.id} title={latest.title} />
+        </SectionBlock>
       )}
 
-      <Section title="Let's make something">
-        <Card className="flex-row items-center gap-3 px-4 py-3">
-          <IconTile>
-            <Mail className="size-4" aria-hidden />
-          </IconTile>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs text-muted-foreground">Send your product and timeline</p>
-            <p className="truncate text-sm font-medium">{profile.email}</p>
-          </div>
-          <Button variant="outline" size="sm" asChild>
-            <a href={`mailto:${profile.email}`}>Get in touch</a>
-          </Button>
-        </Card>
-      </Section>
-
-      <footer className="pt-4 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} byalyxx.com</footer>
-    </main>
-  );
-}
-
-function IconTile({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="grid size-9 shrink-0 place-items-center rounded-lg border bg-muted text-muted-foreground">{children}</span>
+      <SectionBlock id="contact" title="Let’s make something">
+        <p className="text-copy text-site-muted">
+          Send your product and timeline to <span className="font-medium text-site-fg">{profile.email}</span>, or use the form.
+        </p>
+        <ContactForm email={profile.email} />
+      </SectionBlock>
+    </SiteShell>
   );
 }
