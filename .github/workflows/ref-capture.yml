@@ -1,0 +1,18 @@
+# Temporary: screenshots the design reference so its layout can be studied. Uploads an artifact only, nothing is committed. Delete after use.
+name: ref-capture
+on:
+  push:
+    branches: [claude/project-thread-9lxlz3]
+    paths: [".github/workflows/ref-capture.yml", ".github/ref-capture/**"]
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: |
+          mkdir /tmp/cap && cd /tmp/cap && npm init -y >/dev/null && npm i playwright@1.56.1 >/dev/null && npx playwright install --with-deps chromium >/dev/null
+          cp $GITHUB_WORKSPACE/.github/ref-capture/capture.mjs . && node capture.mjs
+      - uses: actions/upload-artifact@v4
+        with: { name: ref, path: /tmp/cap/out }
