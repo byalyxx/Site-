@@ -9,6 +9,10 @@ Everything on the page lives in [`content/site.ts`](content/site.ts): profile, s
 - Partner logos and your portrait go in `public/` (e.g. `public/partners/brand.png`, then `logo: "/partners/brand.png"`).
 - Affiliate links get `rel="sponsored"` automatically, which is what Google asks for.
 
+## Home page layout
+
+The home page uses a single-column layout (hero, featured video, blog, products, stack, newsletter, contact). The full stack list is at `/stack`. Colours, type and spacing come from `app/tokens.css`, explained in [`DESIGN.md`](DESIGN.md). Section text lives in `content/site.ts` next to everything else; entries starting with `PLACEHOLDER` are waiting for real content.
+
 ## Run it locally
 
 ```bash

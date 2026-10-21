@@ -1,0 +1,125 @@
+/*
+  Design tokens for the home page and /stack.
+  Measured from screenshots of the reference layout at 1440, 834 and 390px wide (see DESIGN.md).
+  Everything on those pages uses these tokens: no one-off colours or spacing.
+  Scoped to `.site` so the media kit keeps the shadcn theme in globals.css.
+*/
+
+.site {
+  /* Colour: light (default) */
+  --site-bg: #ffffff;
+  --site-surface: #fafafa; /* buttons, inputs, nav pill, hovered rows */
+  --site-border: #e0e0e0; /* outlines on surfaces */
+  --site-line: #f0f0f0; /* separators between list rows */
+  --site-fg: #0a0a0a;
+  --site-muted: #6b6b6b; /* reference uses a lighter grey; darkened to pass 4.5:1 on white */
+  --site-accent: #0a0a0a; /* solid button */
+  --site-accent-fg: #ffffff;
+  --site-thumb: #ececec; /* icon tiles */
+}
+
+.dark .site {
+  --site-bg: #161616;
+  --site-surface: #1a1a1a;
+  --site-border: #272727;
+  --site-line: #222222;
+  --site-fg: #fafafa;
+  --site-muted: #ababab;
+  --site-accent: #fafafa;
+  --site-accent-fg: #161616;
+  --site-thumb: #222222;
+}
+
+/* Paint the whole page, including overscroll, when a .site page is showing */
+html:has(.site),
+body:has(.site) {
+  background-color: var(--site-bg);
+}
+
+@theme inline {
+  --color-site-bg: var(--site-bg);
+  --color-site-surface: var(--site-surface);
+  --color-site-border: var(--site-border);
+  --color-site-line: var(--site-line);
+  --color-site-fg: var(--site-fg);
+  --color-site-muted: var(--site-muted);
+  --color-site-accent: var(--site-accent);
+  --color-site-accent-fg: var(--site-accent-fg);
+  --color-site-thumb: var(--site-thumb);
+  /* Text and scrim over photos and thumbnails: fixed in both themes */
+  --color-site-on-media: #ffffff;
+  --color-site-scrim: #000000;
+
+  /* Type scale: display 28 / title 15 / body 14-15 / meta 13 / small 12. Weight does most of the work: 600 / 500 / 400. */
+  --text-display: 28px;
+  --text-display--line-height: 35px;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 600;
+  --text-title: 15px;
+  --text-title--line-height: 20px;
+  --text-title--letter-spacing: -0.01em;
+  --text-body: 15px;
+  --text-body--line-height: 24px;
+  --text-copy: 14px;
+  --text-copy--line-height: 24px;
+  --text-meta: 13px;
+  --text-meta--line-height: 16px;
+  --text-small: 12px;
+  --text-small--line-height: 16px;
+  --text-tag: 10px;
+  --text-tag--line-height: 12px;
+
+  /* Breakpoints: below 810px the side nav becomes a bottom bar (same as the reference). Columns never change. */
+  --breakpoint-tab: 810px;
+
+  /* Layout */
+  --container-column: 448px; /* single centred column */
+  --spacing-gutter: 16px; /* side padding on phones */
+  --spacing-section: 64px; /* gap between sections */
+  --spacing-page-top: 160px; /* space above the hero on desktop */
+  --spacing-page-top-sm: 64px;
+  --spacing-row: 16px; /* vertical padding inside a list row */
+  --spacing-tile: 44px; /* icon / thumbnail tile */
+  --spacing-control: 36px; /* button height */
+  --spacing-field: 40px; /* input height */
+
+  /* Radius */
+  --radius-control: 8px; /* buttons, inputs */
+  --radius-tile: 7px; /* icon tiles */
+  --radius-card: 10px; /* featured card, hovered rows */
+  --radius-pill: 999px; /* nav */
+
+  /* Motion: colour/background fades only, same curve everywhere */
+  --ease-site: cubic-bezier(0.44, 0, 0.56, 1);
+  --duration-site: 300ms;
+}
+
+@utility site-transition {
+  transition-property: color, background-color, border-color, opacity, transform;
+  transition-timing-function: var(--ease-site);
+  transition-duration: var(--duration-site);
+}
+
+/* Sections fade up as they scroll into view. CSS only (scroll-driven animation), so the page
+   shows normally in browsers without support or with JavaScript off. */
+@keyframes site-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@utility site-reveal {
+  @supports (animation-timeline: view()) {
+    animation: site-reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

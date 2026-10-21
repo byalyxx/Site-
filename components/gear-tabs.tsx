@@ -34,7 +34,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Icon per gear type. Anything not listed falls back to a generic box.
-const gearIcons: Record<string, LucideIcon> = {
+export const gearIcons: Record<string, LucideIcon> = {
   MacBook: Laptop,
   Monitor: Monitor,
   "Monitor arm": MonitorUp,

@@ -99,3 +99,54 @@ export const mediaKit = {
     { icon: "rights", title: "Usage rights", description: "Flexible amplification and licensing options." },
   ],
 };
+
+// ---------------------------------------------------------------------------
+// Home page sections (the anticode-style layout). Anything starting with
+// "PLACEHOLDER" is waiting for real content and shows up styled as a placeholder.
+// ---------------------------------------------------------------------------
+
+export const nav = [
+  { label: "Home", href: "/", icon: "home" },
+  { label: "Latest video", href: "/#featured", icon: "video" },
+  { label: "Stack", href: "/stack", icon: "stack" },
+  { label: "Media kit", href: "/media-kit", icon: "kit" },
+  { label: "Contact", href: "/#contact", icon: "contact" },
+] as const;
+
+export const hero = {
+  // Display headline, one string per line. The place chip (with a live UK clock) follows the last line.
+  headline: ["Hi. I\u2019m Samuel.", "Tech & setup creator from"],
+  place: "UK",
+  timeZone: "Europe/London",
+  intro: "I make tech and desk setup videos as @byalyxx, and share the exact gear I use below.",
+  about: { label: "About me", href: "/media-kit" },
+};
+
+export type BlogPost = { title: string; date: string; href?: string; placeholder?: boolean };
+export const blog: BlogPost[] = [
+  { title: "PLACEHOLDER: first post title", date: "Jan 1, 2026", placeholder: true },
+  { title: "PLACEHOLDER: second post title", date: "Jan 1, 2026", placeholder: true },
+  { title: "PLACEHOLDER: third post title", date: "Jan 1, 2026", placeholder: true },
+];
+
+export type Product = { title: string; type: string; description: string; href?: string; placeholder?: boolean };
+export const products: Product[] = [
+  { title: "Media kit", type: "For brands", description: "Audience, services and recent partners.", href: "/media-kit" },
+  { title: "PLACEHOLDER: product name", type: "Type", description: "PLACEHOLDER: one line about it.", placeholder: true },
+  { title: "PLACEHOLDER: product name", type: "Type", description: "PLACEHOLDER: one line about it.", placeholder: true },
+];
+
+// Stack = the desk and PC setup. Built from `gear` above so links stay in one place.
+// The home page shows `stackFeatured`; /stack shows every group.
+export type StackItem = GearItem & { category: string };
+export const stack: StackItem[] = gear.flatMap((g) => g.items.map((item) => ({ ...item, category: g.label })));
+export const stackFeatured = ["Monitor", "Keyboard", "GPU"];
+
+export const newsletter = {
+  title: "Newsletter",
+  blurb: "PLACEHOLDER: one line on what you'd send and how often.",
+};
+
+export const contact = {
+  line: "Brand and collaboration enquiries.",
+};
