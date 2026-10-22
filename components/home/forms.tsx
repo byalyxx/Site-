@@ -9,7 +9,8 @@ import { bracketClass, fieldClass, linkClass } from "./controls";
 // Enquiries go to Formspree (formspree.io), which emails them on. The form's ID comes from the
 // NEXT_PUBLIC_FORMSPREE_FORM_ID environment variable (see README). Without it, submitting opens the visitor's
 // email app with the message filled in, so an enquiry is never dropped silently.
-const FORM_ID = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
+// Public by design (it is in every form post), so it lives here; the env var still overrides it.
+const FORM_ID = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID || "mzeepyzd";
 
 type Status = "idle" | "sending" | "sent" | "error";
 

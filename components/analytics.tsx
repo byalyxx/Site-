@@ -12,7 +12,8 @@ const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || (PLAUSIBLE_DOMAIN ? "https://plausible.io/js/script.outbound-links.js" : "");
 // New-style snippets (pa-….js) are set up by plausible.init(); the old script reads data-domain instead.
 const PLAUSIBLE_INIT = /\/pa-[^/]+\.js$/.test(PLAUSIBLE_SRC);
-const UMAMI_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+// Public by design (it ships in the page anyway), so it lives here; the env var still overrides it.
+const UMAMI_ID = process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID || "f534f266-52db-4e52-be6f-4504ad8e76d9";
 
 export function Analytics() {
   if (!PLAUSIBLE_SRC && !UMAMI_ID) return null;
@@ -28,7 +29,8 @@ export function Analytics() {
           <Script src={PLAUSIBLE_SRC} {...(PLAUSIBLE_INIT ? {} : { "data-domain": PLAUSIBLE_DOMAIN })} strategy="afterInteractive" />
         </>
       )}
-      {UMAMI_ID && <Script src="https://cloud.umami.is/script.js" data-website-id={UMAMI_ID} strategy="afterInteractive" />}
+      {/* data-domains: only visits on the real site count, not local builds or Hostinger's temporary address */}
+      {UMAMI_ID && <Script src="https://cloud.umami.is/script.js" data-website-id={UMAMI_ID} data-domains="byalyxx.com,www.byalyxx.com" strategy="afterInteractive" />}
       <ClickTracking />
     </>
   );
