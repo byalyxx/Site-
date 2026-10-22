@@ -255,6 +255,7 @@ export function mountMediaKit(DATA, { signal }) {
     const pdata = DATA.platforms[p] || {};
     const r = state.range;
     const days = daysIn(p, r);
+    const prevDays = daysIn(p, previousRange(r));
     const link = pdata.url ? `<a href="${esc(pdata.url)}" target="_blank" rel="noopener noreferrer">${esc(pdata.handle || def.name)} on ${def.name}${ICONS.external}</a>` : "";
 
     // KPIs: only the ones with data. A snapshot figure (e.g. "7k+") is a total, not tied to the range.
@@ -262,6 +263,9 @@ export function mountMediaKit(DATA, { signal }) {
       .map((k) => {
         let v = k.value(days, null);
         let note = "";
+        // Change against the previous period of the same length: percent for counts, points for rates
+        const pv = typeof v === "number" ? k.value(prevDays, null) : null;
+        const d = typeof pv !== "number" ? null : k.format === "percent" ? signed(v - pv, 1, " pts") : change(v, pv);
         if (v == null) {
           const snapKey = Object.keys(pdata.snapshot || {}).find((s) => s.toLowerCase() === k.label.toLowerCase());
           if (snapKey) {
@@ -270,7 +274,7 @@ export function mountMediaKit(DATA, { signal }) {
           }
         }
         const text = format(v, k.format);
-        return text == null ? "" : kpiHtml(k.label, text, note ? `<span class="note">${esc(note)}</span>` : "");
+        return text == null ? "" : kpiHtml(k.label, text, deltaHtml(d, r) + (note ? `<span class="note">${esc(note)}</span>` : ""));
       })
       .filter(Boolean);
 
