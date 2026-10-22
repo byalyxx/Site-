@@ -542,6 +542,11 @@
 .media-kit .ico.brand {
   color: var(--site-fg);
 }
+.media-kit .ico.flag {
+  background: none;
+  font-size: 18px;
+  letter-spacing: 0;
+}
 .media-kit .ico.brand svg {
   stroke: none;
 }

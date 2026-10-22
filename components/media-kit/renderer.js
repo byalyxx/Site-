@@ -394,8 +394,11 @@ export function mountMediaKit(DATA, { signal }) {
 
   function icon(kind, label) {
     if (kind === "country") {
-      const code = COUNTRY_CODES[label] || label.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
-      return `<span class="ico" aria-hidden="true">${esc(code)}</span>`;
+      // Known countries get their flag emoji (two regional indicator letters). Windows has no flag glyphs and
+      // shows the two letters instead, which is what unknown labels get anyway.
+      const code = COUNTRY_CODES[label];
+      if (code) return `<span class="ico flag" aria-hidden="true">${String.fromCodePoint(...[...code].map((c) => 0x1f1a5 + c.charCodeAt(0)))}</span>`;
+      return `<span class="ico" aria-hidden="true">${esc(label.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase())}</span>`;
     }
     return `<span class="ico" aria-hidden="true">${ICONS[kind] || ICONS.source}</span>`;
   }
