@@ -28,8 +28,9 @@ export const socials = [
 ] as const;
 
 // YouTube video IDs, newest first. Thumbnails live in public/videos/<id>.jpg.
-export const videos = [
-  { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)" },
+// `stats` on the newest video shows under the featured card; update the counts by hand.
+export const videos: { id: string; title: string; stats?: { views: string; likes: string; comments: string } }[] = [
+  { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)", stats: { views: "152k", likes: "2k", comments: "106" } },
   { id: "5G1u5PJHsxs", title: "the most powerful tiny pc i’ve ever built" },
 ];
 

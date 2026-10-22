@@ -1,4 +1,4 @@
-import { FileText, ImageIcon } from "lucide-react";
+import { Eye, FileText, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
 import { blog, contact, newsletter, products, profile, stack, stackFeatured, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
@@ -8,7 +8,7 @@ import { StackRow } from "@/components/home/stack-row";
 import { ContactForm, NewsletterForm } from "@/components/home/forms";
 
 export default function Home() {
-  const [latest, ...older] = videos;
+  const [latest] = videos;
   const featuredStack = stackFeatured.map((type) => stack.find((item) => item.type === type)).filter((item) => item !== undefined);
 
   return (
@@ -17,17 +17,15 @@ export default function Home() {
 
       <section id="featured" aria-label="Latest video" className="site-reveal flex scroll-mt-8 flex-col gap-3">
         <FeaturedVideo id={latest.id} title={latest.title} />
-        {older.map((v) => (
-          <a
-            key={v.id}
-            href={`https://www.youtube.com/watch?v=${v.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-fit text-small text-site-muted site-transition hover:text-site-fg"
-          >
-            Previous video: <span className="font-medium">{v.title}</span>
-          </a>
-        ))}
+        {latest.stats && (
+          <p className="flex items-center gap-2 text-small text-site-muted" aria-label="Video stats">
+            <span className="inline-flex items-center gap-1"><Eye className="size-3.5" aria-hidden="true" />{latest.stats.views}<span className="sr-only"> views</span></span>
+            <span aria-hidden="true">·</span>
+            <span className="inline-flex items-center gap-1"><ThumbsUp className="size-3.5" aria-hidden="true" />{latest.stats.likes}<span className="sr-only"> likes</span></span>
+            <span aria-hidden="true">·</span>
+            <span className="inline-flex items-center gap-1"><MessageCircle className="size-3.5" aria-hidden="true" />{latest.stats.comments}<span className="sr-only"> comments</span></span>
+          </p>
+        )}
       </section>
 
       <SectionBlock id="blog" title="Blog" viewAll={{ placeholder: true }}>
