@@ -1,6 +1,6 @@
 "use client";
 
-import { Clapperboard, FileText, House, Layers, Moon, Send, Sun, type LucideIcon } from "lucide-react";
+import { Clapperboard, House, Layers, Moon, Send, Sun, type LucideIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { nav } from "@/content/site";
@@ -10,7 +10,6 @@ const icons: Record<(typeof nav)[number]["icon"], LucideIcon> = {
   home: House,
   video: Clapperboard,
   stack: Layers,
-  kit: FileText,
   contact: Send,
 };
 

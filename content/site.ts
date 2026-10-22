@@ -105,11 +105,12 @@ export const mediaKit = {
 // "PLACEHOLDER" is waiting for real content and shows up styled as a placeholder.
 // ---------------------------------------------------------------------------
 
+// The main nav. /media-kit is unlisted on purpose (noindex, sent to brands directly): it is linked from the
+// hero's "About me" button and the "For brands" row on the home page, not from here.
 export const nav = [
   { label: "Home", href: "/", icon: "home" },
   { label: "Latest video", href: "/#featured", icon: "video" },
   { label: "Stack", href: "/stack", icon: "stack" },
-  { label: "Media kit", href: "/media-kit", icon: "kit" },
   { label: "Contact", href: "/#contact", icon: "contact" },
 ] as const;
 
