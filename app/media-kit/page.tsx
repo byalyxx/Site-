@@ -36,12 +36,8 @@ export default async function MediaKitPage() {
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">
         <h1 className="text-display text-site-fg">
-          <span className="block">Media kit.</span>
+          <span className="block">@byalyxx - Media Kit</span>
         </h1>
-        <p className="text-body font-medium text-site-muted">
-          {mediaKit.totalFollowers} followers across TikTok, Instagram and YouTube. {profile.tagline}, making desk and PC setup content as @
-          {profile.name}.
-        </p>
         <div className="flex flex-wrap gap-3 pt-2">
           <div className="flex">
             <a href={`mailto:${profile.email}`} className={`${buttonClass} rounded-r-none`}>
