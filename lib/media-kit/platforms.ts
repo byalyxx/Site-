@@ -87,8 +87,8 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
         { key: "trafficSources", title: "Traffic sources", icon: "source", unit: "Views" },
       ],
       [
-        { key: "territories", title: "Audience territories", icon: "country", unit: "Share of viewers", percent: true },
-        { key: "ageGender", title: "Age and gender", icon: "person", unit: "Share of viewers", percent: true },
+        { key: "territories", title: "Follower territories", icon: "country", unit: "Share of followers", percent: true },
+        { key: "ageGender", title: "Gender", icon: "person", unit: "Share of followers", percent: true },
       ],
     ],
   },

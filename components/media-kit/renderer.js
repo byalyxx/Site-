@@ -184,7 +184,7 @@ export function mountMediaKit(DATA, { signal }) {
   const COUNTRY_CODES = {
     "United Kingdom": "GB", "United States": "US", Germany: "DE", Canada: "CA", Australia: "AU", Netherlands: "NL",
     France: "FR", Ireland: "IE", India: "IN", Poland: "PL", Spain: "ES", Italy: "IT", Sweden: "SE", Brazil: "BR",
-    "Türkiye": "TR", Austria: "AT", Belgium: "BE", Norway: "NO", Denmark: "DK", "New Zealand": "NZ",
+    "Türkiye": "TR", Mexico: "MX", Russia: "RU", Austria: "AT", Belgium: "BE", Norway: "NO", Denmark: "DK", "New Zealand": "NZ",
   };
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
@@ -281,8 +281,19 @@ export function mountMediaKit(DATA, { signal }) {
     const lists = pairsHtml(
       def.lists.map((pair) =>
         pair.map((l) => {
-          const rows = sumList(days, l.key);
-          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, percent: l.percent, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
+          let rows = sumList(days, l.key);
+          let asOf = null;
+          // A share list (countries, age and gender) with nothing in the range falls back to the latest mix
+          // recorded, marked with its date: who the audience is changes slowly.
+          if (!rows && l.percent) {
+            const all = (pdata.days || []).filter((d) => d.l && d.l[l.key] && parse(d.date) <= r.end);
+            const last = all[all.length - 1] || (pdata.days || []).filter((d) => d.l && d.l[l.key]).pop();
+            if (last) {
+              rows = sumList([last], l.key);
+              asOf = last.date;
+            }
+          }
+          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, percent: l.percent, asOf, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
         })
       )
     );
@@ -392,10 +403,15 @@ export function mountMediaKit(DATA, { signal }) {
   // With `total` (the whole dataset's total, hidden rows included), each fill is the row's share of it, never
   // narrower than 8px or 2% so a real value always shows.
   // Without it, the largest row fills the width and the others are measured against it.
-  function listHtml({ title, unit, rows, snapshot, total, percent, max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS }) {
+  function listHtml({ title, unit, rows, snapshot, total, percent, asOf, max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS }) {
     if (!rows || !rows.length) return "";
-    // A percent list: each row's share of every row in the list, including the ones not shown.
-    if (percent) total = rows.reduce((a, row) => a + row.value, 0);
+    // A percent list: each row's share of every row in the list, including the ones not shown. An "Others"
+    // row (the rest, as some exports give it) counts towards the total but isn't listed.
+    if (percent) {
+      total = rows.reduce((a, row) => a + row.value, 0);
+      rows = rows.filter((row) => row.label !== "Others");
+      if (!rows.length) return "";
+    }
     const share = isNum(total) && total > 0;
     const top = rows[0].value || 1;
     const items = rows
@@ -410,7 +426,9 @@ export function mountMediaKit(DATA, { signal }) {
           <span class="rule" aria-hidden="true"><span class="fill" style="width:${width}"></span></span></li>`;
       })
       .join("");
-    const control = snapshot
+    const control = asOf
+      ? `<span class="list-note">${esc(unit)}, as of ${esc(fmtDay(parse(asOf), true))}</span>`
+      : snapshot
       ? `<span class="list-note">As of ${esc(fmtDay(parse(DATA.updated), true))}</span>`
       : `<span class="list-note">${esc(unit)}</span>`;
     return `<div class="list"><div class="list-head"><h3>${esc(title)}</h3>${control}</div><ul class="rows">${items}</ul></div>`;
