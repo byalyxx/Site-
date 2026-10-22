@@ -11,7 +11,7 @@ export function StackRow({ item }: { item: GearItem }) {
   return <Row href={item.url} sponsored title={item.name} meta={item.type} trailing={item.url ? arrow : undefined} />;
 }
 
-// A partner: logo (bare, square), name, the product in mono.
+// A partner: logo (bare, 4px corners), name, the product in mono.
 export function PartnerStackRow({ partner }: { partner: Partner }) {
   return (
     <Row
@@ -20,7 +20,7 @@ export function PartnerStackRow({ partner }: { partner: Partner }) {
       leading={
         partner.logo ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={partner.logo} alt={`${partner.name} logo`} className="size-6 shrink-0 object-cover" />
+          <img src={partner.logo} alt={`${partner.name} logo`} className="size-6 shrink-0 rounded-[4px] object-cover" />
         ) : undefined
       }
       title={partner.name}
