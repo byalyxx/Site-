@@ -75,10 +75,10 @@ Kit-only tokens (dark values; the page never shows a light version):
 | Token | Value | Used for |
 | --- | --- | --- |
 | `site-chart-line` | #a0a0a0 | The monochrome line, its dotted comparison, markers |
-| `site-chart-hairline` | rgb(255 255 255 / 0.07) | Rules inside the analytics card |
+| `site-chart-hairline` | rgb(255 255 255 / 0.07) | Rules inside the analytics section |
 | `site-chart-rule` | rgb(255 255 255 / 0.22) | Crosshair |
 | `site-chart-bar` | #1f1f1f | Proportional list bars, picker hovers |
-| `site-chart-muted` | #8e8e8e | Labels, axis, deltas inside the analytics card only (5.6:1 on the card) |
+| `site-chart-muted` | #8e8e8e | Labels, axis, deltas in the analytics section only |
 | `site-chart-disabled` | #4a4a4a | Future days in the date picker |
 | `site-live` | #3b82f6 | The live dot |
 | `site-tiktok` / `site-instagram` / `site-youtube` | #5aa7a8 / #b072a8 / #c25b4f | Tooltip breakdown dots, nowhere else |

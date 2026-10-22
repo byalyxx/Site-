@@ -48,9 +48,9 @@ html:has(.site-force-dark) {
   /* Media kit analytics (/media-kit, dark only). Values carried over from the standalone kit. */
   --site-chart-line: #a0a0a0; /* the monochrome line, its comparison and markers */
   --site-chart-rule: rgb(255 255 255 / 0.22); /* crosshair */
-  --site-chart-hairline: rgb(255 255 255 / 0.07); /* rules inside the analytics card */
+  --site-chart-hairline: rgb(255 255 255 / 0.07); /* rules inside the analytics section */
   --site-chart-bar: #1f1f1f; /* proportional list bars, picker hovers */
-  --site-chart-muted: #8e8e8e; /* labels, axis and deltas inside the analytics card */
+  --site-chart-muted: #8e8e8e; /* labels, axis and falling deltas in the analytics section */
   --site-chart-disabled: #4a4a4a; /* days after today in the date picker */
   --site-live: #3b82f6; /* the live dot, nowhere else */
   /* Platform colours: tooltip breakdown dots and the Indexed lines, nowhere else */
