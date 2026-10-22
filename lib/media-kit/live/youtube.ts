@@ -36,6 +36,7 @@ const SOURCES: Record<string, string> = {
   PRODUCT_PAGE: "Product pages",
   IMMERSIVE_LIVE: "Immersive live",
 };
+const AUDIENCE_GENDERS: Record<string, string> = { male: "Men", female: "Women", user_specified: "Other" };
 const DEVICES: Record<string, string> = { MOBILE: "Mobile phone", DESKTOP: "Computer", TABLET: "Tablet", TV: "TV", GAME_CONSOLE: "Game console", UNKNOWN_PLATFORM: "Unknown" };
 const countryName = (() => {
   const names = new Intl.DisplayNames(["en"], { type: "region" });
@@ -151,11 +152,15 @@ export const youtube: Connector = {
     // Lists, one day at a time (YouTube won't split these by day in a single report).
     for (let d = listStart; d <= end; d = addDays(d, 1)) {
       const one = { startDate: d, endDate: d, metrics: "views" };
-      const [countries, sources, devices, top] = await Promise.all([
+      const [countries, sources, devices, top, ages] = await Promise.all([
         report({ ...one, dimensions: "country", sort: "-views", maxResults: "25" }, "countries"),
         report({ ...one, dimensions: "insightTrafficSourceType", sort: "-views" }, "traffic sources"),
         report({ ...one, dimensions: "deviceType", sort: "-views" }, "devices"),
         report({ ...one, dimensions: "video", sort: "-views", maxResults: "10" }, "top videos"),
+        // Viewers by age and gender, as percentages of the day's signed-in viewers. Missing on quiet days.
+        report({ startDate: d, endDate: d, metrics: "viewerPercentage", dimensions: "ageGroup,gender" }, "age and gender").catch(
+          () => null
+        ),
       ]);
       const row = day(d);
       const list = (rows: Record<string, any>[], key: string, label: (v: string) => string) => {
@@ -172,6 +177,17 @@ export const youtube: Connector = {
         const title = new Map<string, string>(titles.items.map((v: any) => [v.id, v.snippet.title]));
         row.l.topVideos = list(topRows, "video", (id) => title.get(id) || id);
       } else row.l.topVideos = {};
+      // Weighted by the day's views, so a busy day counts for more when days are added together.
+      const dayViews = Number(row.m.views) || 0;
+      if (ages && dayViews) {
+        const o: Record<string, number> = {};
+        for (const r of rowsOf(ages)) {
+          const label = `${AUDIENCE_GENDERS[String(r.gender)] || "Other"} ${String(r.ageGroup).replace("age", "").replace(/-$/, "+").replace("-", "–")}`;
+          const v = Math.round((Number(r.viewerPercentage) / 100) * dayViews);
+          if (v > 0) o[label] = (o[label] || 0) + v;
+        }
+        row.l.ageGender = o;
+      }
       for (const k of Object.keys(row.l)) if (!Object.keys(row.l[k]).length) delete row.l[k];
     }
 

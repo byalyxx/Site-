@@ -26,7 +26,8 @@ export type PlatformSpec = {
     | { label: string; sum: string; format: string }
     | { label: string; num: string[]; den: string; scale: number; format: string };
   kpis: { label: string; value: Value; format: string }[];
-  lists: { key: string; title: string; icon: string; unit: string }[][];
+  // `percent` lists show each row as a share of the list's total (countries, locations, age and gender).
+  lists: { key: string; title: string; icon: string; unit: string; percent?: boolean }[][];
 };
 
 const sum =
@@ -86,8 +87,8 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
         { key: "trafficSources", title: "Traffic sources", icon: "source", unit: "Views" },
       ],
       [
-        { key: "territories", title: "Audience territories", icon: "country", unit: "Viewers" },
-        { key: "ageGender", title: "Age and gender", icon: "person", unit: "Viewers" },
+        { key: "territories", title: "Audience territories", icon: "country", unit: "Share of viewers", percent: true },
+        { key: "ageGender", title: "Age and gender", icon: "person", unit: "Share of viewers", percent: true },
       ],
     ],
   },
@@ -112,9 +113,10 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
         { key: "contentReach", title: "Reach by content type", icon: "layers", unit: "Reach" },
       ],
       [
-        { key: "locations", title: "Top locations", icon: "country", unit: "Followers" },
+        { key: "locations", title: "Top locations", icon: "country", unit: "Share of followers", percent: true },
         { key: "followerGrowth", title: "Follower growth", icon: "person", unit: "Accounts" },
       ],
+      [{ key: "ageGender", title: "Age and gender", icon: "person", unit: "Share of followers", percent: true }],
     ],
   },
 
@@ -137,9 +139,10 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
         { key: "trafficSources", title: "Traffic sources", icon: "source", unit: "Views" },
       ],
       [
-        { key: "countries", title: "Top countries", icon: "country", unit: "Views" },
+        { key: "countries", title: "Top countries", icon: "country", unit: "Share of views", percent: true },
         { key: "devices", title: "Device type", icon: "device", unit: "Views" },
       ],
+      [{ key: "ageGender", title: "Age and gender", icon: "person", unit: "Share of viewers", percent: true }],
     ],
   },
 };

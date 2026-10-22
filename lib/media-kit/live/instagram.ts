@@ -31,6 +31,22 @@ async function totals(token: string, metrics: string[], since: number, until: nu
   return res.data as { name: string; total_value: { value?: number; breakdowns?: { results: { dimension_values: string[]; value: number }[] }[] } }[];
 }
 
+const FOLLOW_TYPES: Record<string, string> = { FOLLOWER: "Follows", NON_FOLLOWER: "Unfollows" };
+const GENDERS: Record<string, string> = { F: "Women", M: "Men", U: "Other" };
+
+// Followers split by city or by age and gender. Instagram only gives this to accounts with 100+ followers.
+async function demographics(token: string, breakdown: string) {
+  const base = `${GRAPH}/me/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=${breakdown}&access_token=${token}`;
+  let res;
+  try {
+    res = await fetchJson(base, {}, "Instagram followers");
+  } catch {
+    // Older API versions want a timeframe.
+    res = await fetchJson(`${base}&timeframe=this_month`, {}, "Instagram followers");
+  }
+  return (res.data?.[0]?.total_value?.breakdowns?.[0]?.results || []) as { dimension_values: string[]; value: number }[];
+}
+
 export const instagram: Connector = {
   id: "instagram",
   name: "Instagram",
@@ -121,6 +137,40 @@ export const instagram: Connector = {
         const o: Record<string, number> = {};
         for (const x of results) if (x.value > 0) o[CONTENT_TYPES[x.dimension_values[0]] || x.dimension_values[0]] = x.value;
         if (Object.keys(o).length) row.l.contentReach = o;
+      } catch (e) {
+        console.warn(String(e));
+      }
+      // New follows and unfollows that day (recent days only, to keep the backfill quick).
+      if (!isOlder) {
+        try {
+          const [fu] = await totals(at, ["follows_and_unfollows"], since, until, "&breakdown=follow_type");
+          const o: Record<string, number> = {};
+          for (const x of fu?.total_value?.breakdowns?.[0]?.results || []) {
+            const label = FOLLOW_TYPES[x.dimension_values[0]];
+            if (label && x.value > 0) o[label] = x.value;
+          }
+          if (Object.keys(o).length) row.l.followerGrowth = o;
+        } catch (e) {
+          console.warn(String(e));
+        }
+      }
+    }
+
+    // Who follows the account: top cities and age and gender, as Instagram shows them today. Filed under
+    // today; the media kit shows these as shares, so a range spanning several days shows the average mix.
+    for (const [key, breakdown] of [
+      ["locations", "city"],
+      ["ageGender", "age,gender"],
+    ] as const) {
+      try {
+        const results = await demographics(at, breakdown);
+        const o: Record<string, number> = {};
+        for (const x of results) {
+          const label =
+            key === "locations" ? x.dimension_values[0].split(",")[0].trim() : `${GENDERS[x.dimension_values[1]] || "Other"} ${x.dimension_values[0].replace("-", "–")}`;
+          if (x.value > 0) o[label] = (o[label] || 0) + x.value;
+        }
+        if (Object.keys(o).length) day(today).l[key] = o;
       } catch (e) {
         console.warn(String(e));
       }

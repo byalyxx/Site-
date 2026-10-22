@@ -282,7 +282,7 @@ export function mountMediaKit(DATA, { signal }) {
       def.lists.map((pair) =>
         pair.map((l) => {
           const rows = sumList(days, l.key);
-          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
+          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, percent: l.percent, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
         })
       )
     );
@@ -345,12 +345,11 @@ export function mountMediaKit(DATA, { signal }) {
       ? listHtml({
           id: "all.countries",
           title: "Top countries",
-          unit: "Views",
+          unit: "Share of views",
           max: MAX_ROWS, // five countries, unlike the other "Top …" lists
           rows: countries.map(([label, value]) => ({ label, value, icon: icon("country", label) })),
-          // Country views are all three platforms' views split by country, so the range's total views is the
-          // total across every country, including the ones not shown.
-          total: views ? views.total : null,
+          // Only some platforms split views by country, so each country is a share of the views that are split.
+          percent: true,
         })
       : "";
     const delivs = (DATA.deliverables || []).filter((d) => isNum(d.views)).sort((a, b) => b.views - a.views);
@@ -393,15 +392,17 @@ export function mountMediaKit(DATA, { signal }) {
   // With `total` (the whole dataset's total, hidden rows included), each fill is the row's share of it, never
   // narrower than 8px or 2% so a real value always shows.
   // Without it, the largest row fills the width and the others are measured against it.
-  function listHtml({ title, unit, rows, snapshot, total, max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS }) {
+  function listHtml({ title, unit, rows, snapshot, total, percent, max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS }) {
     if (!rows || !rows.length) return "";
+    // A percent list: each row's share of every row in the list, including the ones not shown.
+    if (percent) total = rows.reduce((a, row) => a + row.value, 0);
     const share = isNum(total) && total > 0;
     const top = rows[0].value || 1;
     const items = rows
       .slice(0, max)
       .map((row) => {
-        const value = row.display || exact(row.value);
         const pct = ((row.value / (share ? total : top)) * 100).toFixed(2);
+        const value = percent && share ? `${Number(pct).toFixed(1)}%` : row.display || exact(row.value);
         const width = share ? `max(8px, 2%, ${pct}%)` : `${pct}%`;
         return `<li class="row" data-value="${row.value}">
           <span class="label">${row.icon}<span>${esc(row.label)}</span></span>
