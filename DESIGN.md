@@ -10,7 +10,7 @@ Follows the visitor's system setting, and the theme button in the footer switche
 
 | Token | Light | Dark | Used for |
 | --- | --- | --- | --- |
-| `site-bg` | #ffffff | #0a0a0a | Page |
+| `site-bg` | #ffffff | #000000 | Page |
 | `site-surface` | #fafafa | #111111 | Hovered rows |
 | `site-border` | #e0e0e0 | #262626 | Outlines on surfaces |
 | `site-line` | #f0f0f0 | #1c1c1c | Hairlines between list rows |
@@ -64,7 +64,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 
 The analytics dashboard from the standalone media kit, moved into the site and restyled with these tokens. Code in `components/media-kit/`, numbers in `content/media-kit.ts` (read through `lib/media-kit/load.ts`, which validates them at build time).
 
-- Always dark (`SiteShell forceDark`): the kit has no light values, so the theme toggle is hidden on this page.
+- Follows the site theme like every other page, with the theme toggle in the footer. The analytics have their own light and dark `site-chart-*` values.
 - Same 448px column as every other page, so the dashboard uses its narrow layout at every width: KPIs two to a row, lists stacked, a 200px chart.
 - Type is the site's scale: KPIs in `text-figure` (20px), list headings in `text-title`, rows in `text-copy`, labels and axis in `text-meta` / `text-small`.
 - Controls are the site's own: platform tabs, the date control and the picker's Cancel and Apply use `bracketClass` and `tabsClass` from `components/home/controls.ts`.

@@ -3,7 +3,7 @@
   Measured from screenshots of the reference layout at 1440, 834 and 390px wide (see DESIGN.md).
   Everything on those pages uses these tokens: no one-off colours or spacing.
   Scoped to `.site`, so the shadcn theme in globals.css keeps its own values elsewhere.
-  /media-kit is always dark (see "Media kit" below and DESIGN.md).
+  /media-kit follows the same light/dark theme as the rest; /partners is still always dark.
 */
 
 .site {
@@ -26,13 +26,26 @@
   --site-brand-youtube: #ff0000;
   --site-brand-instagram: #e4405f;
   --site-on-media-muted: #c7c7c7;
+
+  /* Media kit analytics, light */
+  --site-chart-line: #8a8a8a; /* the comparison line and its markers */
+  --site-chart-rule: rgb(0 0 0 / 0.18); /* crosshair */
+  --site-chart-hairline: rgb(0 0 0 / 0.08); /* rules inside the analytics section */
+  --site-chart-bar: #f0f0f0; /* picker hovers */
+  --site-chart-muted: #6b6b6b; /* labels, axis and falling deltas in the analytics section */
+  --site-chart-disabled: #c4c4c4; /* days after today in the date picker */
+  --site-live: #3b82f6; /* the live dot, nowhere else */
+  /* Platform colours: tooltip breakdown dots and the Indexed lines, nowhere else */
+  --site-tiktok: #3f8f90;
+  --site-instagram: #9a5a92;
+  --site-youtube: #b04a3e;
 }
 
 .dark .site,
 .site.site-force-dark,
 html:has(.site-force-dark) {
   /* Base greys match digitalcreator.club's dark theme: background, card, border, accent, muted text. */
-  --site-bg: #0a0a0a;
+  --site-bg: #000000; /* full black */
   --site-surface: #111111;
   --site-border: #262626;
   --site-line: #1c1c1c;
@@ -45,7 +58,7 @@ html:has(.site-force-dark) {
   --site-positive: #4ade80;
   --site-brand: #aa0412;
 
-  /* Media kit analytics (/media-kit, dark only). Values carried over from the standalone kit. */
+  /* Media kit analytics, dark. Values carried over from the standalone kit. */
   --site-chart-line: #a0a0a0; /* the monochrome line, its comparison and markers */
   --site-chart-rule: rgb(255 255 255 / 0.22); /* crosshair */
   --site-chart-hairline: rgb(255 255 255 / 0.07); /* rules inside the analytics section */
@@ -59,7 +72,7 @@ html:has(.site-force-dark) {
   --site-youtube: #c25b4f;
 }
 
-/* Pages that are always dark (/media-kit): the same values on <html>, so overscroll and native controls match */
+/* Pages that are always dark (/partners): the same values on <html>, so overscroll and native controls match */
 html:has(.site-force-dark) {
   color-scheme: dark;
 }

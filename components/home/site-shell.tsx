@@ -5,7 +5,7 @@ import { cn } from "./cn";
 
 // Page frame shared by every page: one centred 448px column and the footer. No nav: home links out to
 // everything and the sub-pages have a back link.
-// `forceDark` keeps a page dark whatever the visitor's theme (the media kit has no light values).
+// `forceDark` keeps a page dark whatever the visitor's theme (/partners).
 export function SiteShell({ children, forceDark }: { children: React.ReactNode; forceDark?: boolean }) {
   return (
     <div className={cn("site min-h-dvh bg-site-bg text-site-fg", forceDark && "site-force-dark")}>

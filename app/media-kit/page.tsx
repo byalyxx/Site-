@@ -34,7 +34,7 @@ export default async function MediaKitPage() {
   const data = await loadMediaKit();
 
   return (
-    <SiteShell forceDark>
+    <SiteShell>
       <header className="flex flex-col gap-4">
         <PageTitle brand>Media kit</PageTitle>
         <FollowerLine />
