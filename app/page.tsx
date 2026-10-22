@@ -32,7 +32,6 @@ export default function Home() {
         id="stack"
         title="My Gear"
         viewAll={{ href: "/stack" }}
-        footnote="Some links here are affiliate links. If you buy through them I may earn a commission at no extra cost to you."
       >
         <RowList>
           {featuredStack.map((item) => (
