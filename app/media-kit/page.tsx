@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
 import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
-import { bracketClass } from "@/components/home/controls";
+import { bracketClass, linkClass } from "@/components/home/controls";
+import { cn } from "@/components/home/cn";
 import { FollowerLine } from "@/components/home/hero";
 import { CopyEmail } from "@/components/home/hero-widgets";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
@@ -40,8 +41,8 @@ export default async function MediaKitPage() {
         <FollowerLine />
         <p className="text-body font-medium text-site-muted">{mediaKit.intro}</p>
         <div className="flex flex-wrap items-center gap-x-6">
-          <a href={`mailto:${profile.email}`} className={bracketClass}>
-            Work with me
+          <a href={`mailto:${profile.email}`} className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
+            Work with me <ArrowUpRight className="size-3.5" aria-hidden />
           </a>
           <CopyEmail email={profile.email} className={bracketClass} />
         </div>
