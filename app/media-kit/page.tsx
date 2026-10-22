@@ -48,16 +48,6 @@ export default async function MediaKitPage() {
         </div>
       </header>
 
-      <MediaKit data={data} />
-
-      <SectionBlock id="partners" title="Partners">
-        <RowList>
-          {partners.map((p, i) => (
-            <PartnerStackRow key={`${p.name}-${i}`} partner={p} />
-          ))}
-        </RowList>
-      </SectionBlock>
-
       <SectionBlock id="services" title="What I offer">
         <RowList>
           {mediaKit.services.map((s) => {
@@ -75,6 +65,16 @@ export default async function MediaKitPage() {
               />
             );
           })}
+        </RowList>
+      </SectionBlock>
+
+      <MediaKit data={data} />
+
+      <SectionBlock id="partners" title="Partners">
+        <RowList>
+          {partners.map((p, i) => (
+            <PartnerStackRow key={`${p.name}-${i}`} partner={p} />
+          ))}
         </RowList>
       </SectionBlock>
 
