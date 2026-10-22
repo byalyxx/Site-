@@ -75,7 +75,21 @@ export const instagram: Connector = {
     // (Instagram can take up to 48 hours to settle).
     const firstRun = days.length === 0;
     const end = addDays(today, -1);
-    for (let d = addDays(end, firstRun ? -29 : -2); d <= end; d = addDays(d, 1)) {
+    const recent: string[] = [];
+    for (let d = addDays(end, firstRun ? -29 : -2); d <= end; d = addDays(d, 1)) recent.push(d);
+
+    // Older days, filled in a bit at a time: up to 60 more days before the earliest stored one on each refresh,
+    // back to two years ago (as far as Instagram keeps account insights). Stops at the first day Instagram
+    // refuses, so a shorter history just ends there.
+    const filled = days.filter((r) => typeof r.m?.views === "number" || typeof r.m?.reach === "number").map((r) => r.date);
+    const older: string[] = [];
+    if (filled.length) {
+      const limit = addDays(today, -730);
+      for (let d = addDays(filled[0], -1); d >= limit && older.length < 60; d = addDays(d, -1)) older.push(d);
+    }
+
+    for (const d of [...recent, ...older]) {
+      const isOlder = !recent.includes(d);
       const since = Date.parse(d + "T00:00:00Z") / 1000;
       const until = since + 86_400;
       const row = day(d);
@@ -88,7 +102,16 @@ export const instagram: Connector = {
         shares: "shares",
         profile_views: "profileVisits",
       };
-      for (const r of await totals(at, Object.keys(names), since, until)) {
+      let got;
+      try {
+        got = await totals(at, Object.keys(names), since, until);
+      } catch (e) {
+        if (!isOlder) throw e;
+        console.warn(String(e));
+        out.delete(d);
+        break;
+      }
+      for (const r of got) {
         if (typeof r.total_value?.value === "number") row.m[names[r.name]] = r.total_value.value;
       }
       // Reach split by content type (posts, reels, stories). Skipped quietly if the account doesn't get it.
