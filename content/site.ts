@@ -132,11 +132,9 @@ export const blog: BlogPost[] = [
   { title: "PLACEHOLDER: third post title", date: "Jan 1, 2026", placeholder: true },
 ];
 
-export type Product = { title: string; type: string; description: string; href?: string; placeholder?: boolean };
+export type Product = { title: string; type?: string; description: string; href?: string; placeholder?: boolean };
 export const products: Product[] = [
-  { title: "Media kit", type: "For brands", description: "Audience, services and recent partners.", href: "/media-kit" },
-  { title: "PLACEHOLDER: product name", type: "Type", description: "PLACEHOLDER: one line about it.", placeholder: true },
-  { title: "PLACEHOLDER: product name", type: "Type", description: "PLACEHOLDER: one line about it.", placeholder: true },
+  { title: "Done-for-you creator site", description: "Your gear list, live stats, brand enquiries. One site, fully custom." },
 ];
 
 // Stack = the desk and PC setup. Built from `gear` above so links stay in one place.

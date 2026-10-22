@@ -1,4 +1,4 @@
-import { Eye, FileText, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
+import { Eye, Globe, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
 import { contact, products, profile, stack, stackFeatured, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
@@ -41,16 +41,16 @@ export default function Home() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="products" title="Products" viewAll={{ placeholder: true }}>
+      <SectionBlock id="products" title="Products">
         <RowList>
           {products.map((p, i) => (
             <Row
               key={i}
               href={p.href}
               title={p.title}
-              label={p.placeholder ? p.type : `${p.type} · ${p.description}`}
+              label={p.placeholder ? p.type : p.type ? `${p.type} · ${p.description}` : p.description}
               placeholder={p.placeholder}
-              leading={<Tile>{p.placeholder ? <ImageIcon className="size-5" aria-hidden /> : <FileText className="size-5" aria-hidden />}</Tile>}
+              leading={<Tile>{p.placeholder ? <ImageIcon className="size-5" aria-hidden /> : <Globe className="size-5" aria-hidden />}</Tile>}
             />
           ))}
         </RowList>
