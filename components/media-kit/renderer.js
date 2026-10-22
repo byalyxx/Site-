@@ -322,11 +322,11 @@ export function mountMediaKit(DATA, { signal }) {
     const audRows = ORDER.map((p) => {
       const c = PLATFORMS[p].combined;
       const label = `${NAMES[p]} ${c.audienceLabel}`;
-      if (isNum(aud[p])) return { label, value: aud[p], icon: platformIcon(p) };
+      if (isNum(aud[p])) return { label, value: aud[p], icon: "" };
       // Only a snapshot like "7k+": shown as written, the bar uses the number it starts from.
       const snap = DATA.platforms[p] && DATA.platforms[p].snapshot && DATA.platforms[p].snapshot[c.audience];
       const n = typeof snap === "string" ? parseSnap(snap) : null;
-      return n ? { label, value: n, display: snap, icon: platformIcon(p) } : null;
+      return n ? { label, value: n, display: snap, icon: "" } : null;
     });
     const followersList = audRows.every(Boolean)
       ? listHtml({ id: "all.audience", title: "Followers by platform", unit: "Followers", rows: audRows.sort((a, b) => b.value - a.value), snapshot: audRows.some((x) => x.display), total: audRows.reduce((a, x) => a + x.value, 0) })
@@ -336,7 +336,7 @@ export function mountMediaKit(DATA, { signal }) {
           id: "all.views",
           title: "Views by platform",
           unit: "Views",
-          rows: ORDER.map((p) => ({ label: `${NAMES[p]} ${PLATFORMS[p].combined.viewsLabel}`, value: views.per[p], icon: platformIcon(p) })).sort((a, b) => b.value - a.value),
+          rows: ORDER.map((p) => ({ label: `${NAMES[p]} ${PLATFORMS[p].combined.viewsLabel}`, value: views.per[p], icon: "" })).sort((a, b) => b.value - a.value),
           total: views.total,
         })
       : "";
@@ -358,7 +358,7 @@ export function mountMediaKit(DATA, { signal }) {
           id: "all.deliverables",
           title: "Top deliverables",
           unit: "All-time views",
-          rows: delivs.map((d) => ({ label: d.title ? `${d.brand} · ${d.title}` : d.brand, value: d.views, icon: d.platform ? platformIcon(d.platform) : icon("video") })),
+          rows: delivs.map((d) => ({ label: d.title ? `${d.brand} · ${d.title}` : d.brand, value: d.views, icon: "" })),
           // Every deliverable with views, not just the three shown
           total: delivs.reduce((a, d) => a + d.views, 0),
         })
@@ -381,6 +381,8 @@ export function mountMediaKit(DATA, { signal }) {
   };
 
   // ---------- Lists with proportional rules ----------
+  // The All tab's platform and deliverable lists name the platform in the label, so they carry no icon; only
+  // country flags stay.
 
   // "Top …" lists (countries, videos, posts, deliverables) show three rows; every other list shows five.
   const MAX_ROWS = 5;
@@ -423,7 +425,6 @@ export function mountMediaKit(DATA, { signal }) {
     }
     return `<span class="ico" aria-hidden="true">${ICONS[kind] || ICONS.source}</span>`;
   }
-  const platformIcon = (p) => `<span class="ico brand" aria-hidden="true">${ICONS[p]}</span>`;
 
   // ---------- Buckets (every tab) ----------
   // One rule everywhere: 1–2 days hourly, 3–31 days daily, 32–120 days weekly (Monday start), over
