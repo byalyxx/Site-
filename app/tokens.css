@@ -31,15 +31,16 @@
 .dark .site,
 .site.site-force-dark,
 html:has(.site-force-dark) {
-  --site-bg: #161616;
-  --site-surface: #1a1a1a;
-  --site-border: #272727;
-  --site-line: #222222;
+  /* Base greys match digitalcreator.club's dark theme: background, card, border, accent, muted text. */
+  --site-bg: #0a0a0a;
+  --site-surface: #111111;
+  --site-border: #262626;
+  --site-line: #1c1c1c;
   --site-fg: #fafafa;
-  --site-muted: #ababab;
+  --site-muted: #a3a3a3;
   --site-accent: #fafafa;
-  --site-accent-fg: #161616;
-  --site-thumb: #222222;
+  --site-accent-fg: #0a0a0a;
+  --site-thumb: #171717;
   --site-data: #a78bfa;
   --site-positive: #4ade80;
   --site-brand: #aa0412;

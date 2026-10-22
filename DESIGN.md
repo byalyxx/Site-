@@ -6,23 +6,23 @@ The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap a
 
 ## Colour
 
-Follows the visitor's system setting, and the theme button in the footer switches it. Neutral greys only, no brand accent: the photos and logos bring the colour.
+Follows the visitor's system setting, and the theme button in the footer switches it. Neutral greys only, no brand accent: the photos and logos bring the colour. The dark greys are taken from digitalcreator.club's dark theme.
 
 | Token | Light | Dark | Used for |
 | --- | --- | --- | --- |
-| `site-bg` | #ffffff | #161616 | Page |
-| `site-surface` | #fafafa | #1a1a1a | Buttons, inputs, hovered rows |
-| `site-border` | #e0e0e0 | #272727 | Outlines on surfaces |
-| `site-line` | #f0f0f0 | #222222 | Hairlines between list rows |
+| `site-bg` | #ffffff | #0a0a0a | Page |
+| `site-surface` | #fafafa | #111111 | Buttons, inputs, hovered rows |
+| `site-border` | #e0e0e0 | #262626 | Outlines on surfaces |
+| `site-line` | #f0f0f0 | #1c1c1c | Hairlines between list rows |
 | `site-fg` | #0a0a0a | #fafafa | Headings, titles |
-| `site-muted` | #6b6b6b | #ababab | Second headline line, intros, labels, dates |
-| `site-accent` / `-fg` | #0a0a0a / #fff | #fafafa / #161616 | The one solid button (Submit) |
+| `site-muted` | #6b6b6b | #a3a3a3 | Second headline line, intros, labels, dates |
+| `site-accent` / `-fg` | #0a0a0a / #fff | #fafafa / #0a0a0a | The one solid button (Submit) |
 | `site-on-media`, `site-scrim` | #fff, #000 | same | Caption over the video thumbnail |
 | `site-data` | #7c3aed | #a78bfa | The series that matters in a chart (this period) |
 | `site-positive` | #15803d | #4ade80 | Growth figures (+10%) |
 | `site-brand` | #aa0412 | #aa0412 | The @byalyxx handle in the home hero |
 
-Outside the greys, red appears once (the handle) and violet only inside charts. The red is 2.4:1 on the dark page, under the 3:1 large-text minimum; it was asked for as is. Comparison lines use `site-muted`, dotted.
+Outside the greys, red appears once (the handle) and violet only inside charts. The red is 2.6:1 on the dark page, under the 3:1 large-text minimum; it was asked for as is. Comparison lines use `site-muted`, dotted.
 
 The reference's light-mode grey is lighter than ours. It fails WCAG AA on white, so `site-muted` is darkened to #6b6b6b (5.3:1). Every text pair passes AA: lowest is light muted on surface at 5.1:1.
 
