@@ -4,8 +4,8 @@
 //
 // Tables and the storage bucket are created by supabase/media-kit.sql.
 
-const URL_ = process.env.SUPABASE_URL?.replace(/\/$/, "");
-const KEY = process.env.SUPABASE_SECRET_KEY;
+const URL_ = process.env.SUPABASE_URL?.trim().replace(/\/$/, "");
+const KEY = process.env.SUPABASE_SECRET_KEY?.trim();
 
 export const supabaseConfigured = Boolean(URL_ && KEY);
 
