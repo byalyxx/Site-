@@ -1,6 +1,7 @@
 import { ArrowUpRight, Eye, MessageCircle, ThumbsUp } from "lucide-react";
 import { contact, gear, productGroups, profile, videos } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
+import { loadFollowers } from "@/lib/followers";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
@@ -17,12 +18,16 @@ export const metadata = pageMetadata({
   path: "/",
 });
 
-export default function Home() {
+// Rebuilt at most once an hour, and straight after each refresh, so the follower counts stay current.
+export const revalidate = 3600;
+
+export default async function Home() {
   const [latest] = videos;
+  const socials = await loadFollowers();
 
   return (
     <SiteShell footerToggle={false}>
-      <Hero />
+      <Hero socials={socials} />
 
       <section id="featured" aria-label="Latest video" className="site-reveal flex scroll-mt-8 flex-col gap-3">
         <FeaturedVideo id={latest.id} title={latest.title} />

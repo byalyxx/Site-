@@ -1,13 +1,14 @@
 import { ArrowUpRight } from "lucide-react";
-import { hero, profile, socials } from "@/content/site";
+import { hero, profile } from "@/content/site";
+import type { Social } from "@/lib/followers";
 import { cn } from "./cn";
 import { bracketClass, linkClass } from "./controls";
 import { ThemeToggle } from "./hero-widgets";
 
-export function Hero() {
+export function Hero({ socials }: { socials: Social[] }) {
   return (
     <header className="flex flex-col gap-4">
-      <HeroHeading />
+      <HeroHeading socials={socials} />
       <div className="flex flex-wrap items-center gap-x-6">
         <a href={hero.about.href} className={bracketClass}>
           {hero.about.label}
@@ -21,7 +22,7 @@ export function Hero() {
 }
 
 // Name, tagline, follower counts and intro at the top of the home hero.
-export function HeroHeading() {
+export function HeroHeading({ socials }: { socials: Social[] }) {
   const [first, ...rest] = hero.headline;
 
   return (
@@ -37,14 +38,15 @@ export function HeroHeading() {
         </h1>
         <ThemeToggle className={cn(bracketClass, "-my-1.5")} />
       </div>
-      <FollowerLine />
+      <FollowerLine socials={socials} />
       <p className="text-body font-medium text-site-muted">{hero.intro}</p>
     </>
   );
 }
 
 // TikTok · Instagram · YouTube follower counts, each linking to the profile. Home hero and media kit header.
-export function FollowerLine() {
+// The counts come from lib/followers.ts (the latest refresh).
+export function FollowerLine({ socials }: { socials: Social[] }) {
   return (
     <p className="-mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
       {socials.map((s, i) => (

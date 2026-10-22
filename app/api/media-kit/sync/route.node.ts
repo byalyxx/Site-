@@ -16,6 +16,7 @@ export async function POST(req: Request) {
   const report = await syncAll();
   revalidatePath("/media-kit");
   revalidatePath("/partners");
+  revalidatePath("/");
 
   // The button on the connect page posts a form: send it back there. The schedule gets JSON.
   if (req.headers.get("content-type")?.includes("form")) return Response.redirect(`${siteUrl()}/media-kit/connect?refreshed=1`, 303);

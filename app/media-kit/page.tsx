@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { mediaKit, profile } from "@/content/site";
 import { loadPartners } from "@/lib/partners";
+import { loadFollowers } from "@/lib/followers";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { pageMetadata } from "@/lib/metadata";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
@@ -27,13 +28,13 @@ export const revalidate = 3600;
 
 export default async function MediaKitPage() {
   // Numbers from the active adapter (content/media-kit.ts), validated before anything renders.
-  const [data, partners] = await Promise.all([loadMediaKit(), loadPartners()]);
+  const [data, partners, socials] = await Promise.all([loadMediaKit(), loadPartners(), loadFollowers()]);
 
   return (
     <SiteShell>
       <header className="flex flex-col gap-4">
         <PageTitle brand>Media kit</PageTitle>
-        <FollowerLine />
+        <FollowerLine socials={socials} />
         <p className="text-body font-medium text-site-muted">{mediaKit.intro}</p>
         <div className="flex flex-wrap items-center gap-x-6">
           <a href={`mailto:${profile.email}`} data-track="Work with me" className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
