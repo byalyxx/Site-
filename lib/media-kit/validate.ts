@@ -53,7 +53,7 @@ export function validateMediaKit(input: unknown): string[] {
       if (!isObj(d)) return bad(at, "expected an object");
       if (!isDate(d.date)) bad(`${at}.date`, "expected a YYYY-MM-DD date");
       else {
-        if (prev && d.date <= prev) bad(`${at}.date`, d.date === prev ? `${d.date} appears twice` : `${d.date} comes after ${prev}: keep days oldest first`);
+        if (prev && d.date <= prev) bad(`${at}.date`, d.date === prev ? `${d.date} appears twice` : `${d.date} is before ${prev}: keep days oldest first`);
         prev = d.date;
       }
       each(at, d);
