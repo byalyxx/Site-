@@ -1,5 +1,3 @@
-import { Play } from "lucide-react";
-
 // One highlighted card: the newest YouTube video, opening on YouTube.
 export function FeaturedVideo({ id, title }: { id: string; title: string }) {
   return (
@@ -18,9 +16,6 @@ export function FeaturedVideo({ id, title }: { id: string; title: string }) {
       {/* Fixed dark scrim so the white caption reads on any thumbnail, in either theme */}
       <span className="absolute inset-0 bg-gradient-to-t from-site-scrim/85 via-site-scrim/30 to-transparent" aria-hidden />
       <span className="absolute left-4 top-4 font-mono text-tag font-medium text-site-on-media text-shadow-sm">[NEW]</span>
-      <span className="absolute right-4 top-4 grid size-control place-items-center rounded-pill bg-site-scrim/60 text-site-on-media backdrop-blur site-transition group-hover:bg-site-scrim/80">
-        <Play className="ml-0.5 size-4 fill-current" aria-hidden />
-      </span>
       <span className="absolute inset-x-4 bottom-4 flex flex-col gap-1">
         <span className="text-title font-medium text-site-on-media">{title}</span>
         <span className="text-small font-medium text-site-on-media/80">Latest video · YouTube</span>
