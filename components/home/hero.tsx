@@ -1,7 +1,6 @@
 import { hero, profile, socials } from "@/content/site";
 import { cn } from "./cn";
 import { bracketClass, linkClass } from "./controls";
-import { CopyEmail } from "./hero-widgets";
 
 export function Hero() {
   return (
@@ -11,12 +10,9 @@ export function Hero() {
         <a href={hero.about.href} className={bracketClass}>
           {hero.about.label}
         </a>
-        <span className="flex items-center gap-3">
-          <a href={`mailto:${profile.email}`} className={cn(linkClass, "text-body font-medium text-site-fg")}>
-            Email
-          </a>
-          <CopyEmail email={profile.email} className={bracketClass} />
-        </span>
+        <a href={`mailto:${profile.email}`} className={cn(linkClass, "text-body font-medium text-site-fg")}>
+          Email
+        </a>
       </div>
     </header>
   );
