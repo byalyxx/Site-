@@ -526,9 +526,6 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
-.media-kit .row.fade {
-  mask-image: linear-gradient(to bottom, --theme(--color-site-scrim) 0%, transparent 100%);
-}
 .media-kit .ico {
   display: grid;
   place-items: center;
