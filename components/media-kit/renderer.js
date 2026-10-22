@@ -509,13 +509,12 @@ export function mountMediaKit(DATA, { signal }) {
       buckets: bs,
       prevBuckets: pbs,
       ts: bs.map((b) => b.t),
-      max: niceMax(Math.max(1, ...cur.filter(isNum), ...(hasPrev ? prev.filter(isNum) : []))),
+      max: niceMax(Math.max(1, ...cur.filter(isNum))),
       cur,
       prev: hasPrev ? prev : null,
       secondary: sec && sec.some(isNum) ? { label: def.tooltip.label, format: def.tooltip.format, values: sec } : null,
       posts,
       label: def.chart.label,
-      prevLabel: periodName(r).replace(/^p/, "P"),
       aria: `${def.chart.label}, ${fmtRange(r)}, by ${unit}: total ${exact(cur.reduce((a, b) => a + (b || 0), 0))}.`,
     };
   }
@@ -555,12 +554,11 @@ export function mountMediaKit(DATA, { signal }) {
       buckets: bs,
       prevBuckets: pbs,
       ts: bs.map((b) => b.t),
-      max: niceMax(Math.max(1, ...totals.filter(isNum), ...(prev || []).filter(isNum))),
+      max: niceMax(Math.max(1, ...totals.filter(isNum))),
       cur: totals,
       by: g.by,
       prev,
       label: "Views",
-      prevLabel: periodName(r).replace(/^p/, "P"),
       aria: `Views on TikTok, Instagram and YouTube together, by ${unit}, ${fmtRange(r)}: total ${exact(totals.reduce((a, b) => a + (b || 0), 0))}.`,
     };
   }
@@ -696,14 +694,12 @@ export function mountMediaKit(DATA, { signal }) {
     let body = "";
     let legend = "";
     if (m.kind === "single" || m.kind === "total") {
-      // Monochrome: one solid line with a faint fill, the comparison dotted with no fill
+      // Monochrome: one solid line with a faint fill. The previous period is only in the tooltip deltas.
       const c = curves(m.cur);
-      const p = m.prev ? curves(m.prev) : null;
       body = `<defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" class="fill-top"/><stop offset="1" class="fill-bottom"/></linearGradient></defs>
         <path d="${c.area}" fill="url(#fill)"/>
-        ${p ? `<path class="s-previous" vector-effect="non-scaling-stroke" d="${p.main}"/><path class="s-previous s-partial" vector-effect="non-scaling-stroke" d="${p.part}"/>` : ""}
         <path class="s-current" vector-effect="non-scaling-stroke" d="${c.main}"/><path class="s-current s-partial" vector-effect="non-scaling-stroke" d="${c.part}"/>`;
-      legend = `<span><i class="line"></i>${esc(m.label)}</span>${m.prev ? `<span><i class="line dotted"></i>${esc(m.prevLabel)}</span>` : ""}${
+      legend = `<span><i class="line"></i>${esc(m.label)}</span>${
         m.buckets.some((b) => !b.full) ? `<span><i class="line partial"></i>Partial ${esc(m.unit)}</span>` : ""
       }`;
     } else {
@@ -804,10 +800,9 @@ export function mountMediaKit(DATA, { signal }) {
     return Tooltip({ heading, compare, rows });
   }
 
-  // Points to mark at index i, as { v, color, ring }
+  // Points to mark at index i, as { v, color }
   function marksFor(m, i) {
-    if (m.kind === "single") return [{ v: m.cur[i], color: "var(--site-chart-line)" }, ...(m.prev ? [{ v: m.prev[i], color: "var(--site-chart-line)", ring: true }] : [])];
-    if (m.kind === "total") return [{ v: m.cur[i], color: "var(--site-chart-line)" }];
+    if (m.kind === "single" || m.kind === "total") return [{ v: m.cur[i], color: "var(--site-chart-line)" }];
     return m.lines.map((l) => ({ v: l.values[i], color: COLORS[l.p] }));
   }
 
@@ -848,7 +843,7 @@ export function mountMediaKit(DATA, { signal }) {
       for (const mk of marksFor(m, i)) {
         if (mk.v == null) continue;
         const d = document.createElement("span");
-        d.className = mk.ring ? "dot ring" : "dot";
+        d.className = "dot";
         d.style.setProperty("--c", mk.color);
         d.style.left = left + "%";
         d.style.top = (1 - mk.v / m.max) * 100 + "%";
