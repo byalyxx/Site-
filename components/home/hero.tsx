@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import { hero, profile, socials } from "@/content/site";
 import { cn } from "./cn";
 import { bracketClass, linkClass } from "./controls";
+import { ThemeToggle } from "./hero-widgets";
 
 export function Hero() {
   return (
@@ -25,14 +26,17 @@ export function HeroHeading() {
 
   return (
     <>
-      <h1 className="text-display text-site-fg">
-        <span className="block text-site-brand">{first}</span>
-        {rest.map((line) => (
-          <span key={line} className="block text-site-muted">
-            {line}
-          </span>
-        ))}
-      </h1>
+      <div className="flex items-center gap-3">
+        <h1 className="text-display text-site-fg">
+          <span className="block text-site-brand">{first}</span>
+          {rest.map((line) => (
+            <span key={line} className="block text-site-muted">
+              {line}
+            </span>
+          ))}
+        </h1>
+        <ThemeToggle className={cn(bracketClass, "-my-1.5")} />
+      </div>
       <FollowerLine />
       <p className="text-body font-medium text-site-muted">{hero.intro}</p>
     </>

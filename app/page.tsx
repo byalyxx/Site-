@@ -12,7 +12,7 @@ export default function Home() {
   const [latest] = videos;
 
   return (
-    <SiteShell>
+    <SiteShell footerToggle={false}>
       <Hero />
 
       <section id="featured" aria-label="Latest video" className="site-reveal flex scroll-mt-8 flex-col gap-3">

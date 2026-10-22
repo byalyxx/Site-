@@ -43,7 +43,7 @@ export function CopyEmail({ email, className }: { email: string; className?: str
   );
 }
 
-// Light/dark switch in the footer.
+// Light/dark switch, beside the home heading and in sub-page footers.
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
 
