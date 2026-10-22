@@ -30,8 +30,8 @@ export const socials = [
 // YouTube video IDs, newest first. Thumbnails live in public/videos/<id>.jpg.
 // `stats` on the newest video shows under the featured card; update the counts by hand.
 export const videos: { id: string; title: string; stats?: { views: string; likes: string; comments: string } }[] = [
-  { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)", stats: { views: "152k", likes: "2k", comments: "106" } },
-  { id: "5G1u5PJHsxs", title: "the most powerful tiny pc i’ve ever built" },
+  { id: "5G1u5PJHsxs", title: "the most powerful tiny pc i’ve ever built", stats: { views: "152k", likes: "2k", comments: "106" } },
+  { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)" },
 ];
 
 export const gear: GearGroup[] = [
@@ -116,12 +116,13 @@ export const nav = [
 ] as const;
 
 export const hero = {
-  // Display headline, one string per line. The place chip (with a live UK clock) follows the last line.
-  headline: ["Hi. I\u2019m @byalyxx.", "Tech & setup creator from"],
+  // Display headline, one string per line.
+  headline: ["@byalyxx", "Tech & setup creator"],
+  // The place chip with a live clock; only the media kit hero shows it now.
   place: "UK",
   timeZone: "Europe/London",
   intro: "I make tech and desk setup videos as @byalyxx, and share the exact gear I use below.",
-  about: { label: "About me", href: "/media-kit" },
+  about: { label: "Media kit", href: "/media-kit" },
 };
 
 export type BlogPost = { title: string; date: string; href?: string; placeholder?: boolean };

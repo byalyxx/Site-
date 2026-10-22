@@ -28,6 +28,19 @@ export default function Home() {
         )}
       </section>
 
+      <SectionBlock
+        id="stack"
+        title="Stack"
+        viewAll={{ href: "/stack" }}
+        footnote="Some links here are affiliate links. If you buy through them I may earn a commission at no extra cost to you."
+      >
+        <RowList>
+          {featuredStack.map((item) => (
+            <StackRow key={item.name} item={item} />
+          ))}
+        </RowList>
+      </SectionBlock>
+
       <SectionBlock id="blog" title="Blog" viewAll={{ placeholder: true }}>
         <RowList>
           {blog.map((post, i) => (
@@ -53,19 +66,6 @@ export default function Home() {
               placeholder={p.placeholder}
               leading={<Tile>{p.placeholder ? <ImageIcon className="size-5" aria-hidden /> : <FileText className="size-5" aria-hidden />}</Tile>}
             />
-          ))}
-        </RowList>
-      </SectionBlock>
-
-      <SectionBlock
-        id="stack"
-        title="Stack"
-        viewAll={{ href: "/stack" }}
-        footnote="Some links here are affiliate links. If you buy through them I may earn a commission at no extra cost to you."
-      >
-        <RowList>
-          {featuredStack.map((item) => (
-            <StackRow key={item.name} item={item} />
           ))}
         </RowList>
       </SectionBlock>
