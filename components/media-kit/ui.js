@@ -12,9 +12,9 @@ export { buttonClass, itemClass, submitClass };
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 // The nav's group and items with the buttons' corners instead of the nav's pill shape, so the tabs sit with the
-// site's buttons and cards. Items are sized by their label, smaller than the nav's 36px square, so the date chip fits beside them.
-const groupClass = cn(navClass, "gap-0.5 rounded-card p-1");
-const tabClass = cn(itemClass, "inline-flex h-8 w-auto gap-1.5 whitespace-nowrap rounded-tile px-2.5 text-small font-medium");
+// site's buttons and cards. Items are sized by their label, and the group is the date chip's height so the two line up.
+const groupClass = cn(navClass, "h-control gap-0.5 rounded-control p-0.5");
+const tabClass = cn(itemClass, "inline-flex h-full w-auto gap-1.5 whitespace-nowrap rounded-tile px-2.5 text-small font-medium");
 
 // The SiteNav group holding text items, as a tablist. Props follow the shadcn Tabs used on the site.
 export function PillTabs({ id, label, value, items, controls }) {

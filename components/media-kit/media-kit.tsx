@@ -18,7 +18,7 @@ const markup = `
   <div class="mk-analytics-block">
     <div class="controls">
       <div class="platform-tabs" id="platform-tabs"></div>
-      <button type="button" class="${cn(buttonClass, "date-chip h-8 gap-1.5 px-2.5 text-small")}" id="date-chip" aria-haspopup="dialog">
+      <button type="button" class="${cn(buttonClass, "date-chip gap-1.5 px-2.5 text-small")}" id="date-chip" aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" /><path d="M3.5 10h17M8 3v4M16 3v4" /></svg>
         <span id="date-label">Last 30 days</span>
       </button>
