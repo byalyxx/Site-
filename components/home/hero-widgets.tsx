@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Copy, Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 // Live clock for the place chip. Renders nothing on the server so the HTML never shows a stale time.
@@ -9,8 +9,7 @@ export function LocalTime({ timeZone }: { timeZone: string }) {
   const [time, setTime] = useState<string | null>(null);
 
   useEffect(() => {
-    const format = () =>
-      setTime(new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date()));
+    const format = () => setTime(new Intl.DateTimeFormat("en-GB", { timeZone, hour: "2-digit", minute: "2-digit" }).format(new Date()));
     format();
     const id = setInterval(format, 30_000);
     return () => clearInterval(id);
@@ -39,16 +38,13 @@ export function CopyEmail({ email, className }: { email: string; className?: str
 
   return (
     <button type="button" onClick={copy} className={className} aria-label={copied ? "Email copied" : `Copy ${email}`}>
-      {copied ? <Check className="size-3.5" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
-      <span className="sr-only" aria-live="polite">
-        {copied ? "Copied" : ""}
-      </span>
+      <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
     </button>
   );
 }
 
 // Light/dark switch in the footer.
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
@@ -56,7 +52,7 @@ export function ThemeToggle() {
       type="button"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
       aria-label="Toggle dark mode"
-      className="grid size-6 place-items-center rounded-control text-site-muted site-transition hover:text-site-fg focus-visible:outline-2 focus-visible:outline-site-fg"
+      className={className}
     >
       <Sun className="size-3.5 dark:hidden" aria-hidden />
       <Moon className="hidden size-3.5 dark:block" aria-hidden />

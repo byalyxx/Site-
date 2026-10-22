@@ -2,13 +2,10 @@
 
 import { useState } from "react";
 import { cn } from "./cn";
+import { bracketClass } from "./controls";
 
 const fieldClass =
   "w-full rounded-control border border-site-border bg-site-surface px-3 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-site-muted focus-visible:outline-none";
-
-// The solid submit button (also the media kit's date picker Apply button)
-export const submitClass =
-  "h-field rounded-control bg-site-accent text-copy font-semibold text-site-accent-fg site-transition hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-site-fg";
 
 // Styled and working in the browser, but not connected to any mailing list yet.
 export function NewsletterForm() {
@@ -61,7 +58,14 @@ export function ContactForm({ email }: { email: string }) {
       className="flex flex-col gap-4"
     >
       <Field id="contact-name" label="Name or brand">
-        <input id="contact-name" name="name" required autoComplete="name" placeholder="Name or brand" className={cn(fieldClass, "h-field")} />
+        <input
+          id="contact-name"
+          name="name"
+          required
+          autoComplete="name"
+          placeholder="Name or brand"
+          className={cn(fieldClass, "h-field")}
+        />
       </Field>
       <Field id="contact-email" label="Email address">
         <input
@@ -84,10 +88,7 @@ export function ContactForm({ email }: { email: string }) {
           className={cn(fieldClass, "resize-y py-2.5")}
         />
       </Field>
-      <button
-        type="submit"
-        className={submitClass}
-      >
+      <button type="submit" className={cn(bracketClass, "self-start")}>
         Submit
       </button>
     </form>

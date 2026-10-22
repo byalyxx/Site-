@@ -167,3 +167,79 @@ body:has(.site) {
     animation: none !important;
   }
 }
+
+/* Controls and links share one rule: a dimmed secondary mark turns the brand red on hover, and the label never
+   changes colour or weight. Brackets mark things you press (buttons, tabs, toggles, a page's primary action);
+   the underline marks things that take you somewhere. Never nest the two. */
+@layer components {
+  .site-bracket {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 2px;
+    border: 0;
+    border-radius: 4px;
+    background: none;
+    color: var(--site-fg);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: var(--text-body);
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .site-bracket::before,
+  .site-bracket::after {
+    color: color-mix(in srgb, currentColor 45%, transparent);
+    transition: color var(--duration-site) var(--ease-site);
+  }
+  .site-bracket::before {
+    content: "[";
+    content: "[" / "";
+  }
+  .site-bracket::after {
+    content: "]";
+    content: "]" / "";
+  }
+  .site-bracket:hover::before,
+  .site-bracket:hover::after,
+  .site-bracket:is([aria-selected="true"], [aria-pressed="true"])::before,
+  .site-bracket:is([aria-selected="true"], [aria-pressed="true"])::after {
+    color: var(--site-brand);
+  }
+  /* An unselected tab: label muted, brackets dim from it */
+  .site-bracket[aria-selected="false"] {
+    color: var(--site-muted);
+  }
+  .site-bracket:focus-visible {
+    outline: 2px solid var(--site-fg);
+    outline-offset: 2px;
+  }
+
+  .site-link {
+    position: relative;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+    transition: text-decoration-color var(--duration-site) var(--ease-site);
+  }
+  .site-link:hover {
+    text-decoration-color: var(--site-brand);
+  }
+  /* 44px tall hit area without changing the line's height */
+  .site-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 44px;
+    transform: translateY(-50%);
+  }
+  .site-link:focus-visible {
+    outline: 2px solid var(--site-fg);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}

@@ -37,26 +37,6 @@
   justify-content: space-between;
   gap: 12px;
 }
-.media-kit .date-chip svg {
-  width: 14px;
-  height: 14px;
-  flex: none;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-/* Platform icons make the pill row too wide for small phones: names only there */
-@media (max-width: 420px) {
-  .media-kit .platform-tabs [role="tab"] svg {
-    display: none;
-  }
-}
-.media-kit [role="tab"] svg {
-  width: 14px;
-  height: 14px;
-  flex: none;
-}
 
 /* ---------- Analytics ---------- */
 

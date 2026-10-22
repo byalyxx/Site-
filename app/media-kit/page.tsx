@@ -3,7 +3,8 @@ import { BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
 import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
-import { buttonClass, FollowerLine } from "@/components/home/hero";
+import { bracketClass } from "@/components/home/controls";
+import { FollowerLine } from "@/components/home/hero";
 import { CopyEmail } from "@/components/home/hero-widgets";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
@@ -38,13 +39,11 @@ export default async function MediaKitPage() {
         <PageTitle brand>Media kit</PageTitle>
         <FollowerLine />
         <p className="text-body font-medium text-site-muted">{mediaKit.intro}</p>
-        <div className="flex flex-wrap gap-3 pt-2">
-          <div className="flex">
-            <a href={`mailto:${profile.email}`} className={`${buttonClass} rounded-r-none`}>
-              Work with me
-            </a>
-            <CopyEmail email={profile.email} className={`${buttonClass} -ml-px rounded-l-none px-3`} />
-          </div>
+        <div className="flex flex-wrap items-center gap-x-6">
+          <a href={`mailto:${profile.email}`} className={bracketClass}>
+            Work with me
+          </a>
+          <CopyEmail email={profile.email} className={bracketClass} />
         </div>
       </header>
 

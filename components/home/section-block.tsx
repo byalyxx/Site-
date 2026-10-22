@@ -1,5 +1,6 @@
 import { ChevronRight } from "lucide-react";
 import { cn } from "./cn";
+import { linkClass } from "./controls";
 
 type ViewAll = { href: string } | { placeholder: true };
 
@@ -27,7 +28,7 @@ export function SectionBlock({
       {viewAll && "href" in viewAll && (
         <a
           href={viewAll.href}
-          className="inline-flex w-fit items-center gap-0.5 pt-2 text-small font-medium text-site-muted site-transition hover:text-site-fg"
+          className={cn(linkClass, "mt-2 inline-flex w-fit items-center gap-0.5 text-small font-medium text-site-muted")}
         >
           View All <ChevronRight className="size-3" aria-hidden />
         </a>
@@ -83,9 +84,7 @@ export function Row({
       {href ? (
         <a
           href={href}
-          {...(external || sponsored
-            ? { target: "_blank", rel: sponsored ? "sponsored noopener noreferrer" : "noopener noreferrer" }
-            : {})}
+          {...(external || sponsored ? { target: "_blank", rel: sponsored ? "sponsored noopener noreferrer" : "noopener noreferrer" } : {})}
           className={cn(rowClass, "group site-transition hover:bg-site-surface focus-visible:outline-2 focus-visible:outline-site-fg")}
         >
           {body}
@@ -102,7 +101,7 @@ export function Tile({ children, className }: { children: React.ReactNode; class
     <span
       className={cn(
         "grid size-tile shrink-0 place-items-center overflow-hidden rounded-tile border border-site-border bg-site-thumb text-site-muted",
-        className
+        className,
       )}
     >
       {children}

@@ -49,9 +49,9 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - 160px above the hero from 810px up, 64px below that.
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
-- /stack shows one gear list at a time, switched by pill tabs (`GearSwitcher`, the media kit's platform tab classes).
+- /stack shows one gear list at a time, switched by bracketed tabs (`GearSwitcher`, the same classes as the media kit's platform tabs).
 - Breakpoint `tab` = 810px. It only changes the space above the hero.
-- No nav. Home links out to everything; /stack, /media-kit and /partners have a Home button (`buttonClass`, left arrow) on the right of the heading (`PageTitle`).
+- No nav. Home links out to everything; /stack, /media-kit and /partners have a ← Home link (`linkClass`) on the right of the heading (`PageTitle`).
 
 ## Rows and cards
 
@@ -68,7 +68,7 @@ The analytics dashboard from the standalone media kit, moved into the site and r
 - Always dark (`SiteShell forceDark`): the kit has no light values, so the theme toggle is hidden on this page.
 - Same 448px column as every other page, so the dashboard uses its narrow layout at every width: KPIs two to a row, lists stacked, a 200px chart.
 - Type is the site's scale: KPIs in `text-figure` (20px), list headings in `text-title`, rows in `text-copy`, labels and axis in `text-meta` / `text-small`.
-- Controls are the site's own: platform pills use the pill group classes in `components/home/controls.ts` (`navClass`, `itemClass`, `itemActiveClass`), the date chip and list dropdowns wear `buttonClass`, the picker's Apply is `submitClass`.
+- Controls are the site's own: platform tabs, the date control and the picker's Cancel and Apply use `bracketClass` and `tabsClass` from `components/home/controls.ts`.
 - Styles in `components/media-kit/media-kit.css`, all scoped to `.media-kit`.
 
 Kit-only tokens (dark values; the page never shows a light version):
@@ -96,3 +96,12 @@ One type exception: `text-flag` (9px), the two-letter country code in 22px tiles
 - Colour, background and border fades: 300ms, `cubic-bezier(0.44, 0, 0.56, 1)` (`site-transition`).
 - Sections fade up 12px as they scroll into view (`site-reveal`), pure CSS, so the page still shows in full without JavaScript or in browsers that don't support it.
 - Both are switched off when the visitor asks for reduced motion.
+
+## Brackets and underlines
+
+One rule for every control and link: a dimmed secondary mark turns `site-brand` red on hover, and the label never changes colour or weight. Styles live in `app/tokens.css` (`.site-bracket`, `.site-link`); components use `bracketClass` and `linkClass` from `components/home/controls.ts`.
+
+- Brackets `[ ]`: things you press (buttons, tabs, toggles, the copy-email control) and a page's primary action even when it navigates ([Media kit] on home, [Work with me] on the media kit). Monospace label, brackets at 45% of the label colour, solid red when selected, unselected tabs muted. 44px tall.
+- Underline: things that take you somewhere (follower links, Email, View All, ← Home, the media kit line on home). 1px, 4px offset, 30% of the text colour. A 44px hit area from `::after`.
+- Neither: list rows, form inputs, anything inside the analytics that isn't a tab or toggle.
+- Never nest the two, never bracket anything that isn't interactive, no frame around a group of tabs, and keep to about 4–5 bracketed controls per screen.

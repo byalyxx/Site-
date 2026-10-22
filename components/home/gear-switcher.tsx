@@ -2,16 +2,11 @@
 
 import { useState } from "react";
 import type { GearGroup } from "@/content/site";
-import { cn } from "./cn";
-import { itemActiveClass, itemClass, navClass } from "./controls";
+import { bracketClass, tabsClass } from "./controls";
 import { RowList } from "./section-block";
 import { StackRow } from "./stack-row";
 
-// Same pill tabs as the media kit's platform switcher.
-const groupClass = cn(navClass, "h-control gap-0.5 rounded-control p-0.5");
-const tabClass = cn(itemClass, "inline-flex h-full w-auto gap-1.5 whitespace-nowrap rounded-tile px-2.5 text-small font-medium");
-
-// One list at a time on /stack, with a tab per group. Every panel is in the HTML and the others are `hidden`,
+// One list at a time on /stack, with a bracketed tab per group (same tabs as the media kit's platform switcher). Every panel is in the HTML and the others are `hidden`,
 // so the page still works as plain HTML (the preview build switches them with a small script of its own).
 export function GearSwitcher({ groups }: { groups: GearGroup[] }) {
   const [active, setActive] = useState(0);
@@ -27,7 +22,7 @@ export function GearSwitcher({ groups }: { groups: GearGroup[] }) {
 
   return (
     <section aria-label="Gear" className="site-reveal flex flex-col gap-4">
-      <div role="tablist" aria-label="Gear lists" className={groupClass} onKeyDown={onKeyDown}>
+      <div role="tablist" aria-label="Gear lists" className={tabsClass} onKeyDown={onKeyDown}>
         {groups.map((g, i) => (
           <button
             key={g.label}
@@ -39,10 +34,11 @@ export function GearSwitcher({ groups }: { groups: GearGroup[] }) {
             tabIndex={i === active ? 0 : -1}
             data-gear-tab={i}
             onClick={() => setActive(i)}
-            className={cn(tabClass, i === active && itemActiveClass)}
+            className={bracketClass}
           >
-            {g.label}
-            <span className="tabular-nums text-site-muted">{g.items.length}</span>
+            <span>
+              {g.label} <span className="tabular-nums text-site-muted">{g.items.length}</span>
+            </span>
           </button>
         ))}
       </div>
