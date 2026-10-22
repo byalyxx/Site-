@@ -117,7 +117,7 @@ export const nav = [
 
 export const hero = {
   // Display headline, one string per line.
-  headline: ["@byalyxx", "Tech & setup creator"],
+  headline: ["@byalyxx", "Tech enthusiast & Creator"],
   // The place chip with a live clock; only the media kit hero shows it now.
   place: "UK",
   timeZone: "Europe/London",
