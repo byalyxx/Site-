@@ -6,6 +6,8 @@ import { selectAll, supabaseConfigured } from "./media-kit/live/supabase";
 // their latest deal, newest first; partners with no tracked deal keep their order after those. A brand found
 // this way links to its latest video with the creator, since there's no affiliate link for it yet.
 const key = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+// Logos for brands found this way (they aren't in content/site.ts), keyed like key() below.
+const LOGOS: Record<string, string> = { wlmouse: "/partners/wl-mouse.jpg" };
 const month = (date: string) => new Date(date + "T00:00:00Z").toLocaleDateString("en-GB", { month: "short", year: "numeric", timeZone: "UTC" });
 
 export async function loadPartners(): Promise<Partner[]> {
@@ -20,7 +22,7 @@ export async function loadPartners(): Promise<Partner[]> {
 
     const found: Partner[] = [...latest.entries()]
       .filter(([k, d]) => !listed.some((p) => key(p.name) === k) && d.url)
-      .map(([, d]) => ({ name: d.sponsor, description: `Sponsored TikTok, ${month(d.date)}`, url: d.url! }));
+      .map(([k, d]) => ({ name: d.sponsor, description: `Sponsored TikTok, ${month(d.date)}`, url: d.url!, ...(LOGOS[k] && { logo: LOGOS[k] }) }));
     const dateOf = (p: Partner) => latest.get(key(p.name))?.date ?? "";
     return [...listed, ...found]
       .map((p, i) => ({ p, i }))
