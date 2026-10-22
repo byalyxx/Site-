@@ -123,8 +123,16 @@ export const blog: BlogPost[] = [
 ];
 
 export type Product = { title: string; type?: string; description: string; href?: string; placeholder?: boolean };
-export const products: Product[] = [
-  { title: "Done-for-you creator site", description: "Your gear list, live stats, brand enquiries. One site, fully custom. (coming soon)" },
+// The home page's Products section: one tab per group, in this order. The page opens on Creators.
+export const productGroups: { label: string; items: Product[] }[] = [
+  {
+    label: "Community",
+    items: [{ title: "PLACEHOLDER: community product", description: "PLACEHOLDER: one line on what members get.", placeholder: true }],
+  },
+  {
+    label: "Creators",
+    items: [{ title: "Done-for-you creator site", description: "Your gear list, live stats, brand enquiries. One site, fully custom. (coming soon)" }],
+  },
 ];
 
 // Stack = the desk and PC setup. Built from `gear` above so links stay in one place.

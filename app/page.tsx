@@ -1,10 +1,11 @@
 import { ArrowUpRight, Eye, MessageCircle, ThumbsUp } from "lucide-react";
-import { contact, gear, products, videos } from "@/content/site";
+import { contact, gear, productGroups, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
-import { Row, RowList, SectionBlock } from "@/components/home/section-block";
+import { Row, RowList } from "@/components/home/section-block";
 import { GearSwitcher } from "@/components/home/gear-switcher";
+import { TabbedSection } from "@/components/home/tabbed-section";
 import { cn } from "@/components/home/cn";
 import { linkClass } from "@/components/home/controls";
 
@@ -50,19 +51,28 @@ export default function Home() {
         </div>
       </section>
 
-      <SectionBlock id="products" title="Products">
-        <RowList>
-          {products.map((p, i) => (
-            <Row
-              key={i}
-              href={p.href}
-              title={p.title}
-              label={p.placeholder ? p.type : p.type ? `${p.type} · ${p.description}` : p.description}
-              placeholder={p.placeholder}
-            />
-          ))}
-        </RowList>
-      </SectionBlock>
+      <TabbedSection
+        title="Products"
+        sectionId="products"
+        label="Product groups"
+        initial={productGroups.findIndex((g) => g.label === "Creators")}
+        tabs={productGroups.map((g) => ({
+          label: g.label,
+          panel: (
+            <RowList>
+              {g.items.map((p, i) => (
+                <Row
+                  key={i}
+                  href={p.href}
+                  title={p.title}
+                  label={p.type ? `${p.type} · ${p.description}` : p.description}
+                  placeholder={p.placeholder}
+                />
+              ))}
+            </RowList>
+          ),
+        }))}
+      />
 
       <GearSwitcher groups={gear} title="My Gear" sectionId="stack" />
 
