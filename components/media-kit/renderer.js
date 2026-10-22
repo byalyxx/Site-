@@ -369,7 +369,7 @@ export function mountMediaKit(DATA, { signal }) {
     return n * ({ k: 1e3, m: 1e6 }[m[2].toLowerCase()] || 1);
   };
 
-  // ---------- Lists with proportional bars ----------
+  // ---------- Lists with proportional rules ----------
 
   // "Top …" lists (countries, videos, posts, deliverables) show three rows; every other list shows five.
   const MAX_ROWS = 5;
@@ -385,9 +385,9 @@ export function mountMediaKit(DATA, { signal }) {
         const pct = (row.value / top) * 100;
         const value = row.display || exact(row.value);
         return `<li class="row" data-value="${row.value}">
-          <div class="track"><span class="bar" style="width:${pct.toFixed(2)}%"></span>
-            <span class="label">${row.icon}<span>${esc(row.label)}</span></span></div>
-          <span class="value">${esc(value)}</span></li>`;
+          <span class="label">${row.icon}<span>${esc(row.label)}</span></span>
+          <span class="value">${esc(value)}</span>
+          <span class="rule" aria-hidden="true"><span class="fill" style="width:${pct.toFixed(2)}%"></span></span></li>`;
       })
       .join("");
     const control = snapshot

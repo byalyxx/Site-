@@ -464,37 +464,32 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
 }
+/* A row: icon and label left, value right, then a 1px rule. The rule is a full-width track with a red fill
+   whose width is the value against the list's largest. It sits 12px under the text's baseline and has a
+   visible track, so it can't be read as a link underline (4px under, text width only, no track). */
 .media-kit .row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 16px;
+  align-items: baseline;
+  column-gap: 16px;
+  padding-bottom: 16px;
+  line-height: 16px;
 }
-.media-kit .row .track {
-  position: relative;
-  height: 40px;
-  min-width: 0;
+.media-kit .row:last-child {
+  padding-bottom: 0;
 }
-/* Square ends: the bars are measurements */
-.media-kit .row .bar {
-  position: absolute;
-  inset: 0 auto 0 0;
-  border-radius: 0;
-  background: var(--site-chart-bar);
-  transition: width --theme(--duration-site) --theme(--ease-site);
-}
+/* Label and value share a baseline; the icon centres on the line instead of setting it */
 .media-kit .row .label {
-  position: relative;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 10px;
-  height: 100%;
-  padding: 0 10px;
+  min-width: 0;
   font-size: --theme(--text-copy);
   font-weight: 450;
-  min-width: 0;
+}
+.media-kit .row .label .ico {
+  align-self: center;
 }
 .media-kit .row .label span {
   overflow: hidden;
@@ -502,11 +497,24 @@
   white-space: nowrap;
 }
 .media-kit .row .value {
-  min-width: 48px;
   text-align: right;
+  font-family: --theme(--font-mono);
   font-size: --theme(--text-copy);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+  color: var(--site-fg);
+}
+.media-kit .row .rule {
+  grid-column: 1 / -1;
+  position: relative;
+  height: 1px;
+  margin-top: 2px; /* puts the rule 12px under the text baseline */
+  background: color-mix(in srgb, var(--site-fg) 8%, transparent);
+}
+.media-kit .row .fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--site-brand);
 }
 .media-kit .ico {
   display: grid;
