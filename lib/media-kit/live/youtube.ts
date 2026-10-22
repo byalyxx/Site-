@@ -110,11 +110,11 @@ export const youtube: Connector = {
       return (r.rows || []).map((row) => Object.fromEntries(cols.map((c, i) => [c, row[i]])) as Record<string, any>);
     };
 
-    // First run: a year of daily figures and four weeks of lists. Later runs redo the last week, because
-    // YouTube keeps finalising the most recent two or three days.
+    // First run: two years of daily figures (so a year can be compared with the one before) and four weeks of
+    // lists. Later runs redo the last week, because YouTube keeps finalising the most recent two or three days.
     const firstRun = days.length === 0;
     const end = addDays(today, -1);
-    const start = addDays(end, firstRun ? -364 : -6);
+    const start = addDays(end, firstRun ? -729 : -6);
     const listStart = addDays(end, firstRun ? -27 : -6);
     const out = new Map<string, DayRow>();
     const day = (date: string) => {

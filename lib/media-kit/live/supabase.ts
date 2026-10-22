@@ -45,6 +45,12 @@ export async function upsert(table: string, rows: object[]) {
   await check(res, `write to ${table}`);
 }
 
+// Deletes the rows matching a PostgREST filter, e.g. "platform=eq.youtube".
+export async function remove(table: string, filter: string) {
+  const res = await fetch(`${URL_}/rest/v1/${table}?${filter}`, { method: "DELETE", headers: headers({ Prefer: "return=minimal" }) });
+  await check(res, `delete from ${table}`);
+}
+
 // Stores a file in the public `media-kit` bucket and returns its public URL.
 export async function uploadPublic(path: string, body: ArrayBuffer, contentType: string): Promise<string> {
   const res = await fetch(`${URL_}/storage/v1/object/media-kit/${path}`, {

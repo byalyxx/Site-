@@ -78,14 +78,14 @@ export const instagram: Connector = {
     const recent: string[] = [];
     for (let d = addDays(end, firstRun ? -29 : -2); d <= end; d = addDays(d, 1)) recent.push(d);
 
-    // Older days, filled in a bit at a time: up to 60 more days before the earliest stored one on each refresh,
+    // Older days, filled in a bit at a time: up to 90 more days before the earliest stored one on each refresh,
     // back to two years ago (as far as Instagram keeps account insights). Stops at the first day Instagram
     // refuses, so a shorter history just ends there.
     const filled = days.filter((r) => typeof r.m?.views === "number" || typeof r.m?.reach === "number").map((r) => r.date);
     const older: string[] = [];
     if (filled.length) {
       const limit = addDays(today, -730);
-      for (let d = addDays(filled[0], -1); d >= limit && older.length < 60; d = addDays(d, -1)) older.push(d);
+      for (let d = addDays(filled[0], -1); d >= limit && older.length < 90; d = addDays(d, -1)) older.push(d);
     }
 
     for (const d of [...recent, ...older]) {

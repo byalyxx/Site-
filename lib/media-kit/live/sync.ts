@@ -1,6 +1,6 @@
 import type { PlatformId } from "@/content/media-kit";
 import { instagram } from "./instagram";
-import { selectAll, supabaseConfigured, upsert, uploadPublic } from "./supabase";
+import { remove, selectAll, supabaseConfigured, upsert, uploadPublic } from "./supabase";
 import { tiktok } from "./tiktok";
 import { isoDay, type Connector, type DayRow, type PostRow, type Token } from "./types";
 import { youtube } from "./youtube";
@@ -22,6 +22,13 @@ export type Account = {
 export const missingEnv = (c: Connector) => c.env.filter((k) => !process.env[k]);
 
 export async function saveAccount(platform: PlatformId, token: Token, handle?: string | null) {
+  // Connecting a different account than before (another channel on the same Google login, say) clears the
+  // old account's figures, so the two never mix and the next refresh fetches the new one's full history.
+  const [before] = await selectAll<{ handle: string | null }>("media_kit_accounts", `&platform=eq.${platform}`);
+  if (before?.handle && handle && before.handle !== handle) {
+    await remove("media_kit_days", `platform=eq.${platform}`);
+    await remove("media_kit_posts", `platform=eq.${platform}`);
+  }
   await upsert("media_kit_accounts", [{ platform, token, ...(handle ? { handle } : {}), updated_at: new Date().toISOString() }]);
 }
 
