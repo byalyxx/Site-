@@ -24,6 +24,7 @@ export type PostRow = {
   url: string | null;
   views: number;
   engagement_rate: number;
+  sponsor?: string | null; // brand the post was made for, if any (TikTok @mentions)
 };
 
 export type SyncInput = {

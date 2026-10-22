@@ -39,6 +39,21 @@ export const liveAdapter: MediaKitAdapter = {
         }));
     }
 
+    // Past deliverables: the file's, then every post the refresh found tagging a brand, best first.
+    const listed = new Set(data.deliverables.map((d) => d.url).filter(Boolean));
+    for (const x of posts) {
+      if (!x.sponsor || (x.url && listed.has(x.url))) continue;
+      data.deliverables.push({
+        brand: x.sponsor,
+        title: x.title.replace(/#\S+/g, "").trim() || x.title,
+        platform: x.platform,
+        ...(x.url ? { url: x.url } : {}),
+        ...(x.thumbnail ? { thumb: x.thumbnail, alt: `${x.sponsor}: ${x.title}` } : {}),
+        views: Number(x.views),
+      });
+    }
+    data.deliverables.sort((a, b) => (b.views ?? 0) - (a.views ?? 0));
+
     // "Updated" is the last successful refresh, so a brand can see how fresh the numbers are.
     const synced = accounts.map((a) => a.last_sync).filter((s): s is string => !!s).sort();
     if (synced.length) data.updated = synced[synced.length - 1].slice(0, 10);

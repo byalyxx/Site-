@@ -37,6 +37,15 @@ async function fresh(token: Token): Promise<Token> {
   return tokenRequest({ grant_type: "refresh_token", refresh_token: String(token.refresh_token) }, "TikTok token refresh");
 }
 
+// Brand names for the TikTok accounts tagged in sponsored captions. Any other tagged account shows as its handle.
+const BRANDS: Record<string, string> = {
+  gravastartiktok: "Gravastar",
+  gravastar: "Gravastar",
+  flexispot: "Flexispot",
+  blacklyte: "Blacklyte",
+  hexgaming: "Hex Gaming",
+};
+
 type Video = {
   id: string;
   title?: string;
@@ -118,7 +127,15 @@ export const tiktok: Connector = {
       if (Object.keys(top).length) row.l.topVideos = top;
     }
 
-    const posts: PostRow[] = videos.slice(0, 50).map((v) => {
+    // The latest 50 videos for the chart tooltip, plus every older one whose caption @mentions an account:
+    // those are brand deals, shown as past deliverables.
+    const sponsorOf = (v: Video) => {
+      const handles = [...(v.video_description || v.title || "").matchAll(/@([A-Za-z0-9._]+)/g)]
+        .map((m) => m[1].replace(/\.$/, ""))
+        .filter((h) => h.toLowerCase() !== String(user.username || "").toLowerCase());
+      return handles.length ? BRANDS[handles[0].toLowerCase()] || handles[0] : null;
+    };
+    const posts: PostRow[] = videos.filter((v, i) => i < 50 || sponsorOf(v)).map((v) => {
       const t = v.create_time * 1000;
       const views = Number(v.view_count) || 0;
       return {
@@ -128,9 +145,10 @@ export const tiktok: Connector = {
         time: hhmm(t),
         title: titleOf(v),
         thumbnail: v.cover_image_url || null,
-        url: v.share_url || null,
+        url: v.share_url ? v.share_url.split("?")[0] : null,
         views,
         engagement_rate: rate((Number(v.like_count) || 0) + (Number(v.comment_count) || 0) + (Number(v.share_count) || 0), views),
+        sponsor: sponsorOf(v),
       };
     });
 

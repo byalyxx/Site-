@@ -31,6 +31,8 @@ create table if not exists public.media_kit_posts (
   updated_at timestamptz not null default now(),
   primary key (platform, id)
 );
+-- The brand a post was made for (a TikTok caption that @mentions someone): shown as a past deliverable.
+alter table public.media_kit_posts add column if not exists sponsor text;
 
 -- Sign-in tokens from /media-kit/connect, and how the last refresh went.
 create table if not exists public.media_kit_accounts (
