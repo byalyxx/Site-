@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { gear, profile } from "@/content/site";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
-import { RowList, SectionBlock } from "@/components/home/section-block";
-import { StackRow } from "@/components/home/stack-row";
+import { GearSwitcher } from "@/components/home/gear-switcher";
 
 export const metadata: Metadata = {
   title: `My Gear | ${profile.name}`,
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 
 export default function StackPage() {
   const total = gear.reduce((n, g) => n + g.items.length, 0);
-  const categories = gear.map((g) => ({ label: g.label, count: g.items.length }));
 
   return (
     <SiteShell>
@@ -20,37 +18,13 @@ export default function StackPage() {
         <p className="text-body font-medium text-site-muted">
           All {total} things on my desk and inside my PC.
         </p>
-        {/* Jump links so a long list stays easy to get around */}
-        <nav aria-label="Stack categories" className="flex flex-wrap gap-2 pt-2">
-          {categories.map((c) => (
-            <a
-              key={c.label}
-              href={`#${slug(c.label)}`}
-              className="inline-flex h-control items-center gap-2 rounded-control border border-site-border bg-site-surface px-3 text-copy font-medium text-site-fg site-transition hover:border-site-muted"
-            >
-              {c.label} <span className="text-meta tabular-nums text-site-muted">{c.count}</span>
-            </a>
-          ))}
-        </nav>
       </header>
 
-      {gear.map((group) => (
-        <SectionBlock key={group.label} id={slug(group.label)} title={group.label}>
-          <RowList>
-            {group.items.map((item) => (
-              <StackRow key={item.name} item={item} />
-            ))}
-          </RowList>
-        </SectionBlock>
-      ))}
+      <GearSwitcher groups={gear} />
 
       <p className="text-small text-site-muted">
         Some links on this page are affiliate links. If you buy through them I may earn a commission at no extra cost to you.
       </p>
     </SiteShell>
   );
-}
-
-function slug(label: string) {
-  return label.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 }

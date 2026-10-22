@@ -49,6 +49,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - 160px above the hero from 810px up, 64px below that.
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
+- /stack shows one gear list at a time, switched by pill tabs (`GearSwitcher`, the media kit's platform tab classes).
 - Breakpoint `tab` = 810px. It only changes the space above the hero.
 - No nav. Home links out to everything; /stack, /media-kit and /partners have a Home button (`buttonClass`, left arrow) on the right of the heading (`PageTitle`).
 
