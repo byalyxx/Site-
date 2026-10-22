@@ -278,7 +278,7 @@ export function mountMediaKit(DATA, { signal }) {
       def.lists.map((pair) =>
         pair.map((l) => {
           const rows = sumList(days, l.key);
-          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
+          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, max: l.max, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
         })
       )
     );
@@ -367,13 +367,13 @@ export function mountMediaKit(DATA, { signal }) {
 
   // ---------- Lists with proportional bars ----------
 
-  const MAX_ROWS = 5; // every list shows its top five
+  const MAX_ROWS = 5; // a list shows its top five unless platforms.ts sets its own max
 
-  function listHtml({ title, unit, rows, snapshot }) {
+  function listHtml({ title, unit, rows, snapshot, max = MAX_ROWS }) {
     if (!rows || !rows.length) return "";
     const top = rows[0].value || 1;
     const items = rows
-      .slice(0, MAX_ROWS)
+      .slice(0, max)
       .map((row) => {
         const pct = (row.value / top) * 100;
         const value = row.display || exact(row.value);
