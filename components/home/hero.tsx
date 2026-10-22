@@ -1,4 +1,4 @@
-import { hero, profile } from "@/content/site";
+import { hero, profile, socials } from "@/content/site";
 import { CopyEmail } from "./hero-widgets";
 
 export const buttonClass =
@@ -17,6 +17,21 @@ export function Hero() {
           </span>
         ))}
       </h1>
+      <p className="-mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
+        {socials.map((s, i) => (
+          <span key={s.label} className="flex items-center gap-2">
+            {i > 0 && <span aria-hidden>·</span>}
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-site-border underline-offset-4 site-transition hover:text-site-fg hover:decoration-site-fg"
+            >
+              {s.label} {s.followers}
+            </a>
+          </span>
+        ))}
+      </p>
       <p className="text-body font-medium text-site-muted">{hero.intro}</p>
       <div className="flex flex-wrap gap-3 pt-2">
         <a href={hero.about.href} className={buttonClass}>
