@@ -12,9 +12,9 @@ export { buttonClass, itemClass, submitClass };
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 // The nav's group and items with the buttons' corners instead of the nav's pill shape, so the tabs sit with the
-// site's buttons and cards. Items are sized by their label instead of the 36px square.
-const groupClass = cn(navClass, "rounded-card p-1");
-const tabClass = cn(itemClass, "inline-flex h-control w-auto gap-2 whitespace-nowrap rounded-tile px-3 text-copy font-medium");
+// site's buttons and cards. Items are sized by their label, smaller than the nav's 36px square, so the date chip fits beside them.
+const groupClass = cn(navClass, "gap-0.5 rounded-card p-1");
+const tabClass = cn(itemClass, "inline-flex h-8 w-auto gap-1.5 whitespace-nowrap rounded-tile px-2.5 text-small font-medium");
 
 // The SiteNav group holding text items, as a tablist. Props follow the shadcn Tabs used on the site.
 export function PillTabs({ id, label, value, items, controls }) {
@@ -44,11 +44,3 @@ export function bindTabs(el, onChange) {
   });
 }
 export const bindPillTabs = bindTabs;
-
-// A native <select> wearing buttonClass, with lucide's ChevronDown (size-4).
-export function Select({ id, label, value, options }) {
-  return `<label class="relative inline-flex"><span class="sr-only">${esc(label)}</span>
-    <select class="${cn(buttonClass, "cursor-pointer appearance-none pr-9")}" id="${esc(id)}" data-select="${esc(id)}">${options
-      .map((o) => `<option class="bg-site-surface text-site-fg" value="${esc(o.value)}"${o.value === value ? " selected" : ""}>${esc(o.label)}</option>`)
-      .join("")}</select><svg class="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 fill-none stroke-site-muted stroke-2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></label>`;
-}

@@ -26,7 +26,7 @@ export type PlatformSpec = {
     | { label: string; sum: string; format: string }
     | { label: string; num: string[]; den: string; scale: number; format: string };
   kpis: { label: string; value: Value; format: string }[];
-  lists: { key: string; title: string; icon: string; unit: string; share?: boolean }[][];
+  lists: { key: string; title: string; icon: string; unit: string }[][];
 };
 
 const sum =
@@ -87,7 +87,7 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
       ],
       [
         { key: "territories", title: "Audience territories", icon: "country", unit: "Viewers" },
-        { key: "ageGender", title: "Age and gender", icon: "person", unit: "Viewers", share: true },
+        { key: "ageGender", title: "Age and gender", icon: "person", unit: "Viewers" },
       ],
     ],
   },
@@ -111,7 +111,7 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
         { key: "contentReach", title: "Reach by content type", icon: "layers", unit: "Reach" },
       ],
       [
-        { key: "locations", title: "Top locations", icon: "country", unit: "Followers", share: true },
+        { key: "locations", title: "Top locations", icon: "country", unit: "Followers" },
         { key: "followerGrowth", title: "Follower growth", icon: "person", unit: "Accounts" },
       ],
     ],
@@ -147,7 +147,7 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
       ],
       [
         { key: "countries", title: "Top countries", icon: "country", unit: "Views" },
-        { key: "devices", title: "Device type", icon: "device", unit: "Views", share: true },
+        { key: "devices", title: "Device type", icon: "device", unit: "Views" },
       ],
     ],
   },

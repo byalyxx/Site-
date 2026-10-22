@@ -46,7 +46,6 @@ export function mountMediaKit(DATA, { signal }) {
   const state = {
     platform: TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "all",
     range: { ...PRESETS[3].range(), preset: "30d" },
-    show: {}, // per list: "count" or "share"
   };
   const NAMES = { all: "All", tiktok: "TikTok", instagram: "Instagram", youtube: "YouTube" };
 
@@ -216,13 +215,6 @@ export function mountMediaKit(DATA, { signal }) {
   // ---------- Analytics container ----------
 
   const root = document.getElementById("analytics");
-  root.addEventListener("change", (e) => {
-    const s = e.target.closest("select[data-select]");
-    if (!s) return;
-    state.show[s.dataset.select] = s.value;
-    renderAnalytics();
-    document.querySelector(`select[data-select="${CSS.escape(s.dataset.select)}"]`).focus();
-  });
 
   function kpiHtml(label, text, extra) {
     return `<div class="kpi"><dt>${esc(label)}</dt><dd>${esc(text)}${extra || ""}</dd></div>`;
@@ -286,7 +278,7 @@ export function mountMediaKit(DATA, { signal }) {
       def.lists.map((pair) =>
         pair.map((l) => {
           const rows = sumList(days, l.key);
-          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, share: l.share, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
+          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
         })
       )
     );
@@ -377,16 +369,14 @@ export function mountMediaKit(DATA, { signal }) {
 
   const MAX_ROWS = 7;
 
-  function listHtml({ id, title, unit, share, rows, snapshot }) {
+  function listHtml({ title, unit, rows, snapshot }) {
     if (!rows || !rows.length) return "";
-    const mode = state.show[`list:${id}`] || (share ? "share" : "count"); // keyed like the Select below
-    const total = rows.reduce((a, x) => a + x.value, 0);
     const top = rows[0].value || 1;
     const items = rows
       .slice(0, MAX_ROWS)
       .map((row, i) => {
         const pct = (row.value / top) * 100;
-        const value = mode === "share" && !snapshot ? `${((row.value / total) * 100).toFixed(1)}%` : row.display || exact(row.value);
+        const value = row.display || exact(row.value);
         const fade = i === MAX_ROWS - 1 && rows.length >= MAX_ROWS;
         return `<li class="row${fade ? " fade" : ""}" data-value="${row.value}">
           <div class="track"><span class="bar" style="width:${pct.toFixed(2)}%"></span>
@@ -394,18 +384,9 @@ export function mountMediaKit(DATA, { signal }) {
           <span class="value">${esc(value)}</span></li>`;
       })
       .join("");
-    // A list of "7k+" style figures has no exact total to share out, so it gets no dropdown.
     const control = snapshot
       ? `<span class="list-note">As of ${esc(fmtDay(parse(DATA.updated), true))}</span>`
-      : UI.Select({
-          id: `list:${id}`,
-          label: `Show ${title.toLowerCase()} as`,
-          value: mode,
-          options: [
-            { value: "count", label: unit },
-            { value: "share", label: "Share" },
-          ],
-        });
+      : `<span class="list-note">${esc(unit)}</span>`;
     return `<div class="list"><div class="list-head"><h3>${esc(title)}</h3>${control}</div><ul class="rows">${items}</ul></div>`;
   }
 
@@ -1086,7 +1067,7 @@ export function mountMediaKit(DATA, { signal }) {
   // Size cards so a fraction of one is always cut off at the right edge.
   function sizeCards() {
     const w = scroller.clientWidth;
-    const visible = w < 520 ? 1.6 : w < 820 ? 2.6 : 4.4;
+    const visible = w < 520 ? 3.4 : w < 820 ? 4.4 : 6.4;
     const gap = 12;
     scroller.style.setProperty("--card-w", `${(w - Math.floor(visible) * gap) / visible}px`);
   }
