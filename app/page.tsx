@@ -28,18 +28,6 @@ export default function Home() {
         )}
       </section>
 
-      <SectionBlock
-        id="stack"
-        title="My Gear"
-        viewAll={{ href: "/stack" }}
-      >
-        <RowList>
-          {featuredStack.map((item) => (
-            <StackRow key={item.name} item={item} />
-          ))}
-        </RowList>
-      </SectionBlock>
-
       <SectionBlock id="products" title="Products">
         <RowList>
           {products.map((p, i) => (
@@ -51,6 +39,18 @@ export default function Home() {
               placeholder={p.placeholder}
               leading={<Tile>{p.placeholder ? <ImageIcon className="size-5" aria-hidden /> : <Globe className="size-5" aria-hidden />}</Tile>}
             />
+          ))}
+        </RowList>
+      </SectionBlock>
+
+      <SectionBlock
+        id="stack"
+        title="My Gear"
+        viewAll={{ href: "/stack" }}
+      >
+        <RowList>
+          {featuredStack.map((item) => (
+            <StackRow key={item.name} item={item} />
           ))}
         </RowList>
       </SectionBlock>
