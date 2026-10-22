@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
-import { hero, mediaKit, partners, profile } from "@/content/site";
+import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { SiteShell } from "@/components/home/site-shell";
 import { buttonClass } from "@/components/home/hero";
-import { CopyEmail, LocalTime } from "@/components/home/hero-widgets";
+import { CopyEmail } from "@/components/home/hero-widgets";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
 import { ContactForm } from "@/components/home/forms";
@@ -37,11 +37,6 @@ export default async function MediaKitPage() {
       <header className="flex flex-col gap-4">
         <h1 className="text-display text-site-fg">
           <span className="block">Media kit.</span>
-          <span className="text-site-muted">Tech &amp; setup creator from </span>
-          <span className="inline-flex items-start gap-0.5 rounded-control border border-site-border bg-site-surface py-0.5 pl-1.5 pr-2 align-middle">
-            {hero.place}
-            <LocalTime timeZone={hero.timeZone} />
-          </span>
         </h1>
         <p className="text-body font-medium text-site-muted">
           {mediaKit.totalFollowers} followers across TikTok, Instagram and YouTube. {profile.tagline}, making desk and PC setup content as @
