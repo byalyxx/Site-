@@ -116,7 +116,7 @@ export const nav = [
 
 export const hero = {
   // Display headline, one string per line. The place chip (with a live UK clock) follows the last line.
-  headline: ["Hi. I\u2019m Samuel.", "Tech & setup creator from"],
+  headline: ["Hi. I\u2019m @byalyxx.", "Tech & setup creator from"],
   place: "UK",
   timeZone: "Europe/London",
   intro: "I make tech and desk setup videos as @byalyxx, and share the exact gear I use below.",
