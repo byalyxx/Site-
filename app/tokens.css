@@ -20,6 +20,7 @@
   /* Data: one hue for the series that matters, the muted grey for comparisons */
   --site-data: #7c3aed;
   --site-positive: #15803d; /* growth figures */
+  --site-brand: #aa0412; /* the @byalyxx handle in the home hero */
 
   /* Fixed in both themes: brand marks on the media kit's platform icons, and text over thumbnails */
   --site-brand-youtube: #ff0000;
@@ -41,6 +42,7 @@ html:has(.site-force-dark) {
   --site-thumb: #222222;
   --site-data: #a78bfa;
   --site-positive: #4ade80;
+  --site-brand: #aa0412;
 
   /* Media kit analytics (/media-kit, dark only). Values carried over from the standalone kit. */
   --site-chart-line: #a0a0a0; /* the monochrome line, its comparison and markers */
@@ -79,6 +81,7 @@ body:has(.site) {
   --color-site-thumb: var(--site-thumb);
   --color-site-data: var(--site-data);
   --color-site-positive: var(--site-positive);
+  --color-site-brand: var(--site-brand);
   --color-site-chart-muted: var(--site-chart-muted);
   /* Text and scrim over photos and thumbnails: fixed in both themes */
   --color-site-on-media: #ffffff;

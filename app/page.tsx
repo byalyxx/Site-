@@ -1,5 +1,5 @@
 import { Eye, Globe, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
-import { contact, products, stack, stackFeatured, videos } from "@/content/site";
+import { contact, gear, products, stackFeatured, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
@@ -9,7 +9,7 @@ import { linkClass } from "@/components/home/site-footer";
 
 export default function Home() {
   const [latest] = videos;
-  const featuredStack = stackFeatured.map((type) => stack.find((item) => item.type === type)).filter((item) => item !== undefined);
+  const featuredStack = (gear.find((g) => g.label === stackFeatured.group)?.items ?? []).slice(0, stackFeatured.count);
 
   return (
     <SiteShell>

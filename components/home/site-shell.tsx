@@ -17,11 +17,15 @@ export function SiteShell({ children, forceDark }: { children: React.ReactNode; 
   );
 }
 
-// "← Home" at the top of a sub-page. A real link, so it works for someone who arrived from a shared link.
-export function BackLink() {
+// A sub-page's heading with "← Home" on the right, level with it. A real link, so it works for someone who
+// arrived from a shared link or a search result.
+export function PageTitle({ children }: { children: React.ReactNode }) {
   return (
-    <a href="/" className={cn("mb-6 w-fit text-meta font-medium text-site-muted", linkClass)}>
-      ← Home
-    </a>
+    <div className="flex items-baseline justify-between gap-4">
+      <h1 className="text-display text-site-fg">{children}</h1>
+      <a href="/" className={cn("shrink-0 text-meta font-medium text-site-muted", linkClass)}>
+        ← Home
+      </a>
+    </div>
   );
 }

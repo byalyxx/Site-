@@ -20,8 +20,9 @@ Follows the visitor's system setting, and the theme button in the footer switche
 | `site-on-media`, `site-scrim` | #fff, #000 | same | Caption over the video thumbnail |
 | `site-data` | #7c3aed | #a78bfa | The series that matters in a chart (this period) |
 | `site-positive` | #15803d | #4ade80 | Growth figures (+10%) |
+| `site-brand` | #aa0412 | #aa0412 | The @byalyxx handle in the home hero |
 
-Violet is the only colour outside the greys, and it only appears inside charts. Comparison lines use `site-muted`, dotted.
+Outside the greys, red appears once (the handle) and violet only inside charts. The red is 2.4:1 on the dark page, under the 3:1 large-text minimum; it was asked for as is. Comparison lines use `site-muted`, dotted.
 
 The reference's light-mode grey is lighter than ours. It fails WCAG AA on white, so `site-muted` is darkened to #6b6b6b (5.3:1). Every text pair passes AA: lowest is light muted on surface at 5.1:1.
 
@@ -49,7 +50,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
 - Breakpoint `tab` = 810px. It only changes the space above the hero.
-- No nav. Home links out to everything; /stack, /media-kit and /partners open with a `← Home` link (`BackLink`) above the heading.
+- No nav. Home links out to everything; /stack, /media-kit and /partners have a `← Home` link on the right of the heading (`PageTitle`).
 
 ## Rows and cards
 

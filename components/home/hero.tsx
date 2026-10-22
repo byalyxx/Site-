@@ -30,29 +30,36 @@ export function HeroHeading() {
   return (
     <>
       <h1 className="text-display text-site-fg">
-        <span className="block">{first}</span>
+        <span className="block text-site-brand">{first}</span>
         {rest.map((line) => (
           <span key={line} className="block text-site-muted">
             {line}
           </span>
         ))}
       </h1>
-      <p className="-mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
-        {socials.map((s, i) => (
-          <span key={s.label} className="flex items-center gap-2">
-            {i > 0 && <span aria-hidden>·</span>}
-            <a
-              href={s.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-site-border underline-offset-4 site-transition hover:text-site-fg hover:decoration-site-fg"
-            >
-              {s.label} {s.followers}
-            </a>
-          </span>
-        ))}
-      </p>
+      <FollowerLine />
       <p className="text-body font-medium text-site-muted">{hero.intro}</p>
     </>
+  );
+}
+
+// TikTok · Instagram · YouTube follower counts, each linking to the profile. Home hero and media kit header.
+export function FollowerLine() {
+  return (
+    <p className="-mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
+      {socials.map((s, i) => (
+        <span key={s.label} className="flex items-center gap-2">
+          {i > 0 && <span aria-hidden>·</span>}
+          <a
+            href={s.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-site-border underline-offset-4 site-transition hover:text-site-fg hover:decoration-site-fg"
+          >
+            {s.label} {s.followers}
+          </a>
+        </span>
+      ))}
+    </p>
   );
 }
