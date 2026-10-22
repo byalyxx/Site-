@@ -707,7 +707,7 @@ export function mountMediaKit(DATA, { signal }) {
         <path d="${c.area}" fill="url(#fill)"/>
         ${p ? `<path class="s-previous" vector-effect="non-scaling-stroke" d="${p.main}"/><path class="s-previous s-partial" vector-effect="non-scaling-stroke" d="${p.part}"/>` : ""}
         <path class="s-current" vector-effect="non-scaling-stroke" d="${c.main}"/><path class="s-current s-partial" vector-effect="non-scaling-stroke" d="${c.part}"/>`;
-      legend = `<span><i class="line"></i>${esc(m.label)}</span>${m.prev ? `<span><i class="line dotted"></i>${esc(m.prevLabel)}</span>` : ""}${
+      legend = `<span><i class="line current"></i>${esc(m.label)}</span>${m.prev ? `<span><i class="line dotted"></i>${esc(m.prevLabel)}</span>` : ""}${
         m.buckets.some((b) => !b.full) ? `<span><i class="line partial"></i>Partial ${esc(m.unit)}</span>` : ""
       }`;
     } else {
@@ -810,8 +810,8 @@ export function mountMediaKit(DATA, { signal }) {
 
   // Points to mark at index i, as { v, color, ring }
   function marksFor(m, i) {
-    if (m.kind === "single") return [{ v: m.cur[i], color: "var(--site-chart-line)" }, ...(m.prev ? [{ v: m.prev[i], color: "var(--site-chart-line)", ring: true }] : [])];
-    if (m.kind === "total") return [{ v: m.cur[i], color: "var(--site-chart-line)" }];
+    if (m.kind === "single") return [{ v: m.cur[i], color: "var(--site-brand)" }, ...(m.prev ? [{ v: m.prev[i], color: "var(--site-chart-line)", ring: true }] : [])];
+    if (m.kind === "total") return [{ v: m.cur[i], color: "var(--site-brand)" }];
     return m.lines.map((l) => ({ v: l.values[i], color: COLORS[l.p] }));
   }
 

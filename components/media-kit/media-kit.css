@@ -171,9 +171,10 @@
   gap: 12px;
   min-height: 18px;
 }
+/* The current period is the accent red; the comparison stays grey */
 .media-kit .plot .s-current {
   fill: none;
-  stroke: var(--site-chart-line);
+  stroke: var(--site-brand);
   stroke-width: 1.5;
   stroke-linejoin: round;
 }
@@ -414,6 +415,9 @@
 .media-kit .chart-legend .line {
   width: 16px;
   border-top: 2px solid var(--c, var(--site-chart-line));
+}
+.media-kit .chart-legend .line.current {
+  border-top-color: var(--site-brand);
 }
 .media-kit .chart-legend .line.partial {
   border-top: 2px dotted var(--site-chart-line);
