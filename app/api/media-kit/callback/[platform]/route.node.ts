@@ -33,5 +33,6 @@ export async function GET(req: Request, { params }: { params: Promise<{ platform
   }
   const [result] = await syncAll(connector.id);
   revalidatePath("/media-kit");
+  revalidatePath("/partners");
   return back(result?.ok ? `Connected. First refresh: ${result.message}.` : `Connected, but the first refresh failed: ${result?.message}`);
 }

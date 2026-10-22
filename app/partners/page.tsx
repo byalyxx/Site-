@@ -1,4 +1,5 @@
-import { partners, profile } from "@/content/site";
+import { profile } from "@/content/site";
+import { loadPartners } from "@/lib/partners";
 import { pageMetadata } from "@/lib/metadata";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
 import { RowList, SectionBlock } from "@/components/home/section-block";
@@ -12,7 +13,11 @@ export const metadata = pageMetadata({
   noindex: true,
 });
 
-export default function PartnersPage() {
+// Rebuilt at most once an hour, and after each refresh, so brands found in new sponsored posts appear.
+export const revalidate = 3600;
+
+export default async function PartnersPage() {
+  const partners = await loadPartners();
   return (
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">

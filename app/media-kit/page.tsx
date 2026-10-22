@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
-import { mediaKit, partners, profile } from "@/content/site";
+import { mediaKit, profile } from "@/content/site";
+import { loadPartners } from "@/lib/partners";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { pageMetadata } from "@/lib/metadata";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
@@ -26,7 +27,7 @@ export const revalidate = 3600;
 
 export default async function MediaKitPage() {
   // Numbers from the active adapter (content/media-kit.ts), validated before anything renders.
-  const data = await loadMediaKit();
+  const [data, partners] = await Promise.all([loadMediaKit(), loadPartners()]);
 
   return (
     <SiteShell>
