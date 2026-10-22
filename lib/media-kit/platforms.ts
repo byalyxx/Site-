@@ -126,16 +126,6 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
     kpis: [
       { label: "Subscribers", value: latest("subscribers"), format: "compact" },
       { label: "Views", value: sum("views"), format: "compact" },
-      {
-        label: "Watch time",
-        value: (days) => {
-          const m = sum("watchMinutes")(days);
-          return m == null ? null : m / 60;
-        },
-        format: "hours",
-      },
-      // watch time / views, in seconds
-      { label: "Avg view duration", value: ratio(["watchMinutes"], "views", 60), format: "duration" },
       { label: "Impressions", value: sum("impressions"), format: "compact" },
       // views from impressions / impressions
       { label: "Click-through rate", value: ratio(["impressionClicks"], "impressions", 100), format: "percent" },
