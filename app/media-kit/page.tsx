@@ -3,7 +3,7 @@ import { BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
 import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { SiteShell } from "@/components/home/site-shell";
-import { buttonClass } from "@/components/home/hero";
+import { buttonClass, HeroHeading } from "@/components/home/hero";
 import { CopyEmail } from "@/components/home/hero-widgets";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
@@ -35,7 +35,7 @@ export default async function MediaKitPage() {
   return (
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">
-        <h1 className="text-display text-site-fg">My Media Kit</h1>
+        <HeroHeading />
         <div className="flex flex-wrap gap-3 pt-2">
           <div className="flex">
             <a href={`mailto:${profile.email}`} className={`${buttonClass} rounded-r-none`}>
