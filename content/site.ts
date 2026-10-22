@@ -110,7 +110,7 @@ export const mediaKit = {
 
 export const hero = {
   // Display headline, one string per line.
-  headline: ["@byalyxx", "Tech enthusiast & Creator"],
+  headline: ["@byalyxx"],
   intro: "I post desk and PC setup content across TikTok, Instagram and YouTube — builds, upgrades and reviews.",
   about: { label: "Media kit", href: "/media-kit" },
 };
