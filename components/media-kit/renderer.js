@@ -329,7 +329,7 @@ export function mountMediaKit(DATA, { signal }) {
       return n ? { label, value: n, display: snap, icon: platformIcon(p) } : null;
     });
     const followersList = audRows.every(Boolean)
-      ? listHtml({ id: "all.audience", title: "Followers by platform", unit: "Followers", rows: audRows.sort((a, b) => b.value - a.value), snapshot: audRows.some((x) => x.display) })
+      ? listHtml({ id: "all.audience", title: "Followers by platform", unit: "Followers", rows: audRows.sort((a, b) => b.value - a.value), snapshot: audRows.some((x) => x.display), total: audRows.reduce((a, x) => a + x.value, 0) })
       : "";
     const viewsList = views
       ? listHtml({
@@ -337,11 +337,20 @@ export function mountMediaKit(DATA, { signal }) {
           title: "Views by platform",
           unit: "Views",
           rows: ORDER.map((p) => ({ label: `${NAMES[p]} ${PLATFORMS[p].combined.viewsLabel}`, value: views.per[p], icon: platformIcon(p) })).sort((a, b) => b.value - a.value),
+          total: views.total,
         })
       : "";
     const countries = sumList(days, "countries");
     const countriesList = countries
-      ? listHtml({ id: "all.countries", title: "Top countries", unit: "Views", rows: countries.map(([label, value]) => ({ label, value, icon: icon("country", label) })) })
+      ? listHtml({
+          id: "all.countries",
+          title: "Top countries",
+          unit: "Views",
+          rows: countries.map(([label, value]) => ({ label, value, icon: icon("country", label) })),
+          // Country views are all three platforms' views split by country, so the range's total views is the
+          // total across every country, including the ones not shown.
+          total: views ? views.total : null,
+        })
       : "";
     const delivs = (DATA.deliverables || []).filter((d) => isNum(d.views)).sort((a, b) => b.views - a.views);
     const delivList = delivs.length
@@ -350,6 +359,8 @@ export function mountMediaKit(DATA, { signal }) {
           title: "Top deliverables",
           unit: "All-time views",
           rows: delivs.map((d) => ({ label: d.title ? `${d.brand} · ${d.title}` : d.brand, value: d.views, icon: d.platform ? platformIcon(d.platform) : icon("video") })),
+          // Every deliverable with views, not just the three shown
+          total: delivs.reduce((a, d) => a + d.views, 0),
         })
       : "";
 
@@ -375,19 +386,25 @@ export function mountMediaKit(DATA, { signal }) {
   const MAX_ROWS = 5;
   const MAX_TOP_ROWS = 3;
 
-  function listHtml({ title, unit, rows, snapshot }) {
+  // With `total` (the whole dataset's total, hidden rows included), each fill is the row's share of it, never
+  // narrower than 8px or 2% so a real value always shows, and the share is printed after the value.
+  // Without it, the largest row fills the width and the others are measured against it.
+  function listHtml({ title, unit, rows, snapshot, total }) {
     const max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS;
     if (!rows || !rows.length) return "";
+    const share = isNum(total) && total > 0;
     const top = rows[0].value || 1;
     const items = rows
       .slice(0, max)
       .map((row) => {
-        const pct = (row.value / top) * 100;
         const value = row.display || exact(row.value);
-        return `<li class="row" data-value="${row.value}">
+        const pct = ((row.value / (share ? total : top)) * 100).toFixed(2);
+        const width = share ? `max(8px, 2%, ${pct}%)` : `${pct}%`;
+        const shown = Math.round((row.value / total) * 100);
+        return `<li class="row${share ? " has-share" : ""}" data-value="${row.value}">
           <span class="label">${row.icon}<span>${esc(row.label)}</span></span>
-          <span class="value">${esc(value)}</span>
-          <span class="rule" aria-hidden="true"><span class="fill" style="width:${pct.toFixed(2)}%"></span></span></li>`;
+          <span class="value">${esc(value)}</span>${share ? `<span class="share">${shown === 0 && row.value > 0 ? "<1" : shown}%</span>` : ""}
+          <span class="rule" aria-hidden="true"><span class="fill" style="width:${width}"></span></span></li>`;
       })
       .join("");
     const control = snapshot

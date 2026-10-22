@@ -108,6 +108,8 @@ export const mediaKitData: MediaKitData = {
   //     views: { tiktok: 9120, instagram: 3400, youtube: 700 },        optional, overrides the worked-out totals
   //     hours: { tiktok: [24 numbers], instagram: [...], youtube: [...] }, views per hour, for single-day ranges
   //     l: { countries: { "United Kingdom": 4300, ... } } }              views by country, all three platforms together
+  // Top countries shows each country's share of the range's total views (the three platforms' views added up),
+  // so the countries listed here don't need to cover every country: the total already does.
   all: { days: [] },
 
   // Brand work, best first: the first three are what a brand sees without scrolling.

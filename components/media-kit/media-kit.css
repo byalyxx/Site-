@@ -504,6 +504,17 @@
   font-variant-numeric: tabular-nums;
   color: var(--site-fg);
 }
+/* Share-of-total lists add a percentage column; a fixed width keeps the values above it in a column too */
+.media-kit .row.has-share {
+  grid-template-columns: minmax(0, 1fr) auto 4ch;
+}
+.media-kit .row .share {
+  text-align: right;
+  font-family: --theme(--font-mono);
+  font-size: --theme(--text-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--site-muted);
+}
 .media-kit .row .rule {
   grid-column: 1 / -1;
   position: relative;
