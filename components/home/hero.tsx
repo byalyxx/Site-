@@ -46,7 +46,7 @@ export function HeroHeading() {
 // TikTok · Instagram · YouTube follower counts, each linking to the profile. Home hero and media kit header.
 export function FollowerLine() {
   return (
-    <p className="-mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
+    <p className="-mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
       {socials.map((s, i) => (
         <span key={s.label} className="flex items-center gap-2">
           {i > 0 && <span aria-hidden>·</span>}
