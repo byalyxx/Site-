@@ -4,12 +4,11 @@ import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
-import { StackRow } from "@/components/home/stack-row";
+import { GearSwitcher } from "@/components/home/gear-switcher";
 import { linkClass } from "@/components/home/controls";
 
 export default function Home() {
   const [latest] = videos;
-  const featuredStack = (gear.find((g) => g.label === stackFeatured.group)?.items ?? []).slice(0, stackFeatured.count);
 
   return (
     <SiteShell>
@@ -58,11 +57,7 @@ export default function Home() {
       </SectionBlock>
 
       <SectionBlock id="stack" title="My Gear" viewAll={{ href: "/stack" }}>
-        <RowList>
-          {featuredStack.map((item) => (
-            <StackRow key={item.name} item={item} />
-          ))}
-        </RowList>
+        <GearSwitcher groups={gear} limit={stackFeatured.count} />
       </SectionBlock>
 
       <p id="contact" className="text-copy text-site-muted">

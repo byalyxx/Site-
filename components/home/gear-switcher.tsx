@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import type { GearGroup } from "@/content/site";
 import { bracketClass, tabsClass } from "./controls";
 import { RowList } from "./section-block";
@@ -8,9 +8,11 @@ import { StackRow } from "./stack-row";
 
 // One list at a time on /stack, with a bracketed tab per group (same tabs as the media kit's platform switcher). Every panel is in the HTML and the others are `hidden`,
 // so the page still works as plain HTML (the preview build switches them with a small script of its own).
-export function GearSwitcher({ groups }: { groups: GearGroup[] }) {
+// `limit` shows only the first few items of each list (home); the tab counts stay the full totals.
+export function GearSwitcher({ groups, limit }: { groups: GearGroup[]; limit?: number }) {
   const [active, setActive] = useState(0);
-  const id = (i: number, part: string) => `gear-${part}-${i}`;
+  const uid = useId();
+  const id = (i: number, part: string) => `${uid}gear-${part}-${i}`;
 
   function onKeyDown(e: React.KeyboardEvent) {
     if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
@@ -45,7 +47,7 @@ export function GearSwitcher({ groups }: { groups: GearGroup[] }) {
       {groups.map((g, i) => (
         <div key={g.label} role="tabpanel" id={id(i, "panel")} aria-labelledby={id(i, "tab")} data-gear-panel={i} hidden={i !== active}>
           <RowList>
-            {g.items.map((item) => (
+            {g.items.slice(0, limit).map((item) => (
               <StackRow key={item.name} item={item} />
             ))}
           </RowList>
