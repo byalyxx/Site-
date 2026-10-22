@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { gear, partners, profile } from "@/content/site";
+import { gear, profile } from "@/content/site";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
 import { RowList, SectionBlock } from "@/components/home/section-block";
-import { PartnerStackRow, StackRow } from "@/components/home/stack-row";
+import { StackRow } from "@/components/home/stack-row";
 
 export const metadata: Metadata = {
-  title: `Stack | ${profile.name}`,
+  title: `My Gear | ${profile.name}`,
   description: "Every product on my desk and in my PC, with links to buy them.",
 };
 
 export default function StackPage() {
   const total = gear.reduce((n, g) => n + g.items.length, 0);
-  const categories = [...gear.map((g) => ({ label: g.label, count: g.items.length })), { label: "Partners", count: partners.length }];
+  const categories = gear.map((g) => ({ label: g.label, count: g.items.length }));
 
   return (
     <SiteShell>
       <header className="flex flex-col gap-4">
-        <PageTitle>Desk &amp; PC Stack</PageTitle>
+        <PageTitle>My Gear</PageTitle>
         <p className="text-body font-medium text-site-muted">
-          All {total} things on my desk and inside my PC, plus the brands I work with.
+          All {total} things on my desk and inside my PC.
         </p>
         {/* Jump links so a long list stays easy to get around */}
         <nav aria-label="Stack categories" className="flex flex-wrap gap-2 pt-2">
@@ -43,14 +43,6 @@ export default function StackPage() {
           </RowList>
         </SectionBlock>
       ))}
-
-      <SectionBlock id="partners" title="Partners">
-        <RowList>
-          {partners.map((p, i) => (
-            <PartnerStackRow key={`${p.name}-${i}`} partner={p} />
-          ))}
-        </RowList>
-      </SectionBlock>
 
       <p className="text-small text-site-muted">
         Some links on this page are affiliate links. If you buy through them I may earn a commission at no extra cost to you.
