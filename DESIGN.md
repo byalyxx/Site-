@@ -50,7 +50,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
 - Breakpoint `tab` = 810px. It only changes the space above the hero.
-- No nav. Home links out to everything; /stack, /media-kit and /partners have a `← Home` link on the right of the heading (`PageTitle`).
+- No nav. Home links out to everything; /stack, /media-kit and /partners have a Home button (`buttonClass`, left arrow) on the right of the heading (`PageTitle`).
 
 ## Rows and cards
 

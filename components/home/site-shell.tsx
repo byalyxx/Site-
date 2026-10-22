@@ -1,4 +1,6 @@
-import { linkClass, SiteFooter } from "./site-footer";
+import { ArrowLeft } from "lucide-react";
+import { buttonClass } from "./hero";
+import { SiteFooter } from "./site-footer";
 import { cn } from "./cn";
 
 // Page frame shared by every page: one centred 448px column and the footer. No nav: home links out to
@@ -17,14 +19,15 @@ export function SiteShell({ children, forceDark }: { children: React.ReactNode; 
   );
 }
 
-// A sub-page's heading with "← Home" on the right, level with it. A real link, so it works for someone who
+// A sub-page's heading with a Home button on the right, level with it. A real link, so it works for someone who
 // arrived from a shared link or a search result.
 export function PageTitle({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex items-baseline justify-between gap-4">
+    <div className="flex items-center justify-between gap-4">
       <h1 className="text-display text-site-fg">{children}</h1>
-      <a href="/" className={cn("shrink-0 text-meta font-medium text-site-muted", linkClass)}>
-        ← Home
+      <a href="/" className={cn(buttonClass, "shrink-0 gap-1.5 pl-3 text-body")}>
+        <ArrowLeft className="size-4" aria-hidden />
+        Home
       </a>
     </div>
   );
