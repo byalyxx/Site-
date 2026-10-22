@@ -35,9 +35,7 @@ export default async function MediaKitPage() {
   return (
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">
-        <h1 className="text-display text-site-fg">
-          <span className="block">@byalyxx - Media Kit</span>
-        </h1>
+        <h1 className="text-display text-site-fg">My Media Kit</h1>
         <div className="flex flex-wrap gap-3 pt-2">
           <div className="flex">
             <a href={`mailto:${profile.email}`} className={`${buttonClass} rounded-r-none`}>
@@ -45,8 +43,8 @@ export default async function MediaKitPage() {
             </a>
             <CopyEmail email={profile.email} className={`${buttonClass} -ml-px rounded-l-none px-3`} />
           </div>
-          <a href="/stack" className={buttonClass}>
-            My setup
+          <a href="/partners" className={buttonClass}>
+            Previous partners
           </a>
         </div>
       </header>
