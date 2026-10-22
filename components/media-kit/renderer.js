@@ -278,7 +278,7 @@ export function mountMediaKit(DATA, { signal }) {
       def.lists.map((pair) =>
         pair.map((l) => {
           const rows = sumList(days, l.key);
-          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, max: l.max, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
+          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
         })
       )
     );
@@ -367,9 +367,12 @@ export function mountMediaKit(DATA, { signal }) {
 
   // ---------- Lists with proportional bars ----------
 
-  const MAX_ROWS = 5; // a list shows its top five unless platforms.ts sets its own max
+  // "Top …" lists (countries, videos, posts, deliverables) show three rows; every other list shows five.
+  const MAX_ROWS = 5;
+  const MAX_TOP_ROWS = 3;
 
-  function listHtml({ title, unit, rows, snapshot, max = MAX_ROWS }) {
+  function listHtml({ title, unit, rows, snapshot }) {
+    const max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS;
     if (!rows || !rows.length) return "";
     const top = rows[0].value || 1;
     const items = rows

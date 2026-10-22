@@ -26,7 +26,7 @@ export type PlatformSpec = {
     | { label: string; sum: string; format: string }
     | { label: string; num: string[]; den: string; scale: number; format: string };
   kpis: { label: string; value: Value; format: string }[];
-  lists: { key: string; title: string; icon: string; unit: string; max?: number }[][]; // max: rows shown, 5 if unset
+  lists: { key: string; title: string; icon: string; unit: string }[][];
 };
 
 const sum =
@@ -132,7 +132,7 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
     ],
     lists: [
       [
-        { key: "topVideos", title: "Top videos", icon: "video", unit: "Views", max: 3 },
+        { key: "topVideos", title: "Top videos", icon: "video", unit: "Views" },
         { key: "trafficSources", title: "Traffic sources", icon: "source", unit: "Views" },
       ],
       [
