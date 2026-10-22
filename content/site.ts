@@ -112,7 +112,14 @@ export type Product = { title: string; type?: string; description: string; cta?:
 export const productGroups: { label: string; items: Product[] }[] = [
   {
     label: "Community",
-    items: [{ title: "PLACEHOLDER: community product", description: "PLACEHOLDER: one line on what members get.", placeholder: true }],
+    items: [
+      {
+        title: "Wallpaper pack",
+        description: "Popular wallpapers from my setup. Dark themed, sized for desktop & mobile.",
+        // Swap the label once the store is live.
+        cta: { label: "Coming soon", href: "https://byalyxx.store" },
+      },
+    ],
   },
   {
     label: "Creators",
