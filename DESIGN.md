@@ -44,7 +44,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 
 ## Layout
 
-- One centred column, `max-w-column` = 448px, at every width (the media kit's dashboard is the one exception, see below). 16px side gutter on phones.
+- One centred column, `max-w-column` = 448px, at every width, the media kit included. 16px side gutter on phones.
 - 160px above the hero from 810px up, 64px below that.
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
@@ -63,7 +63,8 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 The analytics dashboard from the standalone media kit, moved into the site and restyled with these tokens. Code in `components/media-kit/`, numbers in `content/media-kit.ts` (read through `lib/media-kit/load.ts`, which validates them at build time).
 
 - Always dark (`SiteShell forceDark`): the kit has no light values, so the theme toggle is hidden on this page.
-- 1120px wide (`max-w-kit`), padded `nav-clear` (72px) each side from 810px up so it never sits under the side nav. The text sections (hero, partners, what I offer, contact) keep the 448px column, aligned to the dashboard's left edge.
+- Same 448px column as every other page, so the dashboard uses its narrow layout at every width: KPIs two to a row, lists stacked, a 200px chart.
+- Type is the site's scale: KPIs in `text-figure` (22px), list headings in `text-title`, rows in `text-copy`, labels and axis in `text-meta` / `text-small`.
 - Controls are the site's own: platform pills are the nav pill group (`navClass`, `itemClass`, `itemActiveClass`), the date chip and list dropdowns wear `buttonClass`, the picker's Apply is `submitClass`.
 - Styles in `components/media-kit/media-kit.css`, all scoped to `.media-kit`.
 
@@ -81,7 +82,7 @@ Kit-only tokens (dark values; the page never shows a light version):
 | `site-tiktok` / `site-instagram` / `site-youtube` | #5aa7a8 / #b072a8 / #c25b4f | Tooltip breakdown dots and the Indexed lines, nowhere else |
 | `site-brand-youtube` / `site-brand-instagram`, `site-on-media-muted` | #ff0000 / #e4405f, #c7c7c7 | Brand marks on platform icons, subtitles over thumbnails |
 
-Named type exceptions: `text-kpi` (30px, the KPI row) and `text-kit-heading` (17px, list headings inside the card), kept because the KPI row is the first thing a brand reads. `text-flag` (9px) is the two-letter country code in 22px tiles.
+One type exception: `text-flag` (9px), the two-letter country code in 22px tiles.
 
 ## Spacing scale
 

@@ -1,8 +1,8 @@
 /*
   The media kit's analytics, deliverables scroller and date picker (/media-kit), moved from the standalone kit.
-  Everything is scoped to `.media-kit`, so nothing here reaches the rest of the site, and every colour, radius,
-  size and easing comes from app/tokens.css: no hex values here. The kit-only tokens (chart line, bars, platform
-  colours, the KPI and list heading sizes) are documented there and in DESIGN.md.
+  It sits in the site's 448px column and uses the site's type scale. Everything is scoped to `.media-kit`, so
+  nothing here reaches the rest of the site, and every colour, radius, size and easing comes from app/tokens.css:
+  no hex values here. The kit-only tokens (chart line, bars, platform colours) are documented there and in DESIGN.md.
   The controls (platform pills, date chip, selects, picker buttons) use the site's own class strings
   (components/media-kit/ui.js), so they are not styled here.
 */
@@ -17,16 +17,6 @@
   /* Kept from the kit: the chart, lists and tooltip are laid out on this line height */
   line-height: 1.45;
   --pad: 20px; /* analytics container padding */
-}
-@media (min-width: 640px) {
-  .media-kit {
-    --pad: 28px;
-  }
-}
-@media (min-width: 1024px) {
-  .media-kit {
-    --pad: 40px;
-  }
 }
 .media-kit svg {
   display: block;
@@ -98,14 +88,14 @@
   flex-direction: column;
   gap: 28px;
   min-width: 0;
-  font-size: --theme(--text-body);
+  font-size: --theme(--text-copy);
 }
 .media-kit .a-head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 8px 16px;
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   color: var(--site-chart-muted);
 }
 .media-kit .a-head a {
@@ -148,32 +138,27 @@
   padding-bottom: 0;
   border-bottom: 0;
 }
-@media (min-width: 760px) {
-  .media-kit .kpis {
-    grid-template-columns: repeat(var(--kpi-cols, 4), minmax(0, 1fr));
-  }
-}
 .media-kit .kpi {
   min-width: 0;
 }
 .media-kit .kpi dt {
-  font-size: --theme(--text-body);
+  font-size: --theme(--text-meta);
   font-weight: 400;
   color: var(--site-chart-muted);
 }
 .media-kit .kpi dd {
   margin: 6px 0 0;
-  font-size: --theme(--text-kpi);
-  line-height: --theme(--text-kpi--line-height);
+  font-size: --theme(--text-figure);
+  line-height: --theme(--text-figure--line-height);
   font-weight: 600;
-  letter-spacing: --theme(--text-kpi--letter-spacing);
+  letter-spacing: --theme(--text-figure--letter-spacing);
   font-variant-numeric: tabular-nums;
   color: var(--site-fg);
   overflow-wrap: anywhere;
 }
 .media-kit .kpi .delta {
-  margin-left: 8px;
-  font-size: --theme(--text-meta);
+  margin-left: 6px;
+  font-size: --theme(--text-small);
   font-weight: 400;
   letter-spacing: 0;
   color: var(--site-chart-muted);
@@ -183,7 +168,7 @@
 .media-kit .kpi .note {
   display: block;
   margin-top: 4px;
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   color: var(--site-chart-muted);
 }
 
@@ -199,7 +184,7 @@
 }
 .media-kit .chart-max,
 .media-kit .axis {
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   font-weight: 400;
   color: var(--site-chart-muted);
   font-variant-numeric: tabular-nums;
@@ -210,11 +195,6 @@
   margin-top: 4px;
   touch-action: pan-y;
   cursor: crosshair;
-}
-@media (min-width: 760px) {
-  .media-kit .plot {
-    height: 260px;
-  }
 }
 .media-kit .plot svg {
   width: 100%;
@@ -325,18 +305,18 @@
   border-radius: --theme(--radius-card);
   box-shadow: 0 8px 24px --theme(--color-site-scrim / 35%);
   pointer-events: none;
-  font-size: --theme(--text-copy);
+  font-size: --theme(--text-meta);
   font-variant-numeric: tabular-nums;
 }
 .media-kit .tip-heading {
   margin: 0;
-  font-size: --theme(--text-copy);
+  font-size: --theme(--text-meta);
   font-weight: 500;
   color: var(--site-fg);
 }
 .media-kit .tip-compare {
   margin: 2px 0 0;
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   color: var(--site-chart-muted);
 }
 .media-kit .tip dl {
@@ -382,7 +362,7 @@
 }
 .media-kit .tip-row.secondary dt,
 .media-kit .tip-row.secondary dd {
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   font-weight: 400;
   color: var(--site-chart-muted);
 }
@@ -426,7 +406,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   font-weight: 500;
   color: var(--site-fg);
 }
@@ -460,7 +440,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px 18px;
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   color: var(--site-chart-muted);
 }
 .media-kit .chart-legend span {
@@ -490,21 +470,9 @@
   padding-top: 28px;
   border-top: 1px solid var(--site-chart-hairline);
 }
+/* The page is one 448px column, so the two lists in a pair always stack */
 .media-kit .vrule {
   display: none;
-}
-@media (min-width: 760px) {
-  .media-kit .list-pair {
-    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-    gap: 0 32px;
-  }
-  .media-kit .list-pair.single {
-    grid-template-columns: minmax(0, 1fr);
-  }
-  .media-kit .vrule {
-    display: block;
-    background: var(--site-chart-hairline);
-  }
 }
 .media-kit .list-head {
   display: flex;
@@ -515,11 +483,11 @@
 }
 .media-kit .list-head h3 {
   margin: 0;
-  font-size: --theme(--text-kit-heading);
+  font-size: --theme(--text-title);
   font-weight: 600;
 }
 .media-kit .list-note {
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   color: var(--site-chart-muted);
 }
 .media-kit .rows {
@@ -555,7 +523,7 @@
   gap: 10px;
   height: 100%;
   padding: 0 10px;
-  font-size: --theme(--text-body);
+  font-size: --theme(--text-copy);
   font-weight: 450;
   min-width: 0;
 }
@@ -567,7 +535,7 @@
 .media-kit .row .value {
   min-width: 48px;
   text-align: right;
-  font-size: --theme(--text-body);
+  font-size: --theme(--text-copy);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -614,7 +582,7 @@
 .media-kit .empty {
   margin: 0;
   color: var(--site-chart-muted);
-  font-size: --theme(--text-copy);
+  font-size: --theme(--text-meta);
 }
 
 /* ---------- Deliverables ---------- */
@@ -676,11 +644,11 @@
   gap: 2px;
 }
 .media-kit .deliverable .brand {
-  font-size: --theme(--text-body);
+  font-size: --theme(--text-copy);
   font-weight: 600;
 }
 .media-kit .deliverable .sub {
-  font-size: --theme(--text-meta);
+  font-size: --theme(--text-small);
   color: var(--site-on-media-muted);
 }
 .media-kit .deliverable .plat {

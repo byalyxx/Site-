@@ -8,7 +8,6 @@ import { CopyEmail, LocalTime } from "@/components/home/hero-widgets";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
 import { ContactForm } from "@/components/home/forms";
-import { cn } from "@/components/home/cn";
 import { MediaKit } from "@/components/media-kit/media-kit";
 
 const description = `Live audience stats, brand deliverables and partners for ${profile.name}. Get in touch to work together.`;
@@ -29,16 +28,13 @@ export const metadata: Metadata = {
 
 const serviceIcons = { short: Smartphone, long: Clapperboard, photo: Camera, rights: BadgeCheck };
 
-// The page is 1120px wide for the analytics; the text sections keep the site's 448px column, aligned to its left edge.
-const column = "w-full max-w-column";
-
 export default async function MediaKitPage() {
   // Numbers from the active adapter (content/media-kit.ts), validated before anything renders.
   const data = await loadMediaKit();
 
   return (
-    <SiteShell wide forceDark>
-      <header className={cn("flex flex-col gap-4", column)}>
+    <SiteShell forceDark>
+      <header className="flex flex-col gap-4">
         <h1 className="text-display text-site-fg">
           <span className="block">Media kit.</span>
           <span className="text-site-muted">Tech &amp; setup creator from </span>
@@ -66,7 +62,7 @@ export default async function MediaKitPage() {
 
       <MediaKit data={data} />
 
-      <SectionBlock id="partners" title="Partners" className={column}>
+      <SectionBlock id="partners" title="Partners">
         <RowList>
           {partners.map((p, i) => (
             <PartnerStackRow key={`${p.name}-${i}`} partner={p} />
@@ -74,7 +70,7 @@ export default async function MediaKitPage() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="services" title="What I offer" className={column}>
+      <SectionBlock id="services" title="What I offer">
         <RowList>
           {mediaKit.services.map((s) => {
             const Icon = serviceIcons[s.icon as keyof typeof serviceIcons];
@@ -94,7 +90,7 @@ export default async function MediaKitPage() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="contact" title="Let’s make something" className={column}>
+      <SectionBlock id="contact" title="Let’s make something">
         <p className="text-copy text-site-muted">
           Send your product and timeline to <span className="font-medium text-site-fg">{profile.email}</span>, or use the form.
         </p>

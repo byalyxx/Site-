@@ -92,12 +92,6 @@ body:has(.site) {
   --text-figure: 22px; /* numbers in stat tiles */
   --text-figure--line-height: 28px;
   --text-figure--letter-spacing: -0.02em;
-  /* Media kit exceptions, kept from the standalone kit: the KPI row and the list headings inside the
-     analytics card are what a brand reads first */
-  --text-kpi: 30px;
-  --text-kpi--line-height: 1.15;
-  --text-kpi--letter-spacing: -0.02em;
-  --text-kit-heading: 17px;
   --text-flag: 9px; /* two-letter country codes in 22px icon tiles */
   --text-title: 15px;
   --text-title--line-height: 20px;
@@ -118,8 +112,6 @@ body:has(.site) {
 
   /* Layout */
   --container-column: 448px; /* single centred column */
-  --container-kit: 1120px; /* /media-kit only: the analytics dashboard needs the width */
-  --spacing-nav-clear: 72px; /* side padding that keeps a wide page clear of the side nav (810px up) */
   --spacing-gutter: 16px; /* side padding on phones */
   --spacing-section: 64px; /* gap between sections */
   --spacing-page-top: 160px; /* space above the hero on desktop */
