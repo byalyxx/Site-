@@ -155,10 +155,12 @@ export const youtube: Connector = {
       const recent = addDays(today, -8);
       // Newest copy of each day's report (YouTube reissues a day when it corrects it).
       const newest = new Map<string, { downloadUrl: string; createTime: string }>();
+      let reports = 0;
       let pageToken = "";
       for (let page = 0; page < 20; page++) {
         const res = await get(`${BULK}/jobs/${job.id}/reports?pageSize=500${pageToken ? `&pageToken=${pageToken}` : ""}`, "YouTube reports");
         for (const r of res.reports || []) {
+          reports++;
           const date = String(r.startTime).slice(0, 10);
           if (have.has(date) && date < recent) continue;
           const prev = newest.get(date);
@@ -167,6 +169,7 @@ export const youtube: Connector = {
         if (!res.nextPageToken) break;
         pageToken = res.nextPageToken;
       }
+      if (!reports && !notes.length) notes.push("impressions waiting for YouTube's first report (up to 48 hours after the first refresh)");
       // At most 120 days per refresh, newest first, so a big backlog fills over a few refreshes.
       const todo = [...newest.entries()].sort((a, b) => b[0].localeCompare(a[0])).slice(0, 120);
       for (const [date, r] of todo) {

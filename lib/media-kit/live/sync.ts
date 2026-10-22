@@ -103,7 +103,9 @@ export async function syncAll(only?: PlatformId): Promise<SyncReport> {
       await upsert("media_kit_posts", posts);
 
       await upsert("media_kit_accounts", [
-        { platform: account.platform, token, ...(result.handle ? { handle: result.handle } : {}), last_sync: new Date().toISOString(), last_error: null },
+        { platform: account.platform, token, ...(result.handle ? { handle: result.handle } : {}), last_sync: new Date().toISOString(),
+          // Notes ride along in last_error with a "Note:" prefix, so the connect page can show them without a failure.
+          last_error: result.notes?.length ? `Note: ${result.notes.join(". ")}`.slice(0, 1000) : null },
       ]);
       report.push({ platform: account.platform, ok: true, message: [`${rows.length} days, ${posts.length} posts`, ...(result.notes || [])].join(". ") });
     } catch (e) {

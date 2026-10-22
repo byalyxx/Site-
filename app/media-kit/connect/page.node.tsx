@@ -71,10 +71,10 @@ export default async function ConnectPage({ searchParams }: { searchParams: Prom
               ? `Needs ${missing.join(", ")}`
               : !a
                 ? "Not connected"
-                : a.last_error
+                : a.last_error && !a.last_error.startsWith("Note:")
                   ? `Last refresh failed: ${a.last_error}`
                   : a.last_sync
-                    ? `Refreshed ${when(a.last_sync)}`
+                    ? `Refreshed ${when(a.last_sync)}${a.last_error ? `. ${a.last_error}` : ""}`
                     : "Connected, not refreshed yet";
             return (
               <Row
