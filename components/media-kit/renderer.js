@@ -320,9 +320,7 @@ export function mountMediaKit(DATA, { signal }) {
 
     const eng = totalOf(days, "eng");
     const engPrev = totalOf(prevDays, "eng");
-    if (eng) kpis.push(kpiHtml("Engagements", format(eng.total), deltaHtml(change(eng.total, engPrev && engPrev.total), r)));
-
-    // Engagements ÷ views across all three, so each platform counts by its size. Change in percentage points, shown with a % sign.
+    // Engagements ÷ views (the engagement count itself isn't shown, at your request) across all three, so each platform counts by its size. Change in percentage points, shown with a % sign.
     if (eng && views && views.total) {
       const rate = (eng.total / views.total) * 100;
       const prevRate = engPrev && viewsPrev && viewsPrev.total ? (engPrev.total / viewsPrev.total) * 100 : null;
