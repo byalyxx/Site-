@@ -201,6 +201,13 @@
   stroke-width: 1.5;
   stroke-linejoin: round;
 }
+.media-kit .plot .s-previous {
+  fill: none;
+  stroke: var(--site-chart-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 1 4;
+  stroke-linecap: round;
+}
 /* Lines into a bucket the range cuts short (a part week or month): lighter, so they don't read as a drop */
 .media-kit .plot .s-partial {
   stroke-opacity: 0.45;
@@ -226,7 +233,7 @@
   stop-opacity: 0;
 }
 
-/* Markers on the series */
+/* Markers on the series: filled for solid lines, a ring for the dotted comparison */
 .media-kit .dot {
   position: absolute;
   width: 9px;
@@ -236,6 +243,10 @@
   background: var(--c, var(--site-chart-line));
   box-shadow: 0 0 0 2px var(--site-surface);
   pointer-events: none;
+}
+.media-kit .dot.ring {
+  background: var(--site-surface);
+  border: 2px solid var(--c, var(--site-chart-line));
 }
 .media-kit .axis {
   position: relative;
@@ -431,6 +442,9 @@
 .media-kit .chart-legend .line.partial {
   border-top: 2px dotted var(--site-chart-line);
   opacity: 0.45;
+}
+.media-kit .chart-legend .line.dotted {
+  border-top-style: dotted;
 }
 
 /* Lists: two columns split by a vertical hairline, stacked on phones */
