@@ -9,6 +9,12 @@ Everything on the page lives in [`content/site.ts`](content/site.ts): profile, s
 - Partner logos and your portrait go in `public/` (e.g. `public/partners/brand.png`, then `logo: "/partners/brand.png"`).
 - Affiliate links get `rel="sponsored"` automatically, which is what Google asks for.
 
+### Media kit numbers
+
+The `/media-kit` analytics read [`content/media-kit.ts`](content/media-kit.ts) (daily figures per platform, posts, deliverables). The build checks that file and stops with a list of problems if a date, key or number is wrong. To preview the layout with made-up numbers, run `npm run dev` and open `/media-kit?sample`. The page is unlisted: it has `noindex` and isn't in the main nav, so send brands the link directly.
+
+`MEDIA_KIT_SOURCE=api` switches to the API adapter in `lib/media-kit/adapters/api.ts`, which is a stub for now (see its TODOs).
+
 ## Home page layout
 
 The home page uses a single-column layout (hero, featured video, blog, products, stack, newsletter, contact). The full stack list is at `/stack`. Colours, type and spacing come from `app/tokens.css`, explained in [`DESIGN.md`](DESIGN.md). Section text lives in `content/site.ts` next to everything else; entries starting with `PLACEHOLDER` are waiting for real content.

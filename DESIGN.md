@@ -44,7 +44,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 
 ## Layout
 
-- One centred column, `max-w-column` = 448px, at every width. 16px side gutter on phones.
+- One centred column, `max-w-column` = 448px, at every width (the media kit's dashboard is the one exception, see below). 16px side gutter on phones.
 - 160px above the hero from 810px up, 64px below that.
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
@@ -58,12 +58,30 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - Buttons: 36px tall, 8px radius, 1px border, `site-surface` fill, 600 weight.
 - Inputs: 40px tall, 8px radius, same fill and border.
 
-## Media kit analytics
+## Media kit (/media-kit)
 
-Laid out like an analytics dashboard, flat on the page with hairlines instead of cards: a title row (platform, "Example data" tag while figures are examples, period chip), a grid of figures (label over a `text-figure` number, 2 columns on phones, 3 from 810px), then the trend chart and ranked lists.
+The analytics dashboard from the standalone media kit, moved into the site and restyled with these tokens. Code in `components/media-kit/`, numbers in `content/media-kit.ts` (read through `lib/media-kit/load.ts`, which validates them at build time).
 
-- Trend chart: this period solid in `site-data` with a soft fill, the period before dotted in `site-muted`. Hover, tap or arrow keys show a day: a vertical rule, a dot on each line and a small tooltip card (`site-surface`, 8px radius).
-- Ranked lists (Audience, Geography, Devices): each row is a 40px bar in `site-thumb`, its width the row's share of the largest row, label inside, figure on the right.
+- Always dark (`SiteShell forceDark`): the kit has no light values, so the theme toggle is hidden on this page.
+- 1120px wide (`max-w-kit`), padded `nav-clear` (72px) each side from 810px up so it never sits under the side nav. The text sections (hero, partners, what I offer, contact) keep the 448px column, aligned to the dashboard's left edge.
+- Controls are the site's own: platform pills are the nav pill group (`navClass`, `itemClass`, `itemActiveClass`), the date chip and list dropdowns wear `buttonClass`, the picker's Apply is `submitClass`.
+- Styles in `components/media-kit/media-kit.css`, all scoped to `.media-kit`.
+
+Kit-only tokens (dark values; the page never shows a light version):
+
+| Token | Value | Used for |
+| --- | --- | --- |
+| `site-chart-line` | #a0a0a0 | The monochrome line, its dotted comparison, markers |
+| `site-chart-hairline` | rgb(255 255 255 / 0.07) | Rules inside the analytics card |
+| `site-chart-rule` | rgb(255 255 255 / 0.22) | Crosshair |
+| `site-chart-bar` | #1f1f1f | Proportional list bars, picker hovers |
+| `site-chart-muted` | #8e8e8e | Labels, axis, deltas inside the analytics card only (5.6:1 on the card) |
+| `site-chart-disabled` | #4a4a4a | Future days in the date picker |
+| `site-live` | #3b82f6 | The live dot |
+| `site-tiktok` / `site-instagram` / `site-youtube` | #5aa7a8 / #b072a8 / #c25b4f | Tooltip breakdown dots and the Indexed lines, nowhere else |
+| `site-brand-youtube` / `site-brand-instagram`, `site-on-media-muted` | #ff0000 / #e4405f, #c7c7c7 | Brand marks on platform icons, subtitles over thumbnails |
+
+Named type exceptions: `text-kpi` (30px, the KPI row) and `text-kit-heading` (17px, list headings inside the card), kept because the KPI row is the first thing a brand reads. `text-flag` (9px) is the two-letter country code in 22px tiles.
 
 ## Spacing scale
 
