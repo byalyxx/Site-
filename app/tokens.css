@@ -206,13 +206,16 @@ body:has(.site) {
     color: color-mix(in srgb, currentColor 45%, transparent);
     transition: color var(--duration-site) var(--ease-site);
   }
+  /* A little air between each bracket and its label: Geist sets brackets tight, the preview's system font didn't */
   .site-bracket::before {
     content: "[";
     content: "[" / "";
+    margin-right: 0.15em;
   }
   .site-bracket::after {
     content: "]";
     content: "]" / "";
+    margin-left: 0.15em;
   }
   .site-bracket:hover::before,
   .site-bracket:hover::after,
