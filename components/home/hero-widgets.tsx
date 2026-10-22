@@ -38,7 +38,7 @@ export function CopyEmail({ email, className }: { email: string; className?: str
 
   return (
     <button type="button" onClick={copy} className={className} aria-label={copied ? "Email copied" : `Copy ${email}`}>
-      <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
+      <span aria-live="polite">{copied ? "Copied" : "Copy email"}</span>
     </button>
   );
 }
