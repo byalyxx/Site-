@@ -387,7 +387,7 @@ export function mountMediaKit(DATA, { signal }) {
 
   function listHtml({ id, title, unit, share, rows, snapshot }) {
     if (!rows || !rows.length) return "";
-    const mode = state.show[id] || (share ? "share" : "count");
+    const mode = state.show[`list:${id}`] || (share ? "share" : "count"); // keyed like the Select below
     const total = rows.reduce((a, x) => a + x.value, 0);
     const top = rows[0].value || 1;
     const items = rows
