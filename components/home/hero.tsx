@@ -12,7 +12,7 @@ export function Hero() {
         <a href={hero.about.href} className={bracketClass}>
           {hero.about.label}
         </a>
-        <a href={`mailto:${profile.email}`} className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
+        <a href={`mailto:${profile.email}`} data-track="Work with me" className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
           Email <ArrowUpRight className="size-3.5" aria-hidden />
         </a>
       </div>

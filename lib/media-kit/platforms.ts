@@ -94,10 +94,11 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
 
   instagram: {
     name: "Instagram",
-    metrics: ["followers", "reach", "plays", "accountsEngaged", "profileVisits", "likes", "comments", "shares"],
+    // `views` is what Instagram now reports in place of plays (2025). `plays` stays for figures typed in by hand.
+    metrics: ["followers", "reach", "views", "plays", "accountsEngaged", "profileVisits", "likes", "comments", "shares"],
     chart: { key: "reach", label: "Reach" },
-    // Plays, not reach: plays count views the way TikTok and YouTube do, reach counts accounts.
-    combined: { views: "plays", viewsLabel: "plays", audience: "followers", audienceLabel: "followers" },
+    // Views, not reach: views count plays the way TikTok and YouTube do, reach counts accounts.
+    combined: { views: "views", viewsLabel: "views", audience: "followers", audienceLabel: "followers" },
     tooltip: { label: "Accounts engaged", sum: "accountsEngaged", format: "number" },
     kpis: [
       { label: "Followers", value: latest("followers"), format: "compact" },

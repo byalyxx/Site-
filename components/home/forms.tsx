@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@/components/click-tracking";
 import { cn } from "./cn";
-import { bracketClass, linkClass } from "./controls";
+import { bracketClass, fieldClass, linkClass } from "./controls";
 
-// A rule under each field instead of a box, in the link underline's colour (30% of the text), red on focus.
-const fieldClass =
-  "w-full rounded-none border-0 border-b border-b-site-fg/30 bg-transparent px-0 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-b-site-brand focus-visible:outline-none";
 
 // Enquiries go to Formspree (formspree.io), which emails them on. The form's ID comes from the
 // NEXT_PUBLIC_FORMSPREE_FORM_ID environment variable (see README). Without it, submitting opens the visitor's
@@ -34,6 +32,7 @@ export function ContactForm({ email }: { email: string }) {
       if (!res.ok) throw new Error(`Formspree answered ${res.status}`);
       form.reset();
       setStatus("sent");
+      track("Contact form sent");
     } catch {
       setStatus("error");
     }

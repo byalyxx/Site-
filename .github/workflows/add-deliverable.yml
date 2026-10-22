@@ -1,0 +1,58 @@
+# Adds a past deliverable to the media kit from a video link and saves its thumbnail.
+# Run it from the Actions tab (Run workflow → brand + link), or just add { "brand", "url" } to
+# content/deliverables.json and push: this fills in the thumbnail and title and commits them back.
+name: Add a past deliverable
+
+on:
+  workflow_dispatch:
+    inputs:
+      brand:
+        description: Brand name
+        required: true
+      url:
+        description: Link to the TikTok, YouTube or Instagram video
+        required: true
+      title:
+        description: Title (optional, taken from the video if left empty)
+        required: false
+      views:
+        description: Views (optional, for the All tab's top deliverables)
+        required: false
+  push:
+    paths:
+      - content/deliverables.json
+
+permissions:
+  contents: write
+
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch thumbnails
+        env:
+          INSTAGRAM_APP_ID: ${{ secrets.INSTAGRAM_APP_ID }}
+          INSTAGRAM_APP_SECRET: ${{ secrets.INSTAGRAM_APP_SECRET }}
+          BRAND: ${{ inputs.brand }}
+          URL: ${{ inputs.url }}
+          TITLE: ${{ inputs.title }}
+          VIEWS: ${{ inputs.views }}
+        run: |
+          if [ -n "$URL" ]; then
+            node scripts/add-deliverable.mjs --brand "$BRAND" --url "$URL" ${TITLE:+--title "$TITLE"} ${VIEWS:+--views "$VIEWS"}
+          else
+            node scripts/add-deliverable.mjs
+          fi
+      - name: Commit
+        run: |
+          git add content/deliverables.json public/media-kit/deliverables
+          if git diff --cached --quiet; then echo "Nothing new."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Media kit: add past deliverable thumbnails"
+          git push

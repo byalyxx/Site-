@@ -20,6 +20,10 @@ export const metadata = pageMetadata({
   noindex: true,
 });
 
+// Rebuilt at most once an hour with the latest stored numbers, and straight after each refresh
+// (lib/media-kit/live/sync.ts runs revalidatePath). A static export just uses what was there at build time.
+export const revalidate = 3600;
+
 export default async function MediaKitPage() {
   // Numbers from the active adapter (content/media-kit.ts), validated before anything renders.
   const data = await loadMediaKit();
@@ -31,7 +35,7 @@ export default async function MediaKitPage() {
         <FollowerLine />
         <p className="text-body font-medium text-site-muted">{mediaKit.intro}</p>
         <div className="flex flex-wrap items-center gap-x-6">
-          <a href={`mailto:${profile.email}`} className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
+          <a href={`mailto:${profile.email}`} data-track="Work with me" className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
             Work with me <ArrowUpRight className="size-3.5" aria-hidden />
           </a>
           <CopyEmail email={profile.email} className={bracketClass} />

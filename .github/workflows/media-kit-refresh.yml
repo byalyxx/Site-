@@ -1,0 +1,27 @@
+# Refreshes the media kit's numbers every morning by calling the site's refresh endpoint.
+# Needs the repository secret MEDIA_KIT_ADMIN_KEY (the same value as in Hostinger). The site address
+# defaults to https://byalyxx.com; set a repository variable SITE_URL to use another one.
+# GitHub only runs schedules from the default branch (main), so this starts once the site is merged there.
+name: Refresh media kit stats
+
+on:
+  schedule:
+    - cron: "20 5 * * *" # 05:20 UTC daily
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Call the refresh endpoint
+        env:
+          KEY: ${{ secrets.MEDIA_KIT_ADMIN_KEY }}
+          SITE: ${{ vars.SITE_URL || 'https://byalyxx.com' }}
+        run: |
+          if [ -z "$KEY" ]; then
+            echo "::notice::MEDIA_KIT_ADMIN_KEY isn't set yet, so there's nothing to refresh."
+            exit 0
+          fi
+          curl --fail-with-body -sS -X POST "$SITE/api/media-kit/sync" \
+            -H "Authorization: Bearer $KEY" --max-time 300

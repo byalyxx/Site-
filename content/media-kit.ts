@@ -18,6 +18,8 @@
 //
 // Partners are not listed here: the page uses `partners` in content/site.ts, the same rows as /partners.
 
+import deliverables from "./deliverables.json";
+
 export type PlatformId = "tiktok" | "instagram" | "youtube";
 
 export type MediaKitDay = {
@@ -112,9 +114,11 @@ export const mediaKitData: MediaKitData = {
   // so the countries listed here don't need to cover every country: the total already does.
   all: { days: [] },
 
-  // Brand work, best first: the first three are what a brand sees without scrolling.
-  // { brand: "Flexispot", title: "E7 Pro desk setup", platform: "tiktok" | "instagram" | "youtube",
-  //   url: "https://…", thumb: "/media-kit/deliverables/flexispot.jpg" (9:16 image), alt: "What the frame shows",
-  //   views: 182000 }
-  deliverables: [],
+  // Brand work, best first: the first three are what a brand sees without scrolling. Kept in
+  // content/deliverables.json so a script can add to it: give it a brand and a video link and it fetches the
+  // thumbnail and title (scripts/add-deliverable.mjs, or the "Add a past deliverable" GitHub Action).
+  // { "brand": "Flexispot", "title": "E7 Pro desk setup", "platform": "tiktok" | "instagram" | "youtube",
+  //   "url": "https://…", "thumb": "/media-kit/deliverables/flexispot.jpg" (9:16 image), "alt": "What the frame shows",
+  //   "views": 182000 }
+  deliverables: deliverables as MediaKitDeliverable[],
 };
