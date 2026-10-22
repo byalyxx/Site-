@@ -21,10 +21,11 @@ export function SiteShell({ children, forceDark }: { children: React.ReactNode; 
 
 // A sub-page's heading with a Home button on the right, level with it. A real link, so it works for someone who
 // arrived from a shared link or a search result.
-export function PageTitle({ children }: { children: React.ReactNode }) {
+// `brand` colours the heading like the @byalyxx handle on home.
+export function PageTitle({ children, brand }: { children: React.ReactNode; brand?: boolean }) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <h1 className="text-display text-site-fg">{children}</h1>
+      <h1 className={cn("text-display text-site-fg", brand && "text-site-brand")}>{children}</h1>
       <a href="/" className={cn(buttonClass, "shrink-0 gap-1.5 pl-3 text-body")}>
         <ArrowLeft className="size-4" aria-hidden />
         Home

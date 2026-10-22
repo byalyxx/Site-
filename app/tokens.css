@@ -20,7 +20,7 @@
   /* Data: one hue for the series that matters, the muted grey for comparisons */
   --site-data: #7c3aed;
   --site-positive: #15803d; /* growth figures */
-  --site-brand: #aa0412; /* the @byalyxx handle in the home hero */
+  --site-brand: #aa0412; /* the @byalyxx handle in the home hero, the media kit heading */
 
   /* Fixed in both themes: brand marks on the media kit's platform icons, and text over thumbnails */
   --site-brand-youtube: #ff0000;

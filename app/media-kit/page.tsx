@@ -35,7 +35,7 @@ export default async function MediaKitPage() {
   return (
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">
-        <PageTitle>Media kit</PageTitle>
+        <PageTitle brand>Media kit</PageTitle>
         <FollowerLine />
         <p className="text-body font-medium text-site-muted">{mediaKit.intro}</p>
         <div className="flex flex-wrap gap-3 pt-2">
