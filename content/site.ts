@@ -118,7 +118,7 @@ export const nav = [
 export const hero = {
   // Display headline, one string per line.
   headline: ["@byalyxx", "Tech enthusiast & Creator"],
-  intro: "I make tech and desk setup videos as @byalyxx, and share the exact gear I use below.",
+  intro: "I post desk and PC setup content across TikTok, Instagram and YouTube — builds, upgrades and reviews.",
   about: { label: "Media kit", href: "/media-kit" },
 };
 

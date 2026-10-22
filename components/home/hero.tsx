@@ -8,7 +8,6 @@ export function Hero() {
   return (
     <header className="flex flex-col gap-4">
       <HeroHeading />
-      <p className="text-body font-medium text-site-muted">{hero.intro}</p>
       <div className="flex flex-wrap gap-3 pt-2">
         <a href={hero.about.href} className={buttonClass}>
           {hero.about.label}
@@ -24,35 +23,36 @@ export function Hero() {
   );
 }
 
-// Name, tagline and follower counts. Shared by the home hero and the media kit header.
+// Name, tagline, follower counts and intro. Shared by the home hero and the media kit header.
 export function HeroHeading() {
   const [first, ...rest] = hero.headline;
 
   return (
     <>
-    <h1 className="text-display text-site-fg">
-      <span className="block">{first}</span>
-      {rest.map((line) => (
-        <span key={line} className="block text-site-muted">
-          {line}
-        </span>
-      ))}
-    </h1>
-    <p className="-mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
-      {socials.map((s, i) => (
-        <span key={s.label} className="flex items-center gap-2">
-          {i > 0 && <span aria-hidden>·</span>}
-          <a
-            href={s.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-site-border underline-offset-4 site-transition hover:text-site-fg hover:decoration-site-fg"
-          >
-            {s.label} {s.followers}
-          </a>
-        </span>
-      ))}
-    </p>
+      <h1 className="text-display text-site-fg">
+        <span className="block">{first}</span>
+        {rest.map((line) => (
+          <span key={line} className="block text-site-muted">
+            {line}
+          </span>
+        ))}
+      </h1>
+      <p className="-mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-copy font-medium tab:text-body text-site-muted">
+        {socials.map((s, i) => (
+          <span key={s.label} className="flex items-center gap-2">
+            {i > 0 && <span aria-hidden>·</span>}
+            <a
+              href={s.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-site-border underline-offset-4 site-transition hover:text-site-fg hover:decoration-site-fg"
+            >
+              {s.label} {s.followers}
+            </a>
+          </span>
+        ))}
+      </p>
+      <p className="text-body font-medium text-site-muted">{hero.intro}</p>
     </>
   );
 }
