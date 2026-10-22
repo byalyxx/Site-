@@ -278,7 +278,7 @@ export function mountMediaKit(DATA, { signal }) {
       def.lists.map((pair) =>
         pair.map((l) => {
           const rows = sumList(days, l.key);
-          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
+          return rows && listHtml({ id: `${p}.${l.key}`, title: l.title, unit: l.unit, max: l.icon === "country" ? MAX_COUNTRIES : undefined, rows: rows.map(([label, value]) => ({ label, value, icon: icon(l.icon, label) })) });
         })
       )
     );
@@ -337,7 +337,7 @@ export function mountMediaKit(DATA, { signal }) {
       : "";
     const countries = sumList(days, "countries");
     const countriesList = countries
-      ? listHtml({ id: "all.countries", title: "Top countries", unit: "Views", rows: countries.map(([label, value]) => ({ label, value, icon: icon("country", label) })) })
+      ? listHtml({ id: "all.countries", title: "Top countries", unit: "Views", max: MAX_COUNTRIES, rows: countries.map(([label, value]) => ({ label, value, icon: icon("country", label) })) })
       : "";
     const delivs = (DATA.deliverables || []).filter((d) => isNum(d.views)).sort((a, b) => b.views - a.views);
     const delivList = delivs.length
@@ -368,16 +368,17 @@ export function mountMediaKit(DATA, { signal }) {
   // ---------- Lists with proportional bars ----------
 
   const MAX_ROWS = 7;
+  const MAX_COUNTRIES = 5; // country lists stop at five, with no faded teaser row
 
-  function listHtml({ title, unit, rows, snapshot }) {
+  function listHtml({ title, unit, rows, snapshot, max }) {
     if (!rows || !rows.length) return "";
     const top = rows[0].value || 1;
     const items = rows
-      .slice(0, MAX_ROWS)
+      .slice(0, max || MAX_ROWS)
       .map((row, i) => {
         const pct = (row.value / top) * 100;
         const value = row.display || exact(row.value);
-        const fade = i === MAX_ROWS - 1 && rows.length >= MAX_ROWS;
+        const fade = !max && i === MAX_ROWS - 1 && rows.length >= MAX_ROWS;
         return `<li class="row${fade ? " fade" : ""}" data-value="${row.value}">
           <div class="track"><span class="bar" style="width:${pct.toFixed(2)}%"></span>
             <span class="label">${row.icon}<span>${esc(row.label)}</span></span></div>
