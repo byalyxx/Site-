@@ -29,12 +29,12 @@ const open = (
   </span>
 );
 
-// One product in the desk/PC stack: name, category in mono. Opens the affiliate link exactly as stored.
+// One product in the desk/PC stack: name, category beneath. Opens the affiliate link exactly as stored.
 export function StackRow({ item }: { item: GearItem }) {
   return <Row href={item.url} sponsored title={item.name} meta={item.type} trailing={item.url ? open : undefined} />;
 }
 
-// A partner: logo (bare, 4px corners), name, the product in mono.
+// A partner: logo (bare, 4px corners), name, the product.
 export function PartnerStackRow({ partner }: { partner: Partner }) {
   return (
     <Row

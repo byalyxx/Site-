@@ -146,9 +146,6 @@ body:has(.site) {
   --radius-card: 10px; /* featured card, hovered rows */
   --radius-pill: 999px; /* nav */
 
-  /* Monospace for functional text (row categories, badges): the same stack as the bracket controls */
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-
   /* Motion: colour/background fades only, same curve everywhere */
   --ease-site: cubic-bezier(0.44, 0, 0.56, 1);
   --duration-site: 300ms;
@@ -198,7 +195,6 @@ body:has(.site) {
     border-radius: 4px;
     background: none;
     color: var(--site-fg);
-    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
     font-size: var(--text-body);
     font-weight: 500;
     line-height: 1;

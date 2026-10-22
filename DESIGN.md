@@ -28,7 +28,7 @@ The reference's light-mode grey is lighter than ours. It fails WCAG AA on white,
 
 ## Type
 
-Geist for text and Geist Mono for brackets and numbers, both loaded by `app/layout.tsx` (same faces as digitalcreator.club). Small sizes, with weight doing the work. Nothing renders below 12px: the steps that would fall under it sit at 12.
+Geist for everything, loaded by `app/layout.tsx` (same face as digitalcreator.club). No monospace anywhere. Small sizes, with weight doing the work. Nothing renders below 12px: the steps that would fall under it sit at 12.
 
 | Token | Size / line height | Weight | Letter spacing | Used for |
 | --- | --- | --- | --- | --- |
@@ -39,7 +39,7 @@ Geist for text and Geist Mono for brackets and numbers, both loaded by `app/layo
 | `text-copy` | 12 / 21 | 400, 600 buttons | 0 | Paragraphs, buttons, inputs |
 | `text-meta` | 12 / 16 | 400 | 0 | Dates, category labels |
 | `text-small` | 12 / 16 | 400-500 | 0 | View All, footer, notes |
-| `text-tag` | 12 / 14 | 500 | 0 | `[NEW]` on the featured card (mono) |
+| `text-tag` | 12 / 14 | 500 | 0 | `[NEW]` on the featured card |
 
 The headline breaks across lines: line one in `site-fg`, line two in `site-muted`.
 
@@ -55,9 +55,9 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 
 ## Rows and cards
 
-- List row: 16px vertical padding, at least 44px tall. No icon tiles: only icons that identify something (partner logos, platform icons, flags), bare and square. Name in the site face; category or product beneath in mono, muted, `text-small`; prose descriptions stay in the site face.
+- List row: 16px vertical padding, at least 44px tall. No icon tiles: only icons that identify something (partner logos, platform icons, flags), bare and square. Name in the site face; category or product beneath, muted, `text-small`; prose descriptions stay in the site face.
 - Hover: the row tints with `site-surface` (no radius), spilling 10px past the column on each side, and the bare ↗ on the right turns `site-brand`.
-- Featured card: full column width, 16:9, square corners, 1px border, `[NEW]` top-left in mono, caption bottom-left over a dark gradient. Hover: border brightens, image scales 2%.
+- Featured card: full column width, 16:9, square corners, 1px border, `[NEW]` top-left, caption bottom-left over a dark gradient. Hover: border brightens, image scales 2%.
 - Inputs: 40px tall, no box: a 1px rule underneath at 30% of the text colour (like the link underline), `site-brand` on focus.
 
 ## Media kit (/media-kit)
@@ -100,7 +100,7 @@ One type exception: `text-flag` (9px), the two-letter country code in 22px tiles
 
 One rule for every control and link: a dimmed secondary mark turns `site-brand` red on hover, and the label never changes colour or weight. Styles live in `app/tokens.css` (`.site-bracket`, `.site-link`); components use `bracketClass` and `linkClass` from `components/home/controls.ts`.
 
-- Brackets `[ ]`: things you press (buttons, tabs, toggles, the copy-email control) and a page's primary action even when it navigates ([Media kit] on home, [Work with me] on the media kit). Monospace label, brackets at 45% of the label colour, solid red when selected, unselected tabs muted. 44px tall.
+- Brackets `[ ]`: things you press (buttons, tabs, toggles, the copy-email control) and a page's primary action even when it navigates ([Media kit] on home, [Work with me] on the media kit). Label in the site face, brackets at 45% of the label colour, solid red when selected, unselected tabs muted. 44px tall.
 - Underline: things that take you somewhere (follower links, Email, View All, ← Home, the media kit line on home). 1px, 4px offset, 30% of the text colour. A 44px hit area from `::after`.
 - Neither: list rows, form inputs, anything inside the analytics that isn't a tab or toggle.
 - Never nest the two, never bracket anything that isn't interactive, no frame around a group of tabs, and keep to about 4–5 bracketed controls per screen.

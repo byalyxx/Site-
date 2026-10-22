@@ -498,7 +498,6 @@
 }
 .media-kit .row .value {
   text-align: right;
-  font-family: --theme(--font-mono);
   font-size: --theme(--text-copy);
   font-weight: 500;
   font-variant-numeric: tabular-nums;

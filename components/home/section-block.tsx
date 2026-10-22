@@ -64,7 +64,7 @@ export function Row({
   external?: boolean;
   leading?: React.ReactNode;
   title: string;
-  meta?: string; // metadata (a category, a product): monospace
+  meta?: string; // metadata (a category, a product): muted, small
   label?: string; // prose (a description): the site face
   trailing?: React.ReactNode;
   placeholder?: boolean;
@@ -74,7 +74,7 @@ export function Row({
       {leading}
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className={cn("text-title font-medium text-site-fg", placeholder && "italic text-site-muted")}>{title}</span>
-        {meta && <span className="font-mono text-small text-site-muted">{meta}</span>}
+        {meta && <span className="text-small text-site-muted">{meta}</span>}
         {label && <span className="text-meta text-site-muted">{label}</span>}
       </span>
       {trailing}
