@@ -110,11 +110,12 @@ export const youtube: Connector = {
       return (r.rows || []).map((row) => Object.fromEntries(cols.map((c, i) => [c, row[i]])) as Record<string, any>);
     };
 
-    // First run: two years of daily figures (so a year can be compared with the one before) and four weeks of
-    // lists. Later runs redo the last week, because YouTube keeps finalising the most recent two or three days.
+    // Daily figures: the last two years on every run (so a year can be compared with the one before). It's one
+    // request either way, and it keeps every stored day matching YouTube Studio. Lists: four weeks on the first
+    // run, then the last week, because YouTube keeps finalising the most recent two or three days.
     const firstRun = days.length === 0;
     const end = addDays(today, -1);
-    const start = addDays(end, firstRun ? -729 : -6);
+    const start = addDays(end, -729);
     const listStart = addDays(end, firstRun ? -27 : -6);
     const out = new Map<string, DayRow>();
     const day = (date: string) => {
