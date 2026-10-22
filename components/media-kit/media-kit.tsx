@@ -23,7 +23,7 @@ const markup = `
         <span id="date-label">Last 30 days</span>
       </button>
     </div>
-    <section class="card analytics" id="analytics" role="tabpanel" aria-live="polite"></section>
+    <section class="analytics" id="analytics" role="tabpanel" aria-live="polite"></section>
   </div>
 
   <section class="mk-block" aria-labelledby="deliverables-title">

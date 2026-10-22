@@ -220,7 +220,7 @@ export function mountMediaKit(DATA, { signal }) {
     return `<div class="kpi"><dt>${esc(label)}</dt><dd>${esc(text)}${extra || ""}</dd></div>`;
   }
   function deltaHtml(d, r) {
-    return d ? `<span class="delta">${esc(d)}<span class="sr-only"> compared with the ${esc(periodName(r))}</span></span>` : "";
+    return d ? `<span class="delta${d.startsWith("+") ? " up" : ""}">${esc(d)}<span class="sr-only"> compared with the ${esc(periodName(r))}</span></span>` : "";
   }
   function pairsHtml(pairs) {
     return pairs
@@ -744,7 +744,7 @@ export function mountMediaKit(DATA, { signal }) {
     const row = (r, cls) =>
       `<div class="tip-row${cls ? " " + cls : ""}"><span class="marker${r.marker ? " m-" + r.marker : ""}"${r.color ? ` style="--c:${r.color}"` : ""}></span><dt>${esc(r.label)}</dt><dd>${esc(
         r.value
-      )}</dd><dd class="extra">${esc(r.extra || "")}</dd></div>`;
+      )}</dd><dd class="extra${String(r.extra || "").startsWith("+") ? " up" : ""}">${esc(r.extra || "")}</dd></div>`;
     return `<p class="tip-heading">${esc(heading)}</p>${compare ? `<p class="tip-compare">${esc(compare)}</p>` : ""}<dl${!total && !rows.some((r) => r.marker) ? ' class="plain"' : ""}>${total ? row(total, "total") + '<hr class="tip-rule" />' : ""}${rows
       .map((r) => row(r, r.cls))
       .join("")}</dl>${footer ? `<hr class="tip-rule tip-rule-footer" />${footer}` : ""}`;

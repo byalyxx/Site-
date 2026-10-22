@@ -16,7 +16,6 @@
   min-width: 0;
   /* Kept from the kit: the chart, lists and tooltip are laid out on this line height */
   line-height: 1.45;
-  --pad: 20px; /* analytics container padding */
 }
 .media-kit svg {
   display: block;
@@ -59,18 +58,10 @@
   flex: none;
 }
 
-/* ---------- Cards ---------- */
-
-.media-kit .card {
-  background: var(--site-surface);
-  border: 1px solid var(--site-border);
-  border-radius: --theme(--radius-card);
-}
-
 /* ---------- Analytics ---------- */
 
+/* No box: the analytics sit straight on the page */
 .media-kit .analytics {
-  padding: var(--pad);
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -151,6 +142,11 @@
   color: var(--site-chart-muted);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+/* Rises in green, here and in the chart tooltip; falls stay grey */
+.media-kit .delta.up,
+.media-kit .tip dd.extra.up {
+  color: var(--site-positive);
 }
 .media-kit .kpi .note {
   display: block;
