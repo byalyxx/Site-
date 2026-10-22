@@ -73,7 +73,10 @@ async function image(url) {
 async function lookup(url, platform) {
   if (platform === "tiktok") {
     const o = await json(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
-    return { thumbs: [o.thumbnail_url], title: o.title };
+    // Short links (vm.tiktok.com/…) become the full video link, which the daily refresh matches by video ID
+    // to keep the views live.
+    const canonical = o.embed_product_id && o.author_unique_id ? `https://www.tiktok.com/@${o.author_unique_id}/video/${o.embed_product_id}` : null;
+    return { thumbs: [o.thumbnail_url], title: o.title, canonical };
   }
   if (platform === "youtube") {
     const id = youtubeId(url);
@@ -109,7 +112,7 @@ async function lookup(url, platform) {
 async function fill(entry) {
   const platform = entry.platform || platformOf(entry.url);
   if (!platform) throw new Error("only TikTok, YouTube and Instagram links are supported");
-  const { thumbs, title } = await lookup(entry.url, platform);
+  const { thumbs, title, canonical } = await lookup(entry.url, platform);
   let img = null;
   let lastError = null;
   for (const t of thumbs.filter(Boolean)) {
@@ -131,6 +134,7 @@ async function fill(entry) {
   await writeFile(join(IMAGES, name), img.bytes);
   return {
     ...entry,
+    ...(canonical ? { url: canonical } : {}),
     platform,
     ...(entry.title || !title ? {} : { title: title.length > 80 ? title.slice(0, 79).trimEnd() + "…" : title }),
     thumb: `/media-kit/deliverables/${name}`,

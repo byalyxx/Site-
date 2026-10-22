@@ -39,7 +39,16 @@ export const liveAdapter: MediaKitAdapter = {
         }));
     }
 
-    // Past deliverables: the file's, then every post the refresh found tagging a brand, best first.
+    // Past deliverables: the file's (with live views when the refresh has the same video), then every post the
+    // refresh found tagging a brand, best first.
+    const byUrl = new Map(posts.filter((x) => x.url).map((x) => [x.url!, x]));
+    for (const d of data.deliverables) {
+      const live = d.url && byUrl.get(d.url);
+      if (live) {
+        d.views = Number(live.views);
+        if (!d.thumb && live.thumbnail) d.thumb = live.thumbnail;
+      }
+    }
     const listed = new Set(data.deliverables.map((d) => d.url).filter(Boolean));
     for (const x of posts) {
       if (!x.sponsor || (x.url && listed.has(x.url))) continue;

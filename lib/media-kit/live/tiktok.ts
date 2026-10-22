@@ -1,3 +1,4 @@
+import fileDeliverables from "@/content/deliverables.json";
 import { fetchJson, hhmm, rate, titleFrom, type Connector, type DayRow, type PostRow, type Token } from "./types";
 
 // TikTok: Login Kit + Display API (open.tiktokapis.com). Works in the developer portal's Sandbox with your
@@ -45,6 +46,13 @@ const BRANDS: Record<string, string> = {
   blacklyte: "Blacklyte",
   hexgaming: "Hex Gaming",
 };
+
+// Brand deals without an @ in the caption, added by hand to content/deliverables.json: matched by video ID.
+const TAGGED_BY_HAND = new Map(
+  (fileDeliverables as { brand: string; url?: string }[])
+    .map((d) => [d.url?.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/)?.[1], d.brand] as const)
+    .filter((x): x is [string, string] => !!x[0])
+);
 
 type Video = {
   id: string;
@@ -130,6 +138,7 @@ export const tiktok: Connector = {
     // The latest 50 videos for the chart tooltip, plus every older one whose caption @mentions an account:
     // those are brand deals, shown as past deliverables.
     const sponsorOf = (v: Video) => {
+      if (TAGGED_BY_HAND.has(v.id)) return TAGGED_BY_HAND.get(v.id)!;
       const handles = [...(v.video_description || v.title || "").matchAll(/@([A-Za-z0-9._]+)/g)]
         .map((m) => m[1].replace(/\.$/, ""))
         .filter((h) => h.toLowerCase() !== String(user.username || "").toLowerCase());
