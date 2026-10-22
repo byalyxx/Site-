@@ -30,7 +30,7 @@ export default function Home() {
 
       <SectionBlock
         id="stack"
-        title="Stack"
+        title="My Gear"
         viewAll={{ href: "/stack" }}
         footnote="Some links here are affiliate links. If you buy through them I may earn a commission at no extra cost to you."
       >
