@@ -10,6 +10,9 @@ const SCOPES = ["https://www.googleapis.com/auth/youtube.readonly", "https://www
 
 const DATA = "https://www.googleapis.com/youtube/v3";
 const REPORTS = "https://youtubeanalytics.googleapis.com/v2/reports";
+const BULK = "https://youtubereporting.googleapis.com/v1";
+// The Reporting API's daily reach report: thumbnail impressions and their click-through rate, per video per day.
+const REACH_REPORT = "channel_reach_basic_a1";
 
 // YouTube's traffic source codes, in the words YouTube Studio uses.
 const SOURCES: Record<string, string> = {
@@ -132,21 +135,67 @@ export const youtube: Connector = {
       Object.assign(day(r.day).m, { views: r.views, watchMinutes: r.estimatedMinutesWatched, likes: r.likes, comments: r.comments, shares: r.shares });
     }
 
-    // Impressions and click-through rate: newer metrics that not every channel gets. Left out if refused.
+    // Impressions and click-through rate. The Analytics API doesn't give these, so they come from the Reporting
+    // API: a "job" that YouTube runs once a day, leaving one CSV per day (it also makes some days from before
+    // the job started). The job is created on the first refresh; each refresh after reads the days not stored
+    // yet, plus the last week, which YouTube can restate.
+    const notes: string[] = [];
     try {
-      const imp = await report(
-        { startDate: start, endDate: end, dimensions: "day", sort: "day", metrics: "videoThumbnailImpressions,videoThumbnailImpressionsClickRate" },
-        "impressions"
-      );
-      for (const r of rowsOf(imp)) {
-        const n = Number(r.videoThumbnailImpressions) || 0;
-        if (!n) continue;
-        day(r.day).m.impressions = n;
-        // The API gives the rate as a fraction; store the clicks so a week's rate can be weighted properly.
-        day(r.day).m.impressionClicks = Math.round(n * Number(r.videoThumbnailImpressionsClickRate || 0));
+      const jobs = await get(`${BULK}/jobs`, "YouTube reporting jobs");
+      let job = (jobs.jobs || []).find((j: any) => j.reportTypeId === REACH_REPORT);
+      if (!job) {
+        job = await fetchJson(
+          `${BULK}/jobs`,
+          { method: "POST", headers: { ...auth.headers, "Content-Type": "application/json" }, body: JSON.stringify({ reportTypeId: REACH_REPORT, name: "Media kit impressions" }) },
+          "YouTube reporting job"
+        );
+        notes.push("impressions job created, first figures within 48 hours");
+      }
+      const have = new Set(days.filter((d) => typeof d.m?.impressions === "number").map((d) => d.date));
+      const recent = addDays(today, -8);
+      // Newest copy of each day's report (YouTube reissues a day when it corrects it).
+      const newest = new Map<string, { downloadUrl: string; createTime: string }>();
+      let pageToken = "";
+      for (let page = 0; page < 20; page++) {
+        const res = await get(`${BULK}/jobs/${job.id}/reports?pageSize=500${pageToken ? `&pageToken=${pageToken}` : ""}`, "YouTube reports");
+        for (const r of res.reports || []) {
+          const date = String(r.startTime).slice(0, 10);
+          if (have.has(date) && date < recent) continue;
+          const prev = newest.get(date);
+          if (!prev || r.createTime > prev.createTime) newest.set(date, r);
+        }
+        if (!res.nextPageToken) break;
+        pageToken = res.nextPageToken;
+      }
+      // At most 120 days per refresh, newest first, so a big backlog fills over a few refreshes.
+      const todo = [...newest.entries()].sort((a, b) => b[0].localeCompare(a[0])).slice(0, 120);
+      for (const [date, r] of todo) {
+        const csv = await fetch(r.downloadUrl, { ...auth, cache: "no-store" }).then((x) => {
+          if (!x.ok) throw new Error(`YouTube report download: ${x.status}`);
+          return x.text();
+        });
+        const [head, ...lines] = csv.trim().split("\n");
+        const cols = head.split(",");
+        const iImp = cols.indexOf("video_thumbnail_impressions");
+        const iCtr = cols.indexOf("video_thumbnail_impressions_ctr");
+        if (iImp < 0) continue;
+        let impressions = 0;
+        let clicks = 0;
+        for (const line of lines) {
+          const v = line.split(",");
+          const n = Number(v[iImp]) || 0;
+          impressions += n;
+          const ctr = Number(v[iCtr]) || 0;
+          clicks += n * (ctr > 1 ? ctr / 100 : ctr);
+        }
+        // Days with no impressions are stored as 0 too, so they aren't fetched again.
+        day(date).m.impressions = impressions;
+        // The rate comes as a fraction; store clicks so a week's rate is weighted properly.
+        day(date).m.impressionClicks = Math.round(clicks);
       }
     } catch (e) {
       console.warn(String(e));
+      notes.push(`impressions not read (${e instanceof Error ? e.message : e})`);
     }
 
     // Lists, one day at a time (YouTube won't split these by day in a single report).
@@ -224,6 +273,6 @@ export const youtube: Connector = {
       }
     }
 
-    return { handle: channel?.snippet?.customUrl, days: [...out.values()], posts };
+    return { notes, handle: channel?.snippet?.customUrl, days: [...out.values()], posts };
   },
 };

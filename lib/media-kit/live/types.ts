@@ -37,6 +37,7 @@ export type SyncResult = {
   handle?: string;
   days: DayRow[]; // merged into the stored rows key by key
   posts: PostRow[];
+  notes?: string[]; // anything worth knowing that didn't stop the refresh, shown in its report
 };
 
 export type Connector = {

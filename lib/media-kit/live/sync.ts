@@ -105,7 +105,7 @@ export async function syncAll(only?: PlatformId): Promise<SyncReport> {
       await upsert("media_kit_accounts", [
         { platform: account.platform, token, ...(result.handle ? { handle: result.handle } : {}), last_sync: new Date().toISOString(), last_error: null },
       ]);
-      report.push({ platform: account.platform, ok: true, message: `${rows.length} days, ${posts.length} posts` });
+      report.push({ platform: account.platform, ok: true, message: [`${rows.length} days, ${posts.length} posts`, ...(result.notes || [])].join(". ") });
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
       console.error(`Media kit refresh for ${account.platform} failed: ${message}`);
