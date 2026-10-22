@@ -1,3 +1,4 @@
+import { ArrowUpRight } from "lucide-react";
 import { hero, profile, socials } from "@/content/site";
 import { cn } from "./cn";
 import { bracketClass, linkClass } from "./controls";
@@ -10,8 +11,8 @@ export function Hero() {
         <a href={hero.about.href} className={bracketClass}>
           {hero.about.label}
         </a>
-        <a href={`mailto:${profile.email}`} className={cn(linkClass, "text-body font-medium text-site-fg")}>
-          Email
+        <a href={`mailto:${profile.email}`} className={cn(linkClass, "inline-flex items-center gap-0.5 text-body font-medium text-site-fg")}>
+          Email <ArrowUpRight className="size-3.5" aria-hidden />
         </a>
       </div>
     </header>
