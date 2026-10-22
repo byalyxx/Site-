@@ -11,28 +11,17 @@ export { buttonClass, itemClass, submitClass };
 
 export const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
-// A text item in the nav pill group: itemClass sized by its label instead of the 36px square.
-const tabClass = cn(itemClass, "inline-flex h-control w-auto gap-2 whitespace-nowrap px-3 text-copy font-medium");
-// Quiet text for a secondary choice, no surrounding pill (the site has no equivalent, so it's built from its tokens).
-const textTabClass =
-  "cursor-pointer py-0.5 text-meta font-medium text-site-chart-muted site-transition hover:text-site-fg aria-selected:text-site-fg focus-visible:outline-2 focus-visible:outline-site-fg";
+// The nav's group and items with the buttons' corners instead of the nav's pill shape, so the tabs sit with the
+// site's buttons and cards. Items are sized by their label instead of the 36px square.
+const groupClass = cn(navClass, "rounded-card p-1");
+const tabClass = cn(itemClass, "inline-flex h-control w-auto gap-2 whitespace-nowrap rounded-tile px-3 text-copy font-medium");
 
-// The SiteNav pill group holding text items, as a tablist. Props follow the shadcn Tabs used on the site.
+// The SiteNav group holding text items, as a tablist. Props follow the shadcn Tabs used on the site.
 export function PillTabs({ id, label, value, items, controls }) {
-  return `<div class="${navClass}" role="tablist" aria-label="${esc(label)}"${id ? ` id="${esc(id)}"` : ""}>${items
+  return `<div class="${groupClass}" role="tablist" aria-label="${esc(label)}"${id ? ` id="${esc(id)}"` : ""}>${items
     .map((it) => {
       const on = it.value === value;
       return `<button type="button" class="${on ? cn(tabClass, itemActiveClass) : tabClass}" role="tab" id="${esc(it.id || "")}" data-value="${esc(it.value)}" aria-selected="${on}" tabindex="${on ? 0 : -1}"${controls ? ` aria-controls="${esc(controls)}"` : ""}>${it.icon || ""}<span>${esc(it.label)}</span></button>`;
-    })
-    .join("")}</div>`;
-}
-
-// The chart's Total / Indexed. Same props and keyboard behaviour as PillTabs.
-export function TextTabs({ id, label, value, items }) {
-  return `<div class="flex gap-3.5" role="tablist" aria-label="${esc(label)}"${id ? ` id="${esc(id)}"` : ""}>${items
-    .map((it) => {
-      const on = it.value === value;
-      return `<button type="button" class="${textTabClass}" role="tab" data-value="${esc(it.value)}" aria-selected="${on}" tabindex="${on ? 0 : -1}">${esc(it.label)}</button>`;
     })
     .join("")}</div>`;
 }

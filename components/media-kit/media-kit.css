@@ -29,19 +29,6 @@
   min-width: 0;
 }
 
-.media-kit .sample-banner {
-  margin: 0 0 -8px;
-  padding: 10px 14px;
-  border: 1px dashed var(--site-border);
-  border-radius: --theme(--radius-control);
-  color: var(--site-muted);
-  font-size: --theme(--text-meta);
-}
-.media-kit .sample-banner code {
-  color: var(--site-fg);
-  font-size: --theme(--text-small);
-}
-
 /* ---------- Control bar ---------- */
 
 .media-kit .controls {

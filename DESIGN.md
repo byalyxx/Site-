@@ -79,7 +79,7 @@ Kit-only tokens (dark values; the page never shows a light version):
 | `site-chart-muted` | #8e8e8e | Labels, axis, deltas inside the analytics card only (5.6:1 on the card) |
 | `site-chart-disabled` | #4a4a4a | Future days in the date picker |
 | `site-live` | #3b82f6 | The live dot |
-| `site-tiktok` / `site-instagram` / `site-youtube` | #5aa7a8 / #b072a8 / #c25b4f | Tooltip breakdown dots and the Indexed lines, nowhere else |
+| `site-tiktok` / `site-instagram` / `site-youtube` | #5aa7a8 / #b072a8 / #c25b4f | Tooltip breakdown dots, nowhere else |
 | `site-brand-youtube` / `site-brand-instagram`, `site-on-media-muted` | #ff0000 / #e4405f, #c7c7c7 | Brand marks on platform icons, subtitles over thumbnails |
 
 One type exception: `text-flag` (9px), the two-letter country code in 22px tiles.

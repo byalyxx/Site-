@@ -9,16 +9,13 @@ import { mountMediaKit } from "./renderer.js";
 import "./media-kit.css";
 
 // Sample data is a layout preview. It ships only in development, or in a build made with
-// NEXT_PUBLIC_MEDIA_KIT_SAMPLE=1; then `?sample` on the URL turns it on and a banner says so.
+// NEXT_PUBLIC_MEDIA_KIT_SAMPLE=1; then `?sample` on the URL turns it on.
 const SAMPLE_ALLOWED = process.env.NODE_ENV === "development" || process.env.NEXT_PUBLIC_MEDIA_KIT_SAMPLE === "1";
 
 // The markup the renderer fills in, from the standalone kit's index.html. It is written into the page on mount
 // (and cleared on unmount), so every visit starts from fresh elements and the renderer's listeners go with them.
 const markup = `
   <div class="mk-analytics-block">
-    <p class="sample-banner" id="sample-banner" hidden>
-      Sample data. These numbers only show the layout. Real figures go in <code>content/media-kit.ts</code>.
-    </p>
     <div class="controls">
       <div class="platform-tabs" id="platform-tabs"></div>
       <button type="button" class="${cn(buttonClass, "date-chip")}" id="date-chip" aria-haspopup="dialog">

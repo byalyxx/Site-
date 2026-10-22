@@ -47,7 +47,6 @@ export function mountMediaKit(DATA, { signal }) {
     platform: TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "all",
     range: { ...PRESETS[3].range(), preset: "30d" },
     show: {}, // per list: "count" or "share"
-    chartMode: "total", // All tab: "total" or "indexed"
   };
   const NAMES = { all: "All", tiktok: "TikTok", instagram: "Instagram", youtube: "YouTube" };
 
@@ -257,13 +256,6 @@ export function mountMediaKit(DATA, { signal }) {
       lists +
       (anything ? "" : `<p class="empty">No ${esc(name)} figures for ${esc(fmtRange(state.range))}.</p>`);
     if (chart) bindChart(chart);
-    const toggle = root.querySelector("#chart-mode");
-    if (toggle)
-      UI.bindTabs(toggle, (v, focus) => {
-        state.chartMode = v;
-        renderAnalytics();
-        if (focus) root.querySelector(`#chart-mode [data-value="${v}"]`).focus();
-      });
   }
 
   function platformParts(p) {
@@ -369,7 +361,7 @@ export function mountMediaKit(DATA, { signal }) {
       name: "combined",
       head: headHtml(""),
       kpis,
-      chart: (state.chartMode === "indexed" && indexedChart(r)) || totalChart(r),
+      chart: totalChart(r),
       lists: pairsHtml([[followersList, viewsList], [countriesList, delivList]]),
     };
   }
@@ -583,52 +575,7 @@ export function mountMediaKit(DATA, { signal }) {
       prev,
       label: "Views",
       prevLabel: periodName(r).replace(/^p/, "P"),
-      toggle: unit !== "hour",
       aria: `Views on TikTok, Instagram and YouTube together, by ${unit}, ${fmtRange(r)}: total ${exact(totals.reduce((a, b) => a + (b || 0), 0))}.`,
-    };
-  }
-
-  // Each platform's views as a 7-day average, rebased to 100 on the first day of the range, so growth
-  // can be compared regardless of size. One point per bucket, read at the bucket's last day.
-  function indexedChart(r) {
-    const unit = bucketUnit(r);
-    if (unit === "hour") return null;
-    const from = r.start - 6 * DAY;
-    const days = buckets({ start: from, end: r.end }, "day");
-    const daily = viewsGrid(days, "day");
-    if (!daily) return null;
-    const avgAt = (p, t) => {
-      const i = Math.round((t - from) / DAY);
-      const win = daily.by[p].slice(Math.max(0, i - 6), i + 1).filter(isNum);
-      return win.length ? win.reduce((a, b) => a + b, 0) / win.length : null;
-    };
-    const bs = buckets(r, unit);
-    const lines = [];
-    for (const p of ORDER) {
-      const base = avgAt(p, r.start);
-      if (!base) return null;
-      lines.push({
-        p,
-        name: NAMES[p],
-        values: bs.map((b) => {
-          const v = avgAt(p, b.end);
-          return v == null ? null : (v / base) * 100;
-        }),
-      });
-    }
-    const vals = lines.flatMap((l) => l.values).filter(isNum);
-    return {
-      kind: "indexed",
-      unit,
-      buckets: bs.map((b) => ({ ...b, full: true })), // a 7-day average isn't cut short by the range edge
-      ts: bs.map((b) => b.t),
-      max: niceMax(Math.max(...vals, 100)),
-      lines,
-      baseT: r.start,
-      toggle: true,
-      aria: `Views growth by platform, ${fmtRange(r)}, 7-day average indexed to 100 on ${fmtDay(r.start, true)}. ${lines
-        .map((l) => `${l.name} ends at ${l.values[l.values.length - 1].toFixed(0)}`)
-        .join(", ")}.`,
     };
   }
 
@@ -789,20 +736,9 @@ export function mountMediaKit(DATA, { signal }) {
     const postTicks = m.posts
       ? m.posts.map((ps, i) => (ps.length ? `<i style="left:${n === 1 ? 50 : (i / (n - 1)) * 100}%"></i>` : "")).join("")
       : "";
-    const toggle = m.toggle
-      ? UI.TextTabs({
-          id: "chart-mode",
-          label: "Chart",
-          value: m.kind,
-          items: [
-            { value: "total", label: "Total" },
-            { value: "indexed", label: "Indexed" },
-          ],
-        })
-      : "";
 
     return `<figure class="chart" style="margin:0">
-      <div class="chart-head"><span class="chart-max" aria-hidden="true">${m.kind === "indexed" ? exact(m.max) : compact(m.max)}</span>${toggle}</div>
+      <div class="chart-head"><span class="chart-max" aria-hidden="true">${m.kind === "indexed" ? exact(m.max) : compact(m.max)}</span></div>
       <div class="plot" tabindex="0" role="img" aria-label="${esc(m.aria + " Use the arrow keys to read each point.")}">
         <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">${body}
           <line class="s-rule" x1="0" x2="0" y1="0" y2="${H}" vector-effect="non-scaling-stroke" visibility="hidden"/>
@@ -1204,7 +1140,6 @@ export function mountMediaKit(DATA, { signal }) {
 
   // ---------- Start ----------
 
-  if (DATA.sample) document.getElementById("sample-banner").hidden = false;
   window.addEventListener("hashchange", () => {
     const h = location.hash.slice(1);
     if (TABS.includes(h) && h !== state.platform) choosePlatform(h, false);
