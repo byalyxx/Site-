@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
@@ -7,7 +7,7 @@ import { bracketClass, linkClass } from "@/components/home/controls";
 import { cn } from "@/components/home/cn";
 import { FollowerLine } from "@/components/home/hero";
 import { CopyEmail } from "@/components/home/hero-widgets";
-import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
+import { Row, RowList, SectionBlock } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
 import { ContactForm } from "@/components/home/forms";
 import { MediaKit } from "@/components/media-kit/media-kit";
@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   },
 };
 
-const serviceIcons = { short: Smartphone, long: Clapperboard, photo: Camera, rights: BadgeCheck };
 
 export default async function MediaKitPage() {
   // Numbers from the active adapter (content/media-kit.ts), validated before anything renders.
@@ -50,21 +49,9 @@ export default async function MediaKitPage() {
 
       <SectionBlock id="services" title="What I offer">
         <RowList>
-          {mediaKit.services.map((s) => {
-            const Icon = serviceIcons[s.icon as keyof typeof serviceIcons];
-            return (
-              <Row
-                key={s.title}
-                leading={
-                  <Tile>
-                    <Icon className="size-5" aria-hidden />
-                  </Tile>
-                }
-                title={s.title}
-                label={s.description}
-              />
-            );
-          })}
+          {mediaKit.services.map((s) => (
+            <Row key={s.title} title={s.title} label={s.description} />
+          ))}
         </RowList>
       </SectionBlock>
 

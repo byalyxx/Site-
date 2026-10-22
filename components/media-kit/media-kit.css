@@ -472,10 +472,11 @@
   height: 40px;
   min-width: 0;
 }
+/* Square ends: the bars are measurements */
 .media-kit .row .bar {
   position: absolute;
   inset: 0 auto 0 0;
-  border-radius: --theme(--radius-control);
+  border-radius: 0;
   background: var(--site-chart-bar);
   transition: width --theme(--duration-site) --theme(--ease-site);
 }
@@ -507,8 +508,6 @@
   place-items: center;
   width: 22px;
   height: 22px;
-  border-radius: --theme(--radius-tile);
-  background: var(--site-border);
   color: var(--site-chart-muted);
   flex: none;
   font-size: --theme(--text-flag);
@@ -519,7 +518,6 @@
   color: var(--site-fg);
 }
 .media-kit .ico.flag {
-  background: none;
   font-size: 18px;
   letter-spacing: 0;
 }
@@ -567,7 +565,6 @@
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   cursor: grab;
-  border-radius: --theme(--radius-card);
   user-select: none;
 }
 .media-kit .scroller::-webkit-scrollbar {
@@ -584,7 +581,6 @@
   aspect-ratio: 9 / 16;
   position: relative;
   overflow: hidden;
-  border-radius: --theme(--radius-card);
   border: 1px solid var(--site-border);
   background: var(--site-surface);
   color: --theme(--color-site-on-media);
@@ -624,7 +620,6 @@
   height: 20px;
   display: grid;
   place-items: center;
-  border-radius: --theme(--radius-pill);
   background: --theme(--color-site-scrim / 55%);
 }
 .media-kit .deliverable .plat svg {

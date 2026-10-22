@@ -43,7 +43,7 @@ export function SectionBlock({
   );
 }
 
-// Rows sit between hairlines. On hover the row's background fills, spilling 10px past the column like the reference.
+// Rows sit between hairlines. On hover the row tints, spilling 10px past the column so the text keeps its inset.
 export function RowList({ children }: { children: React.ReactNode }) {
   return <ul className="flex flex-col border-t border-site-line">{children}</ul>;
 }
@@ -54,6 +54,7 @@ export function Row({
   external,
   leading,
   title,
+  meta,
   label,
   trailing,
   placeholder,
@@ -63,7 +64,8 @@ export function Row({
   external?: boolean;
   leading?: React.ReactNode;
   title: string;
-  label?: string;
+  meta?: string; // metadata (a category, a product): monospace
+  label?: string; // prose (a description): the site face
   trailing?: React.ReactNode;
   placeholder?: boolean;
 }) {
@@ -72,12 +74,14 @@ export function Row({
       {leading}
       <span className="flex min-w-0 flex-1 flex-col gap-1">
         <span className={cn("text-title font-medium text-site-fg", placeholder && "italic text-site-muted")}>{title}</span>
+        {meta && <span className="font-mono text-small text-site-muted">{meta}</span>}
         {label && <span className="text-meta text-site-muted">{label}</span>}
       </span>
       {trailing}
     </>
   );
-  const rowClass = "-mx-2.5 flex items-center gap-4 rounded-card px-2.5 py-row";
+  // No fill, border or radius: the hairlines carry the list. min-h-11 keeps every row a 44px tap target.
+  const rowClass = "-mx-2.5 flex min-h-11 items-center gap-4 px-2.5 py-row";
 
   return (
     <li className="border-b border-site-line">
@@ -93,18 +97,5 @@ export function Row({
         <div className={rowClass}>{body}</div>
       )}
     </li>
-  );
-}
-
-export function Tile({ children, className }: { children: React.ReactNode; className?: string }) {
-  return (
-    <span
-      className={cn(
-        "grid size-tile shrink-0 place-items-center overflow-hidden rounded-tile border border-site-border bg-site-thumb text-site-muted",
-        className,
-      )}
-    >
-      {children}
-    </span>
   );
 }

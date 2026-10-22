@@ -1,9 +1,9 @@
-import { Eye, Globe, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
+import { Eye, MessageCircle, ThumbsUp } from "lucide-react";
 import { contact, gear, products, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
-import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
+import { Row, RowList, SectionBlock } from "@/components/home/section-block";
 import { GearSwitcher } from "@/components/home/gear-switcher";
 import { linkClass } from "@/components/home/controls";
 
@@ -48,9 +48,6 @@ export default function Home() {
               title={p.title}
               label={p.placeholder ? p.type : p.type ? `${p.type} · ${p.description}` : p.description}
               placeholder={p.placeholder}
-              leading={
-                <Tile>{p.placeholder ? <ImageIcon className="size-5" aria-hidden /> : <Globe className="size-5" aria-hidden />}</Tile>
-              }
             />
           ))}
         </RowList>

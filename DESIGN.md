@@ -11,7 +11,7 @@ Follows the visitor's system setting, and the theme button in the footer switche
 | Token | Light | Dark | Used for |
 | --- | --- | --- | --- |
 | `site-bg` | #ffffff | #0a0a0a | Page |
-| `site-surface` | #fafafa | #111111 | Buttons, inputs, hovered rows |
+| `site-surface` | #fafafa | #111111 | Hovered rows |
 | `site-border` | #e0e0e0 | #262626 | Outlines on surfaces |
 | `site-line` | #f0f0f0 | #1c1c1c | Hairlines between list rows |
 | `site-fg` | #0a0a0a | #fafafa | Headings, titles |
@@ -39,7 +39,7 @@ Inter (already loaded by `app/layout.tsx`). Small sizes, with weight doing the w
 | `text-copy` | 12 / 21 | 400, 600 buttons | 0 | Paragraphs, buttons, inputs |
 | `text-meta` | 12 / 16 | 400 | 0 | Dates, category labels |
 | `text-small` | 12 / 16 | 400-500 | 0 | View All, footer, notes |
-| `text-tag` | 12 / 14 | 600 caps | wide | "New" badge |
+| `text-tag` | 12 / 14 | 500 | 0 | `[NEW]` on the featured card (mono) |
 
 The headline breaks across lines: line one in `site-fg`, line two in `site-muted`.
 
@@ -55,11 +55,10 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 
 ## Rows and cards
 
-- List row: 16px vertical padding. Optional 44px tile on the left (7px radius, 1px border). Title over a muted label, or a date on the right.
-- Hover: the row fills with `site-surface` and a 10px radius, spilling 10px past the column on each side. Stack rows also show an arrow.
-- Featured card: full column width, 16:9, 10px radius, 1px border, caption bottom-left over a dark gradient. Hover: border brightens, image scales 2%.
-- Buttons: 36px tall, 8px radius, 1px border, `site-surface` fill, 600 weight.
-- Inputs: 40px tall, 8px radius, same fill and border.
+- List row: 16px vertical padding, at least 44px tall. No icon tiles: only icons that identify something (partner logos, platform icons, flags), bare and square. Name in the site face; category or product beneath in mono, muted, `text-small`; prose descriptions stay in the site face.
+- Hover: the row tints with `site-surface` (no radius), spilling 10px past the column on each side, and the bare ↗ on the right turns `site-brand`.
+- Featured card: full column width, 16:9, square corners, 1px border, `[NEW]` top-left in mono, caption bottom-left over a dark gradient. Hover: border brightens, image scales 2%.
+- Inputs: 40px tall, no box: a 1px rule underneath at 30% of the text colour (like the link underline), `site-brand` on focus.
 
 ## Media kit (/media-kit)
 

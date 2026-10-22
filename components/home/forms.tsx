@@ -4,8 +4,9 @@ import { useState } from "react";
 import { cn } from "./cn";
 import { bracketClass } from "./controls";
 
+// A rule under each field instead of a box, in the link underline's colour (30% of the text), red on focus.
 const fieldClass =
-  "w-full rounded-control border border-site-border bg-site-surface px-3 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-site-muted focus-visible:outline-none";
+  "w-full rounded-none border-0 border-b border-b-site-fg/30 bg-transparent px-0 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-b-site-brand focus-visible:outline-none";
 
 // Styled and working in the browser, but not connected to any mailing list yet.
 export function NewsletterForm() {
