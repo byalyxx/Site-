@@ -23,5 +23,9 @@ jobs:
             echo "::notice::MEDIA_KIT_ADMIN_KEY isn't set yet, so there's nothing to refresh."
             exit 0
           fi
-          curl --fail-with-body -sS -X POST "$SITE/api/media-kit/sync" \
-            -H "Authorization: Bearer $KEY" --max-time 300
+          # Hostinger sometimes answers with a 307 back to the same address, so follow it (same host, so the
+          # key goes along) and check the reply is the refresh's own JSON, not a redirect page.
+          out=$(curl --fail-with-body -sS -L --max-redirs 5 -X POST "$SITE/api/media-kit/sync" \
+            -H "Authorization: Bearer $KEY" --max-time 300 --retry 3 --retry-all-errors)
+          echo "$out"
+          case "$out" in "{"*) ;; *) echo "::error::The refresh didn't answer with its results."; exit 1;; esac
