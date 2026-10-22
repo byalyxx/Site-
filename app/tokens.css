@@ -2,7 +2,8 @@
   Design tokens for the home page and /stack.
   Measured from screenshots of the reference layout at 1440, 834 and 390px wide (see DESIGN.md).
   Everything on those pages uses these tokens: no one-off colours or spacing.
-  Scoped to `.site` so the media kit keeps the shadcn theme in globals.css.
+  Scoped to `.site`, so the shadcn theme in globals.css keeps its own values elsewhere.
+  /media-kit is always dark (see "Media kit" below and DESIGN.md).
 */
 
 .site {
@@ -19,9 +20,16 @@
   /* Data: one hue for the series that matters, the muted grey for comparisons */
   --site-data: #7c3aed;
   --site-positive: #15803d; /* growth figures */
+
+  /* Fixed in both themes: brand marks on the media kit's platform icons, and text over thumbnails */
+  --site-brand-youtube: #ff0000;
+  --site-brand-instagram: #e4405f;
+  --site-on-media-muted: #c7c7c7;
 }
 
-.dark .site {
+.dark .site,
+.site.site-force-dark,
+html:has(.site-force-dark) {
   --site-bg: #161616;
   --site-surface: #1a1a1a;
   --site-border: #272727;
@@ -33,6 +41,24 @@
   --site-thumb: #222222;
   --site-data: #a78bfa;
   --site-positive: #4ade80;
+
+  /* Media kit analytics (/media-kit, dark only). Values carried over from the standalone kit. */
+  --site-chart-line: #a0a0a0; /* the monochrome line, its comparison and markers */
+  --site-chart-rule: rgb(255 255 255 / 0.22); /* crosshair */
+  --site-chart-hairline: rgb(255 255 255 / 0.07); /* rules inside the analytics card */
+  --site-chart-bar: #1f1f1f; /* proportional list bars, picker hovers */
+  --site-chart-muted: #8e8e8e; /* labels, axis and deltas inside the analytics card */
+  --site-chart-disabled: #4a4a4a; /* days after today in the date picker */
+  --site-live: #3b82f6; /* the live dot, nowhere else */
+  /* Platform colours: tooltip breakdown dots and the Indexed lines, nowhere else */
+  --site-tiktok: #5aa7a8;
+  --site-instagram: #b072a8;
+  --site-youtube: #c25b4f;
+}
+
+/* Pages that are always dark (/media-kit): the same values on <html>, so overscroll and native controls match */
+html:has(.site-force-dark) {
+  color-scheme: dark;
 }
 
 /* Paint the whole page, including overscroll, when a .site page is showing */
@@ -53,6 +79,7 @@ body:has(.site) {
   --color-site-thumb: var(--site-thumb);
   --color-site-data: var(--site-data);
   --color-site-positive: var(--site-positive);
+  --color-site-chart-muted: var(--site-chart-muted);
   /* Text and scrim over photos and thumbnails: fixed in both themes */
   --color-site-on-media: #ffffff;
   --color-site-scrim: #000000;
@@ -65,6 +92,13 @@ body:has(.site) {
   --text-figure: 22px; /* numbers in stat tiles */
   --text-figure--line-height: 28px;
   --text-figure--letter-spacing: -0.02em;
+  /* Media kit exceptions, kept from the standalone kit: the KPI row and the list headings inside the
+     analytics card are what a brand reads first */
+  --text-kpi: 30px;
+  --text-kpi--line-height: 1.15;
+  --text-kpi--letter-spacing: -0.02em;
+  --text-kit-heading: 17px;
+  --text-flag: 9px; /* two-letter country codes in 22px icon tiles */
   --text-title: 15px;
   --text-title--line-height: 20px;
   --text-title--letter-spacing: -0.01em;
@@ -84,6 +118,8 @@ body:has(.site) {
 
   /* Layout */
   --container-column: 448px; /* single centred column */
+  --container-kit: 1120px; /* /media-kit only: the analytics dashboard needs the width */
+  --spacing-nav-clear: 72px; /* side padding that keeps a wide page clear of the side nav (810px up) */
   --spacing-gutter: 16px; /* side padding on phones */
   --spacing-section: 64px; /* gap between sections */
   --spacing-page-top: 160px; /* space above the hero on desktop */

@@ -14,18 +14,26 @@ const icons: Record<(typeof nav)[number]["icon"], LucideIcon> = {
   contact: Send,
 };
 
-const itemClass =
+export const itemClass =
   "group/item relative grid size-control place-items-center rounded-pill text-site-muted site-transition hover:bg-site-bg hover:text-site-fg focus-visible:outline-2 focus-visible:outline-site-fg";
 
+// The pill group around the items, and an item's selected state. The media kit's platform tabs use all three.
+export const navClass = "flex w-fit gap-1 rounded-pill border border-site-border bg-site-surface p-1.5 shadow-sm";
+export const itemActiveClass = "border border-site-border bg-site-bg text-site-fg";
+
 // The same five links render once: a pill on the left edge from 810px up, a floating bar at the bottom below that.
-export function SiteNav() {
+// Pages that are always dark (/media-kit) leave out the theme toggle, which would do nothing there.
+export function SiteNav({ themeToggle = true }: { themeToggle?: boolean }) {
   const pathname = usePathname();
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <nav
       aria-label="Main"
-      className="fixed inset-x-0 bottom-4 z-50 mx-auto flex w-fit gap-1 rounded-pill border border-site-border bg-site-surface p-1.5 shadow-sm tab:inset-x-auto tab:bottom-auto tab:left-3 tab:top-1/2 tab:-translate-y-1/2 tab:flex-col"
+      className={cn(
+        navClass,
+        "fixed inset-x-0 bottom-4 z-50 mx-auto tab:inset-x-auto tab:bottom-auto tab:left-3 tab:top-1/2 tab:-translate-y-1/2 tab:flex-col"
+      )}
     >
       {nav.map((item) => {
         const Icon = icons[item.icon];
@@ -36,23 +44,25 @@ export function SiteNav() {
             href={item.href}
             aria-label={item.label}
             aria-current={active ? "page" : undefined}
-            className={cn(itemClass, active && "border border-site-border bg-site-bg text-site-fg")}
+            className={cn(itemClass, active && itemActiveClass)}
           >
             <Icon className="size-4" aria-hidden />
             <Tooltip>{item.label}</Tooltip>
           </a>
         );
       })}
-      <button
-        type="button"
-        onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-        aria-label="Toggle dark mode"
-        className={itemClass}
-      >
-        <Sun className="size-4 dark:hidden" aria-hidden />
-        <Moon className="hidden size-4 dark:block" aria-hidden />
-        <Tooltip>Theme</Tooltip>
-      </button>
+      {themeToggle && (
+        <button
+          type="button"
+          onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+          aria-label="Toggle dark mode"
+          className={itemClass}
+        >
+          <Sun className="size-4 dark:hidden" aria-hidden />
+          <Moon className="hidden size-4 dark:block" aria-hidden />
+          <Tooltip>Theme</Tooltip>
+        </button>
+      )}
     </nav>
   );
 }

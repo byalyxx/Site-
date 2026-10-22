@@ -2,6 +2,11 @@
 @import "tw-animate-css";
 @import "./tokens.css";
 
+/* The media kit renderer and its sample data build HTML strings with their own class names (scoped in
+   components/media-kit/media-kit.css); keep Tailwind from reading words like "ring" in them as utilities. */
+@source not "../components/media-kit/renderer.js";
+@source not "../lib/media-kit/sample.js";
+
 @custom-variant dark (&:is(.dark *));
 
 /* shadcn/ui "neutral" theme. The .dark class is set by next-themes (system setting or the toggle). */

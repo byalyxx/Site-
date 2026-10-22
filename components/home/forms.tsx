@@ -6,6 +6,10 @@ import { cn } from "./cn";
 const fieldClass =
   "w-full rounded-control border border-site-border bg-site-surface px-3 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-site-muted focus-visible:outline-none";
 
+// The solid submit button (also the media kit's date picker Apply button)
+export const submitClass =
+  "h-field rounded-control bg-site-accent text-copy font-semibold text-site-accent-fg site-transition hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-site-fg";
+
 // Styled and working in the browser, but not connected to any mailing list yet.
 export function NewsletterForm() {
   const [sent, setSent] = useState(false);
@@ -82,7 +86,7 @@ export function ContactForm({ email }: { email: string }) {
       </Field>
       <button
         type="submit"
-        className="h-field rounded-control bg-site-accent text-copy font-semibold text-site-accent-fg site-transition hover:opacity-85 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-site-fg"
+        className={submitClass}
       >
         Submit
       </button>

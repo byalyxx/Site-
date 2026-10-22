@@ -1,0 +1,898 @@
+/*
+  The media kit's analytics, deliverables scroller and date picker (/media-kit), moved from the standalone kit.
+  Everything is scoped to `.media-kit`, so nothing here reaches the rest of the site, and every colour, radius,
+  size and easing comes from app/tokens.css: no hex values here. The kit-only tokens (chart line, bars, platform
+  colours, the KPI and list heading sizes) are documented there and in DESIGN.md.
+  The controls (platform pills, date chip, selects, picker buttons) use the site's own class strings
+  (components/media-kit/ui.js), so they are not styled here.
+*/
+
+@reference "../../app/globals.css";
+
+.media-kit {
+  display: flex;
+  flex-direction: column;
+  gap: --theme(--spacing-section);
+  min-width: 0;
+  /* Kept from the kit: the chart, lists and tooltip are laid out on this line height */
+  line-height: 1.45;
+  --pad: 20px; /* analytics container padding */
+}
+@media (min-width: 640px) {
+  .media-kit {
+    --pad: 28px;
+  }
+}
+@media (min-width: 1024px) {
+  .media-kit {
+    --pad: 40px;
+  }
+}
+.media-kit svg {
+  display: block;
+}
+
+.media-kit .mk-analytics-block {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.media-kit .sample-banner {
+  margin: 0 0 -8px;
+  padding: 10px 14px;
+  border: 1px dashed var(--site-border);
+  border-radius: --theme(--radius-control);
+  color: var(--site-muted);
+  font-size: --theme(--text-meta);
+}
+.media-kit .sample-banner code {
+  color: var(--site-fg);
+  font-size: --theme(--text-small);
+}
+
+/* ---------- Control bar ---------- */
+
+.media-kit .controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.media-kit .date-chip svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+/* Platform icons make the pill row too wide for small phones: names only there */
+@media (max-width: 420px) {
+  .media-kit .platform-tabs [role="tab"] svg {
+    display: none;
+  }
+}
+.media-kit [role="tab"] svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+/* ---------- Cards ---------- */
+
+.media-kit .card {
+  background: var(--site-surface);
+  border: 1px solid var(--site-border);
+  border-radius: --theme(--radius-card);
+}
+
+/* ---------- Analytics ---------- */
+
+.media-kit .analytics {
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+  font-size: --theme(--text-body);
+}
+.media-kit .a-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  font-size: --theme(--text-meta);
+  color: var(--site-chart-muted);
+}
+.media-kit .a-head a {
+  color: var(--site-chart-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color --theme(--duration-site) --theme(--ease-site);
+}
+.media-kit .a-head a:hover {
+  color: var(--site-fg);
+}
+.media-kit .a-head a svg {
+  width: 14px;
+  height: 14px;
+}
+.media-kit .updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.media-kit .live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--site-live);
+  flex: none;
+}
+
+.media-kit .kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 16px;
+  margin: 0;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--site-chart-hairline);
+}
+.media-kit .kpis:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+@media (min-width: 760px) {
+  .media-kit .kpis {
+    grid-template-columns: repeat(var(--kpi-cols, 4), minmax(0, 1fr));
+  }
+}
+.media-kit .kpi {
+  min-width: 0;
+}
+.media-kit .kpi dt {
+  font-size: --theme(--text-body);
+  font-weight: 400;
+  color: var(--site-chart-muted);
+}
+.media-kit .kpi dd {
+  margin: 6px 0 0;
+  font-size: --theme(--text-kpi);
+  line-height: --theme(--text-kpi--line-height);
+  font-weight: 600;
+  letter-spacing: --theme(--text-kpi--letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--site-fg);
+  overflow-wrap: anywhere;
+}
+.media-kit .kpi .delta {
+  margin-left: 8px;
+  font-size: --theme(--text-meta);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--site-chart-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.media-kit .kpi .note {
+  display: block;
+  margin-top: 4px;
+  font-size: --theme(--text-meta);
+  color: var(--site-chart-muted);
+}
+
+/* Chart */
+/* The hairline above comes from the KPI row; the chart gets room to breathe on both sides */
+.media-kit .chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-block: 12px 40px;
+  border-bottom: 1px solid var(--site-chart-hairline);
+}
+.media-kit .chart-max,
+.media-kit .axis {
+  font-size: --theme(--text-meta);
+  font-weight: 400;
+  color: var(--site-chart-muted);
+  font-variant-numeric: tabular-nums;
+}
+.media-kit .plot {
+  position: relative;
+  height: 200px;
+  margin-top: 4px;
+  touch-action: pan-y;
+  cursor: crosshair;
+}
+@media (min-width: 760px) {
+  .media-kit .plot {
+    height: 260px;
+  }
+}
+.media-kit .plot svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.media-kit .chart-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 18px;
+}
+.media-kit .plot .s-current {
+  fill: none;
+  stroke: var(--site-chart-line);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.media-kit .plot .s-previous {
+  fill: none;
+  stroke: var(--site-chart-line);
+  stroke-width: 1.5;
+  stroke-dasharray: 1 4;
+  stroke-linecap: round;
+}
+/* Lines into a bucket the range cuts short (a part week or month): lighter, so they don't read as a drop */
+.media-kit .plot .s-partial {
+  stroke-opacity: 0.45;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.media-kit .plot .s-index {
+  fill: none;
+  stroke: var(--c);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.media-kit .plot .s-rule {
+  stroke: var(--site-chart-rule);
+  stroke-width: 1;
+}
+.media-kit .plot .fill-top {
+  stop-color: var(--site-fg);
+  stop-opacity: 0.06;
+}
+.media-kit .plot .fill-bottom {
+  stop-color: var(--site-fg);
+  stop-opacity: 0;
+}
+
+/* Markers on the series: filled for solid lines, a ring for the dotted comparison */
+.media-kit .dot {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--c, var(--site-chart-line));
+  box-shadow: 0 0 0 2px var(--site-surface);
+  pointer-events: none;
+}
+.media-kit .dot.ring {
+  background: var(--site-surface);
+  border: 2px solid var(--c, var(--site-chart-line));
+}
+.media-kit .axis {
+  position: relative;
+  height: 18px;
+}
+.media-kit .axis span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+.media-kit .axis span:first-child {
+  transform: none;
+}
+.media-kit .axis span:last-child {
+  transform: translateX(-100%);
+}
+
+/* A small tick under each bucket with a post in it */
+.media-kit .post-ticks {
+  position: relative;
+  height: 5px;
+  margin-top: -8px;
+}
+.media-kit .post-ticks i {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 5px;
+  background: var(--site-chart-muted);
+  opacity: 0.6;
+}
+
+/* Tooltip: one component for every chart */
+.media-kit .tip {
+  position: absolute;
+  z-index: 5;
+  width: 264px;
+  max-width: 100%;
+  padding: 12px 14px;
+  background: var(--site-bg);
+  border: 1px solid var(--site-border);
+  border-radius: --theme(--radius-card);
+  box-shadow: 0 8px 24px --theme(--color-site-scrim / 35%);
+  pointer-events: none;
+  font-size: --theme(--text-copy);
+  font-variant-numeric: tabular-nums;
+}
+.media-kit .tip-heading {
+  margin: 0;
+  font-size: --theme(--text-copy);
+  font-weight: 500;
+  color: var(--site-fg);
+}
+.media-kit .tip-compare {
+  margin: 2px 0 0;
+  font-size: --theme(--text-meta);
+  color: var(--site-chart-muted);
+}
+.media-kit .tip dl {
+  margin: 10px 0 0;
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 7px 10px;
+}
+.media-kit .tip-row {
+  display: contents;
+}
+.media-kit .tip dt {
+  min-width: 0;
+  color: var(--site-fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.media-kit .tip dd {
+  margin: 0;
+  text-align: right;
+  font-weight: 500;
+  color: var(--site-fg);
+}
+.media-kit .tip dd.extra {
+  min-width: 3.2em;
+  font-weight: 400;
+  color: var(--site-chart-muted);
+}
+.media-kit .tip dl.plain {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+.media-kit .tip dl.plain .marker {
+  display: none;
+}
+.media-kit .tip dl.plain dt {
+  white-space: normal;
+}
+.media-kit .tip-row.primary dt,
+.media-kit .tip-row.primary dd:not(.extra) {
+  font-weight: 600;
+}
+.media-kit .tip-row.secondary dt,
+.media-kit .tip-row.secondary dd {
+  font-size: --theme(--text-meta);
+  font-weight: 400;
+  color: var(--site-chart-muted);
+}
+.media-kit .tip-rule-footer {
+  margin: 10px 0;
+}
+.media-kit .tip-post {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.media-kit .tip-thumb {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 27px;
+  height: 48px;
+  border-radius: 5px;
+  background: var(--site-chart-bar);
+  border: 1px solid var(--site-border);
+  overflow: hidden;
+}
+.media-kit .tip-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media-kit .tip-thumb svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--site-chart-muted);
+}
+.media-kit .tip-post-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.media-kit .tip-post-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: --theme(--text-meta);
+  font-weight: 500;
+  color: var(--site-fg);
+}
+.media-kit .tip-post-meta {
+  font-size: --theme(--text-small);
+  color: var(--site-chart-muted);
+}
+.media-kit .tip-row.total dt,
+.media-kit .tip-row.total dd:not(.extra) {
+  font-weight: 600;
+}
+.media-kit .tip-rule {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 1px 0;
+  border: 0;
+  border-top: 1px solid var(--site-chart-hairline);
+}
+.media-kit .marker {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.media-kit .marker.m-dot {
+  background: var(--c);
+}
+.media-kit .marker.m-ring {
+  border: 2px solid var(--c);
+}
+.media-kit .chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: --theme(--text-meta);
+  color: var(--site-chart-muted);
+}
+.media-kit .chart-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.media-kit .chart-legend .line {
+  width: 16px;
+  border-top: 2px solid var(--c, var(--site-chart-line));
+}
+.media-kit .chart-legend .line.partial {
+  border-top: 2px dotted var(--site-chart-line);
+  opacity: 0.45;
+}
+.media-kit .chart-legend .line.dotted {
+  border-top-style: dotted;
+}
+
+/* Lists: two columns split by a vertical hairline, stacked on phones */
+.media-kit .list-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+.media-kit .list-pair + .list-pair {
+  padding-top: 28px;
+  border-top: 1px solid var(--site-chart-hairline);
+}
+.media-kit .vrule {
+  display: none;
+}
+@media (min-width: 760px) {
+  .media-kit .list-pair {
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+    gap: 0 32px;
+  }
+  .media-kit .list-pair.single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .media-kit .vrule {
+    display: block;
+    background: var(--site-chart-hairline);
+  }
+}
+.media-kit .list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.media-kit .list-head h3 {
+  margin: 0;
+  font-size: --theme(--text-kit-heading);
+  font-weight: 600;
+}
+.media-kit .list-note {
+  font-size: --theme(--text-meta);
+  color: var(--site-chart-muted);
+}
+.media-kit .rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.media-kit .row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+}
+.media-kit .row .track {
+  position: relative;
+  height: 40px;
+  min-width: 0;
+}
+.media-kit .row .bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: --theme(--radius-control);
+  background: var(--site-chart-bar);
+  transition: width --theme(--duration-site) --theme(--ease-site);
+}
+.media-kit .row .label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+  padding: 0 10px;
+  font-size: --theme(--text-body);
+  font-weight: 450;
+  min-width: 0;
+}
+.media-kit .row .label span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.media-kit .row .value {
+  min-width: 48px;
+  text-align: right;
+  font-size: --theme(--text-body);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.media-kit .row.fade {
+  mask-image: linear-gradient(to bottom, --theme(--color-site-scrim) 0%, transparent 100%);
+}
+.media-kit .ico {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: --theme(--radius-tile);
+  background: var(--site-border);
+  color: var(--site-chart-muted);
+  flex: none;
+  font-size: --theme(--text-flag);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.media-kit .ico.brand {
+  color: var(--site-fg);
+}
+.media-kit .ico.brand svg {
+  stroke: none;
+}
+.media-kit .ico svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.media-kit .brand-instagram {
+  fill: var(--site-brand-instagram);
+}
+.media-kit .brand-youtube {
+  fill: var(--site-brand-youtube);
+}
+.media-kit .brand-on-mark {
+  fill: --theme(--color-site-on-media);
+}
+.media-kit .empty {
+  margin: 0;
+  color: var(--site-chart-muted);
+  font-size: --theme(--text-copy);
+}
+
+/* ---------- Deliverables ---------- */
+
+.media-kit .mk-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* Horizontal scroller of 9:16 cards. The card at the right edge is cut on purpose. */
+.media-kit .scroller {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  cursor: grab;
+  border-radius: --theme(--radius-card);
+  user-select: none;
+}
+.media-kit .scroller::-webkit-scrollbar {
+  display: none;
+}
+.media-kit .scroller.dragging {
+  cursor: grabbing;
+}
+.media-kit .scroller.dragging a {
+  pointer-events: none;
+}
+.media-kit .deliverable {
+  flex: 0 0 var(--card-w, 60%);
+  aspect-ratio: 9 / 16;
+  position: relative;
+  overflow: hidden;
+  border-radius: --theme(--radius-card);
+  border: 1px solid var(--site-border);
+  background: var(--site-surface);
+  color: --theme(--color-site-on-media);
+  text-decoration: none;
+  transition: border-color --theme(--duration-site) --theme(--ease-site);
+}
+.media-kit .deliverable img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-user-drag: none;
+}
+.media-kit .deliverable .meta {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 40px 14px 14px;
+  background: linear-gradient(to top, --theme(--color-site-scrim / 80%), --theme(--color-site-scrim / 0%));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.media-kit .deliverable .brand {
+  font-size: --theme(--text-body);
+  font-weight: 600;
+}
+.media-kit .deliverable .sub {
+  font-size: --theme(--text-meta);
+  color: var(--site-on-media-muted);
+}
+.media-kit .deliverable .plat {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: --theme(--radius-pill);
+  background: --theme(--color-site-scrim / 55%);
+}
+.media-kit .deliverable .plat svg {
+  width: 14px;
+  height: 14px;
+}
+.media-kit a.deliverable:hover {
+  border-color: var(--site-muted);
+}
+
+/* ---------- Date picker ---------- */
+
+.media-kit .picker {
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--site-border);
+  border-radius: --theme(--radius-card);
+  background: var(--site-bg);
+  color: var(--site-fg);
+  width: min(720px, calc(100vw - 2 * --theme(--spacing-gutter)));
+  max-height: calc(100dvh - 32px);
+  font-size: --theme(--text-body);
+}
+.media-kit .picker::backdrop {
+  background: --theme(--color-site-scrim / 60%);
+}
+.media-kit .picker-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 640px) {
+  .media-kit .picker-inner {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+}
+.media-kit .presets {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid var(--site-chart-hairline);
+}
+@media (min-width: 640px) {
+  .media-kit .presets {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-bottom: 0;
+    border-right: 1px solid var(--site-chart-hairline);
+  }
+}
+.media-kit .presets button {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: --theme(--radius-control);
+  background: none;
+  color: var(--site-muted);
+  font-size: --theme(--text-copy);
+  cursor: pointer;
+  transition: color --theme(--duration-site) --theme(--ease-site), background-color --theme(--duration-site) --theme(--ease-site);
+}
+.media-kit .presets button:hover,
+.media-kit .presets button[aria-pressed="true"] {
+  background: var(--site-chart-bar);
+  color: var(--site-fg);
+}
+.media-kit .calendars {
+  position: relative;
+  padding: 16px;
+  min-width: 0;
+}
+.media-kit .cal-nav {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.media-kit .cal-nav button {
+  pointer-events: auto;
+}
+.media-kit .icon-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: --theme(--radius-control);
+  background: none;
+  color: var(--site-muted);
+  cursor: pointer;
+  transition: color --theme(--duration-site) --theme(--ease-site), background-color --theme(--duration-site) --theme(--ease-site);
+}
+.media-kit .icon-btn:hover {
+  background: var(--site-chart-bar);
+  color: var(--site-fg);
+}
+.media-kit .icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: none;
+}
+.media-kit .icon-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.media-kit .months {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+@media (min-width: 640px) {
+  .media-kit .months {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.media-kit .month h3 {
+  margin: 6px 0 12px;
+  text-align: center;
+  font-size: --theme(--text-copy);
+  font-weight: 600;
+}
+.media-kit .month table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.media-kit .month th {
+  font-size: --theme(--text-small);
+  font-weight: 400;
+  color: var(--site-muted);
+  padding-bottom: 6px;
+}
+.media-kit .month td {
+  padding: 1px 0;
+}
+.media-kit .day {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 36px;
+  border: 0;
+  border-radius: --theme(--radius-control);
+  background: none;
+  color: var(--site-fg);
+  font-size: --theme(--text-meta);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.media-kit .day:hover {
+  background: var(--site-chart-bar);
+}
+.media-kit .day.in-range {
+  background: var(--site-chart-bar);
+  border-radius: 0;
+}
+.media-kit .day.edge {
+  background: var(--site-fg);
+  color: var(--site-bg);
+  border-radius: --theme(--radius-control);
+}
+.media-kit .day.today {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.media-kit .day:disabled {
+  color: var(--site-chart-disabled);
+  cursor: default;
+  background: none;
+}
+.media-kit .picker-foot {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--site-chart-hairline);
+}
+.media-kit .picker-range {
+  margin: 0;
+  font-size: --theme(--text-copy);
+  color: var(--site-muted);
+}
+.media-kit .picker-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Focus: the site's ring (2px, foreground colour) on the kit's own interactive parts */
+.media-kit :where(.plot, .scroller, .deliverable, .presets button, .icon-btn, .day, .a-head a):focus-visible {
+  outline: 2px solid var(--site-fg);
+  outline-offset: 0;
+}
