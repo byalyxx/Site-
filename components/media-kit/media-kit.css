@@ -201,12 +201,13 @@
   stroke: var(--site-chart-rule);
   stroke-width: 1;
 }
+/* A faint tint of the line's red under it, fading out */
 .media-kit .plot .fill-top {
-  stop-color: var(--site-fg);
-  stop-opacity: 0.06;
+  stop-color: var(--site-brand);
+  stop-opacity: 0.18;
 }
 .media-kit .plot .fill-bottom {
-  stop-color: var(--site-fg);
+  stop-color: var(--site-brand);
   stop-opacity: 0;
 }
 
