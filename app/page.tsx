@@ -1,11 +1,11 @@
 import { Eye, FileText, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
-import { blog, contact, newsletter, products, profile, stack, stackFeatured, videos } from "@/content/site";
+import { contact, products, profile, stack, stackFeatured, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { StackRow } from "@/components/home/stack-row";
-import { ContactForm, NewsletterForm } from "@/components/home/forms";
+import { ContactForm } from "@/components/home/forms";
 
 export default function Home() {
   const [latest] = videos;
@@ -41,20 +41,6 @@ export default function Home() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="blog" title="Blog" viewAll={{ placeholder: true }}>
-        <RowList>
-          {blog.map((post, i) => (
-            <Row
-              key={i}
-              href={post.href}
-              title={post.title}
-              placeholder={post.placeholder}
-              trailing={<span className="shrink-0 text-meta text-site-muted">{post.date}</span>}
-            />
-          ))}
-        </RowList>
-      </SectionBlock>
-
       <SectionBlock id="products" title="Products" viewAll={{ placeholder: true }}>
         <RowList>
           {products.map((p, i) => (
@@ -68,11 +54,6 @@ export default function Home() {
             />
           ))}
         </RowList>
-      </SectionBlock>
-
-      <SectionBlock id="newsletter" title={newsletter.title}>
-        <p className="text-copy italic text-site-muted">{newsletter.blurb}</p>
-        <NewsletterForm />
       </SectionBlock>
 
       <SectionBlock id="contact" title="Contact">
