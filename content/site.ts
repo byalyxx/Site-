@@ -86,6 +86,8 @@ export const partners: Partner[] = [
 
 // Media kit page (/media-kit). These stats were copied from the Framer media kit; update them as they grow.
 export const mediaKit = {
+  // One line under the "Media kit" heading.
+  intro: "Live stats, past brand work and what I offer across TikTok, Instagram and YouTube.",
   statsUpdated: "Sep 23, 2026",
   totalFollowers: "8.5k+",
   platforms: [
@@ -105,15 +107,6 @@ export const mediaKit = {
 // Home page sections (the anticode-style layout). Anything starting with
 // "PLACEHOLDER" is waiting for real content and shows up styled as a placeholder.
 // ---------------------------------------------------------------------------
-
-// The main nav. /media-kit is unlisted on purpose (noindex, sent to brands directly): it is linked from the
-// hero's "About me" button and the "For brands" row on the home page, not from here.
-export const nav = [
-  { label: "Home", href: "/", icon: "home" },
-  { label: "Latest video", href: "/#featured", icon: "video" },
-  { label: "Stack", href: "/stack", icon: "stack" },
-  { label: "Contact", href: "/#contact", icon: "contact" },
-] as const;
 
 export const hero = {
   // Display headline, one string per line.
@@ -145,8 +138,10 @@ export const newsletter = {
   blurb: "PLACEHOLDER: one line on what you'd send and how often.",
 };
 
+// The home page's one line for brands; the contact form lives on the media kit.
 export const contact = {
-  line: "Brand and collaboration enquiries.",
+  line: "Brand and collaboration enquiries",
+  link: { label: "Media kit", href: "/media-kit" },
 };
 
 // ---------------------------------------------------------------------------

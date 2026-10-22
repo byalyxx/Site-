@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { BadgeCheck, Camera, Clapperboard, Smartphone } from "lucide-react";
 import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
-import { SiteShell } from "@/components/home/site-shell";
-import { buttonClass, HeroHeading } from "@/components/home/hero";
+import { BackLink, SiteShell } from "@/components/home/site-shell";
+import { buttonClass } from "@/components/home/hero";
 import { CopyEmail } from "@/components/home/hero-widgets";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
@@ -35,7 +35,9 @@ export default async function MediaKitPage() {
   return (
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">
-        <HeroHeading />
+        <BackLink />
+        <h1 className="text-display text-site-fg">Media kit</h1>
+        <p className="text-body font-medium text-site-muted">{mediaKit.intro}</p>
         <div className="flex flex-wrap gap-3 pt-2">
           <div className="flex">
             <a href={`mailto:${profile.email}`} className={`${buttonClass} rounded-r-none`}>
@@ -43,9 +45,6 @@ export default async function MediaKitPage() {
             </a>
             <CopyEmail email={profile.email} className={`${buttonClass} -ml-px rounded-l-none px-3`} />
           </div>
-          <a href="/partners" className={buttonClass}>
-            Previous partners
-          </a>
         </div>
       </header>
 

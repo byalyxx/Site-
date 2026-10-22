@@ -3,7 +3,7 @@
 // The renderer builds HTML strings, so these return strings too. Props are unchanged from the standalone kit.
 
 import { buttonClass } from "@/components/home/hero";
-import { itemActiveClass, itemClass, navClass } from "@/components/home/site-nav";
+import { itemActiveClass, itemClass, navClass } from "@/components/home/controls";
 import { submitClass } from "@/components/home/forms";
 import { cn } from "@/components/home/cn";
 

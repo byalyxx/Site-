@@ -84,30 +84,32 @@ body:has(.site) {
   --color-site-on-media: #ffffff;
   --color-site-scrim: #000000;
 
-  /* Type scale: display 28 / title 15 / body 14-15 / meta 13 / small 12. Weight does most of the work: 600 / 500 / 400. */
-  --text-display: 28px;
-  --text-display--line-height: 35px;
+  /* Type scale: display 25 / figure 20 / title 13 / body 13 / copy 12 / meta, small, tag, flag 12.
+     The earlier scale (28 / 22 / 15 / 15 / 14 / 13 / 12 / 10 / 9) times 0.89, rounded to whole pixels, with a 12px floor,
+     so the steps that would land below 12 all sit at 12. Weight does most of the work: 600 / 500 / 400. */
+  --text-display: 25px;
+  --text-display--line-height: 31px;
   --text-display--letter-spacing: -0.02em;
   --text-display--font-weight: 600;
-  --text-figure: 22px; /* numbers in stat tiles */
-  --text-figure--line-height: 28px;
+  --text-figure: 20px; /* numbers in stat tiles */
+  --text-figure--line-height: 25px;
   --text-figure--letter-spacing: -0.02em;
-  --text-flag: 9px; /* two-letter country codes in 22px icon tiles */
-  --text-title: 15px;
-  --text-title--line-height: 20px;
+  --text-flag: 12px; /* two-letter country codes in 22px icon tiles */
+  --text-title: 13px;
+  --text-title--line-height: 18px;
   --text-title--letter-spacing: -0.01em;
-  --text-body: 15px;
-  --text-body--line-height: 24px;
-  --text-copy: 14px;
-  --text-copy--line-height: 24px;
-  --text-meta: 13px;
+  --text-body: 13px;
+  --text-body--line-height: 21px;
+  --text-copy: 12px;
+  --text-copy--line-height: 21px;
+  --text-meta: 12px;
   --text-meta--line-height: 16px;
   --text-small: 12px;
   --text-small--line-height: 16px;
-  --text-tag: 10px;
-  --text-tag--line-height: 12px;
+  --text-tag: 12px;
+  --text-tag--line-height: 14px;
 
-  /* Breakpoints: below 810px the side nav becomes a bottom bar (same as the reference). Columns never change. */
+  /* Breakpoints: 810px switches the page top spacing. Columns never change. */
   --breakpoint-tab: 810px;
 
   /* Layout */

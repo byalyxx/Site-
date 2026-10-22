@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { gear, partners, profile } from "@/content/site";
-import { SiteShell } from "@/components/home/site-shell";
+import { BackLink, SiteShell } from "@/components/home/site-shell";
 import { RowList, SectionBlock } from "@/components/home/section-block";
 import { PartnerStackRow, StackRow } from "@/components/home/stack-row";
 
@@ -16,6 +16,7 @@ export default function StackPage() {
   return (
     <SiteShell>
       <header className="flex flex-col gap-4">
+        <BackLink />
         <h1 className="text-display text-site-fg">Desk &amp; PC Stack</h1>
         <p className="text-body font-medium text-site-muted">
           All {total} things on my desk and inside my PC, plus the brands I work with.

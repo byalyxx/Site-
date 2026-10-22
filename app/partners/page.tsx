@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { partners, profile } from "@/content/site";
-import { SiteShell } from "@/components/home/site-shell";
+import { BackLink, SiteShell } from "@/components/home/site-shell";
 import { RowList, SectionBlock } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
 
@@ -16,6 +16,7 @@ export default function PartnersPage() {
   return (
     <SiteShell forceDark>
       <header className="flex flex-col gap-4">
+        <BackLink />
         <h1 className="text-display text-site-fg">Previous partners</h1>
         <p className="text-body font-medium text-site-muted">Brands I&rsquo;ve worked with, and the products I made content for.</p>
       </header>

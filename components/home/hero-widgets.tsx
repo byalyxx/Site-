@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
 // Live clock for the place chip. Renders nothing on the server so the HTML never shows a stale time.
 export function LocalTime({ timeZone }: { timeZone: string }) {
@@ -42,6 +43,23 @@ export function CopyEmail({ email, className }: { email: string; className?: str
       <span className="sr-only" aria-live="polite">
         {copied ? "Copied" : ""}
       </span>
+    </button>
+  );
+}
+
+// Light/dark switch in the footer.
+export function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      aria-label="Toggle dark mode"
+      className="grid size-6 place-items-center rounded-control text-site-muted site-transition hover:text-site-fg focus-visible:outline-2 focus-visible:outline-site-fg"
+    >
+      <Sun className="size-3.5 dark:hidden" aria-hidden />
+      <Moon className="hidden size-3.5 dark:block" aria-hidden />
     </button>
   );
 }

@@ -23,7 +23,7 @@ export function Hero() {
   );
 }
 
-// Name, tagline, follower counts and intro. Shared by the home hero and the media kit header.
+// Name, tagline, follower counts and intro at the top of the home hero.
 export function HeroHeading() {
   const [first, ...rest] = hero.headline;
 

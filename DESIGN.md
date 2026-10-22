@@ -6,12 +6,12 @@ The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap a
 
 ## Colour
 
-Follows the visitor's system setting, and the theme button in the nav switches it. Neutral greys only, no brand accent: the photos and logos bring the colour.
+Follows the visitor's system setting, and the theme button in the footer switches it. Neutral greys only, no brand accent: the photos and logos bring the colour.
 
 | Token | Light | Dark | Used for |
 | --- | --- | --- | --- |
 | `site-bg` | #ffffff | #161616 | Page |
-| `site-surface` | #fafafa | #1a1a1a | Buttons, inputs, nav, hovered rows |
+| `site-surface` | #fafafa | #1a1a1a | Buttons, inputs, hovered rows |
 | `site-border` | #e0e0e0 | #272727 | Outlines on surfaces |
 | `site-line` | #f0f0f0 | #222222 | Hairlines between list rows |
 | `site-fg` | #0a0a0a | #fafafa | Headings, titles |
@@ -27,20 +27,20 @@ The reference's light-mode grey is lighter than ours. It fails WCAG AA on white,
 
 ## Type
 
-Inter (already loaded by `app/layout.tsx`). Small sizes, with weight doing the work.
+Inter (already loaded by `app/layout.tsx`). Small sizes, with weight doing the work. Nothing renders below 12px: the steps that would fall under it sit at 12.
 
 | Token | Size / line height | Weight | Letter spacing | Used for |
 | --- | --- | --- | --- | --- |
-| `text-display` | 28 / 35 | 600 | -0.02em | Hero headline, page titles |
-| `text-figure` | 22 / 28 | 600 | -0.02em | Numbers in stat tiles |
-| `text-title` | 15 / 20 | 600 headings, 500 rows | -0.01em | Section headings, row titles |
-| `text-body` | 15 / 24 | 500 | 0 | Hero intro |
-| `text-copy` | 14 / 24 | 400, 600 buttons | 0 | Paragraphs, buttons, inputs |
-| `text-meta` | 13 / 16 | 400 | 0 | Dates, category labels |
+| `text-display` | 25 / 31 | 600 | -0.02em | Hero headline, page titles |
+| `text-figure` | 20 / 25 | 600 | -0.02em | Numbers in stat tiles |
+| `text-title` | 13 / 18 | 600 headings, 500 rows | -0.01em | Section headings, row titles |
+| `text-body` | 13 / 21 | 500 | 0 | Hero intro |
+| `text-copy` | 12 / 21 | 400, 600 buttons | 0 | Paragraphs, buttons, inputs |
+| `text-meta` | 12 / 16 | 400 | 0 | Dates, category labels |
 | `text-small` | 12 / 16 | 400-500 | 0 | View All, footer, notes |
-| `text-tag` | 10 / 12 | 600 caps | wide | "New" badge |
+| `text-tag` | 12 / 14 | 600 caps | wide | "New" badge |
 
-The headline breaks across lines: line one in `site-fg`, line two in `site-muted`, ending in a small bordered chip (the reference shows a city and temperature; ours shows UK and the live UK time).
+The headline breaks across lines: line one in `site-fg`, line two in `site-muted`.
 
 ## Layout
 
@@ -48,7 +48,8 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - 160px above the hero from 810px up, 64px below that.
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
-- Breakpoint `tab` = 810px. Below it the nav moves from a vertical pill on the left edge to a floating bar at the bottom. Nothing else changes.
+- Breakpoint `tab` = 810px. It only changes the space above the hero.
+- No nav. Home links out to everything; /stack, /media-kit and /partners open with a `← Home` link (`BackLink`) above the heading.
 
 ## Rows and cards
 
@@ -64,8 +65,8 @@ The analytics dashboard from the standalone media kit, moved into the site and r
 
 - Always dark (`SiteShell forceDark`): the kit has no light values, so the theme toggle is hidden on this page.
 - Same 448px column as every other page, so the dashboard uses its narrow layout at every width: KPIs two to a row, lists stacked, a 200px chart.
-- Type is the site's scale: KPIs in `text-figure` (22px), list headings in `text-title`, rows in `text-copy`, labels and axis in `text-meta` / `text-small`.
-- Controls are the site's own: platform pills are the nav pill group (`navClass`, `itemClass`, `itemActiveClass`), the date chip and list dropdowns wear `buttonClass`, the picker's Apply is `submitClass`.
+- Type is the site's scale: KPIs in `text-figure` (20px), list headings in `text-title`, rows in `text-copy`, labels and axis in `text-meta` / `text-small`.
+- Controls are the site's own: platform pills use the pill group classes in `components/home/controls.ts` (`navClass`, `itemClass`, `itemActiveClass`), the date chip and list dropdowns wear `buttonClass`, the picker's Apply is `submitClass`.
 - Styles in `components/media-kit/media-kit.css`, all scoped to `.media-kit`.
 
 Kit-only tokens (dark values; the page never shows a light version):

@@ -1,11 +1,11 @@
 import { Eye, Globe, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
-import { contact, products, profile, stack, stackFeatured, videos } from "@/content/site";
+import { contact, products, stack, stackFeatured, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
 import { Row, RowList, SectionBlock, Tile } from "@/components/home/section-block";
 import { StackRow } from "@/components/home/stack-row";
-import { ContactForm } from "@/components/home/forms";
+import { linkClass } from "@/components/home/site-footer";
 
 export default function Home() {
   const [latest] = videos;
@@ -55,10 +55,12 @@ export default function Home() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="contact" title="Contact">
-        <p className="text-copy text-site-muted">{contact.line}</p>
-        <ContactForm email={profile.email} />
-      </SectionBlock>
+      <p id="contact" className="text-copy text-site-muted">
+        {contact.line} →{" "}
+        <a href={contact.link.href} className={`font-medium text-site-fg ${linkClass}`}>
+          {contact.link.label}
+        </a>
+      </p>
     </SiteShell>
   );
 }
