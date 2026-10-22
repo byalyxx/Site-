@@ -1,5 +1,6 @@
 import { mediaKitData, type MediaKitData, type MediaKitDay, type MediaKitPost, type PlatformId } from "@/content/media-kit";
 import { selectAll } from "../live/supabase";
+import { tiktokVideoId } from "../live/tiktok-links";
 import type { Account } from "../live/sync";
 import type { DayRow, PostRow } from "../live/types";
 import type { MediaKitAdapter } from "./types";
@@ -41,22 +42,32 @@ export const liveAdapter: MediaKitAdapter = {
 
     // Past deliverables: the file's (with live views when the refresh has the same video), then every post the
     // refresh found tagging a brand, best first.
-    const byUrl = new Map(posts.filter((x) => x.url).map((x) => [x.url!, x]));
+    // Matched by link without its ?query, or for TikTok by video ID (so a short vm.tiktok.com link finds its video).
+    const bare = (u: string) => u.split("?")[0].replace(/\/$/, "");
+    const byUrl = new Map(posts.filter((x) => x.url).map((x) => [bare(x.url!), x]));
+    const byTikTokId = new Map(posts.filter((x) => x.platform === "tiktok").map((x) => [x.id, x]));
     for (const d of data.deliverables) {
-      const live = d.url && byUrl.get(d.url);
+      const id = await tiktokVideoId(d.url);
+      const live = (id && byTikTokId.get(id)) || (d.url && byUrl.get(bare(d.url)));
       if (live) {
         d.views = Number(live.views);
-        if (!d.thumb && live.thumbnail) d.thumb = live.thumbnail;
+        if (!d.thumb && live.thumbnail) {
+          d.thumb = live.thumbnail;
+          d.alt ??= `${d.brand}: ${live.title}`;
+        }
+        if (!d.title) d.title = live.title.replace(/#\S+/g, "").trim() || live.title;
+        if (!d.platform) d.platform = live.platform;
+        if (live.url) d.url = bare(live.url);
       }
     }
-    const listed = new Set(data.deliverables.map((d) => d.url).filter(Boolean));
+    const listed = new Set(data.deliverables.map((d) => d.url && bare(d.url)).filter(Boolean));
     for (const x of posts) {
-      if (!x.sponsor || (x.url && listed.has(x.url))) continue;
+      if (!x.sponsor || (x.url && listed.has(bare(x.url)))) continue;
       data.deliverables.push({
         brand: x.sponsor,
         title: x.title.replace(/#\S+/g, "").trim() || x.title,
         platform: x.platform,
-        ...(x.url ? { url: x.url } : {}),
+        ...(x.url ? { url: bare(x.url) } : {}),
         ...(x.thumbnail ? { thumb: x.thumbnail, alt: `${x.sponsor}: ${x.title}` } : {}),
         views: Number(x.views),
       });
