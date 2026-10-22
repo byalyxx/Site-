@@ -54,7 +54,7 @@ export function FollowerLine() {
             href={s.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline decoration-site-border underline-offset-4 site-transition hover:text-site-fg hover:decoration-site-fg"
+            className="text-site-fg underline decoration-site-border underline-offset-4 site-transition hover:decoration-site-fg"
           >
             {s.label} {s.followers}
           </a>
