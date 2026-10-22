@@ -265,7 +265,7 @@ export function mountMediaKit(DATA, { signal }) {
         let note = "";
         // Change against the previous period of the same length: percent for counts, points for rates
         const pv = typeof v === "number" ? k.value(prevDays, null) : null;
-        const d = typeof pv !== "number" ? null : k.format === "percent" ? signed(v - pv, 1, " pts") : change(v, pv);
+        const d = typeof pv !== "number" ? null : k.format === "percent" ? signed(v - pv, 1, "%") : change(v, pv);
         if (v == null) {
           const snapKey = Object.keys(pdata.snapshot || {}).find((s) => s.toLowerCase() === k.label.toLowerCase());
           if (snapKey) {
@@ -322,11 +322,11 @@ export function mountMediaKit(DATA, { signal }) {
     const engPrev = totalOf(prevDays, "eng");
     if (eng) kpis.push(kpiHtml("Engagements", format(eng.total), deltaHtml(change(eng.total, engPrev && engPrev.total), r)));
 
-    // Engagements ÷ views across all three, so each platform counts by its size. Change in points.
+    // Engagements ÷ views across all three, so each platform counts by its size. Change in percentage points, shown with a % sign.
     if (eng && views && views.total) {
       const rate = (eng.total / views.total) * 100;
       const prevRate = engPrev && viewsPrev && viewsPrev.total ? (engPrev.total / viewsPrev.total) * 100 : null;
-      kpis.push(kpiHtml("Engagement rate", format(rate, "percent"), deltaHtml(prevRate == null ? null : signed(rate - prevRate, 1, " pts"), r)));
+      kpis.push(kpiHtml("Engagement rate", format(rate, "percent"), deltaHtml(prevRate == null ? null : signed(rate - prevRate, 1, "%"), r)));
     }
 
     // Lists
