@@ -64,8 +64,11 @@
   gap: 6px;
   transition: color --theme(--duration-site) --theme(--ease-site);
 }
-.media-kit .a-head a:hover {
-  color: var(--site-fg);
+/* Hover only where there's a pointer, so a tap doesn't leave it stuck on phones */
+@media (hover: hover) {
+  .media-kit .a-head a:hover {
+    color: var(--site-fg);
+  }
 }
 .media-kit .a-head a svg {
   width: 14px;
@@ -642,8 +645,11 @@
   width: 11px;
   height: 11px;
 }
-.media-kit a.deliverable:hover {
-  border-color: var(--site-muted);
+/* Hover only where there's a pointer, so a tap doesn't leave it stuck on phones */
+@media (hover: hover) {
+  .media-kit a.deliverable:hover {
+    border-color: var(--site-muted);
+  }
 }
 
 /* ---------- Date picker ---------- */
@@ -700,10 +706,16 @@
   cursor: pointer;
   transition: color --theme(--duration-site) --theme(--ease-site), background-color --theme(--duration-site) --theme(--ease-site);
 }
-.media-kit .presets button:hover,
 .media-kit .presets button[aria-pressed="true"] {
   background: var(--site-chart-bar);
   color: var(--site-fg);
+}
+/* Hover only where there's a pointer, so a tap doesn't leave it stuck on phones */
+@media (hover: hover) {
+  .media-kit .presets button:hover {
+    background: var(--site-chart-bar);
+    color: var(--site-fg);
+  }
 }
 .media-kit .calendars {
   position: relative;
@@ -734,9 +746,12 @@
   cursor: pointer;
   transition: color --theme(--duration-site) --theme(--ease-site), background-color --theme(--duration-site) --theme(--ease-site);
 }
-.media-kit .icon-btn:hover {
-  background: var(--site-chart-bar);
-  color: var(--site-fg);
+/* Hover only where there's a pointer, so a tap doesn't leave it stuck on phones */
+@media (hover: hover) {
+  .media-kit .icon-btn:hover {
+    background: var(--site-chart-bar);
+    color: var(--site-fg);
+  }
 }
 .media-kit .icon-btn:disabled {
   opacity: 0.4;
@@ -793,8 +808,11 @@
   font-variant-numeric: tabular-nums;
   cursor: pointer;
 }
-.media-kit .day:hover {
-  background: var(--site-chart-bar);
+/* Hover only where there's a pointer, so a tap doesn't leave it stuck on phones */
+@media (hover: hover) {
+  .media-kit .day:hover {
+    background: var(--site-chart-bar);
+  }
 }
 .media-kit .day.in-range {
   background: var(--site-chart-bar);
