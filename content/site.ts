@@ -128,10 +128,9 @@ export const products: Product[] = [
 ];
 
 // Stack = the desk and PC setup. Built from `gear` above so links stay in one place.
-// /stack shows every group; the home page's My Gear shows the first `count` items of one group.
+// /stack and the home page's My Gear both show every group, one tab at a time.
 export type StackItem = GearItem & { category: string };
 export const stack: StackItem[] = gear.flatMap((g) => g.items.map((item) => ({ ...item, category: g.label })));
-export const stackFeatured = { group: "Peripherals", count: 5 };
 
 export const newsletter = {
   title: "Newsletter",

@@ -1,5 +1,5 @@
 import { Eye, Globe, ImageIcon, MessageCircle, ThumbsUp } from "lucide-react";
-import { contact, gear, products, stackFeatured, videos } from "@/content/site";
+import { contact, gear, products, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
@@ -56,8 +56,8 @@ export default function Home() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="stack" title="My Gear" viewAll={{ href: "/stack" }}>
-        <GearSwitcher groups={gear} limit={stackFeatured.count} />
+      <SectionBlock id="stack" title="My Gear">
+        <GearSwitcher groups={gear} />
       </SectionBlock>
 
       <p id="contact" className="text-copy text-site-muted">
