@@ -124,7 +124,7 @@ export const blog: BlogPost[] = [
 
 export type Product = { title: string; type?: string; description: string; href?: string; placeholder?: boolean };
 export const products: Product[] = [
-  { title: "Done-for-you creator site", description: "Your gear list, live stats, brand enquiries. One site, fully custom." },
+  { title: "Done-for-you creator site", description: "Your gear list, live stats, brand enquiries. One site, fully custom. (coming soon)" },
 ];
 
 // Stack = the desk and PC setup. Built from `gear` above so links stay in one place.
