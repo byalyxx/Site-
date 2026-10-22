@@ -56,9 +56,7 @@ export default function Home() {
         </RowList>
       </SectionBlock>
 
-      <SectionBlock id="stack" title="My Gear">
-        <GearSwitcher groups={gear} />
-      </SectionBlock>
+      <GearSwitcher groups={gear} title="My Gear" sectionId="stack" />
 
       <p id="contact" className="text-copy text-site-muted">
         {contact.line} →{" "}
