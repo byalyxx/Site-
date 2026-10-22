@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { mediaKit, partners, profile } from "@/content/site";
 import { loadMediaKit } from "@/lib/media-kit/load";
+import { pageMetadata } from "@/lib/metadata";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
 import { bracketClass, linkClass } from "@/components/home/controls";
 import { cn } from "@/components/home/cn";
@@ -12,22 +12,13 @@ import { PartnerStackRow } from "@/components/home/stack-row";
 import { ContactForm } from "@/components/home/forms";
 import { MediaKit } from "@/components/media-kit/media-kit";
 
-const description = `Live audience stats, brand deliverables and partners for ${profile.name}. Get in touch to work together.`;
-
-// Unlisted: the link is sent to brands on purpose, so it stays out of search engines and the main nav.
-export const metadata: Metadata = {
+// Unlisted: the link is sent to brands on purpose, so it stays out of search engines, the sitemap and the main nav.
+export const metadata = pageMetadata({
   title: `Media kit | ${profile.name}`,
-  description,
-  robots: { index: false, follow: false },
-  alternates: { canonical: "/media-kit" },
-  openGraph: {
-    title: `${profile.name} · Media kit`,
-    description,
-    url: "/media-kit",
-    images: ["/og.jpg"],
-  },
-};
-
+  description: `Audience stats, brand work and partners for ${profile.name}, a desk and PC setup creator. Get in touch to work together.`,
+  path: "/media-kit",
+  noindex: true,
+});
 
 export default async function MediaKitPage() {
   // Numbers from the active adapter (content/media-kit.ts), validated before anything renders.

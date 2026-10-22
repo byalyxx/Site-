@@ -1,5 +1,6 @@
 import { ArrowUpRight, Eye, MessageCircle, ThumbsUp } from "lucide-react";
-import { contact, gear, productGroups, videos } from "@/content/site";
+import { contact, gear, productGroups, profile, videos } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
@@ -9,6 +10,12 @@ import { GearSwitcher } from "@/components/home/gear-switcher";
 import { TabbedSection } from "@/components/home/tabbed-section";
 import { cn } from "@/components/home/cn";
 import { linkClass } from "@/components/home/controls";
+
+export const metadata = pageMetadata({
+  title: `${profile.name} | ${profile.tagline}`,
+  description: "Desk and PC setup videos across TikTok, Instagram and YouTube, and every piece of gear I use, with links.",
+  path: "/",
+});
 
 export default function Home() {
   const [latest] = videos;

@@ -1,8 +1,8 @@
-# Design system (home page, /stack and /media-kit)
+# Design system (home page, /my-gear and /media-kit)
 
 The home page follows the layout and visual language of a reference portfolio template (anticode.framer.website). Nothing from that site is copied here: these notes were written from screenshots taken at 1440, 834 and 390px wide, and the code is our own.
 
-The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap and radius on the home page, /stack and /media-kit comes from there.
+The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap and radius on the home page, /my-gear and /media-kit comes from there.
 
 ## Colour
 
@@ -49,9 +49,9 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 - 160px above the hero from 810px up, 64px below that.
 - Sections are 64px apart (`gap-section`). No dividers between sections, only space.
 - Each list section: heading, then rows between 1px hairlines, then a small "View All".
-- /stack shows one gear list at a time, switched by bracketed tabs (`GearSwitcher`, the same classes as the media kit's platform tabs).
+- /my-gear shows one gear list at a time, switched by bracketed tabs (`GearSwitcher`, the same classes as the media kit's platform tabs).
 - Breakpoint `tab` = 810px. It only changes the space above the hero.
-- No nav. Home links out to everything; /stack, /media-kit and /partners have a ← Home link (`linkClass`) on the right of the heading (`PageTitle`).
+- No nav. Home links out to everything; /my-gear, /media-kit and /partners have a ← Home link (`linkClass`) on the right of the heading (`PageTitle`).
 
 ## Rows and cards
 

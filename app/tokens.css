@@ -1,5 +1,5 @@
 /*
-  Design tokens for the home page and /stack.
+  Design tokens for the home page and /my-gear.
   Measured from screenshots of the reference layout at 1440, 834 and 390px wide (see DESIGN.md).
   Everything on those pages uses these tokens: no one-off colours or spacing.
   Scoped to `.site`, so the shadcn theme in globals.css keeps its own values elsewhere.

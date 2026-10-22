@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import { partners, profile } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
 import { RowList, SectionBlock } from "@/components/home/section-block";
 import { PartnerStackRow } from "@/components/home/stack-row";
 
 // Linked from the media kit, which is unlisted, so this page stays out of search engines too.
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: `Previous partners | ${profile.name}`,
-  description: `Brands ${profile.name} has partnered with.`,
-  robots: { index: false, follow: false },
-  alternates: { canonical: "/partners" },
-};
+  description: `Brands ${profile.name} has partnered with, and the products made for them.`,
+  path: "/partners",
+  noindex: true,
+});
 
 export default function PartnersPage() {
   return (

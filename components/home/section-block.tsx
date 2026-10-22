@@ -89,6 +89,7 @@ export function Row({
         <a
           href={href}
           {...(external || sponsored ? { target: "_blank", rel: sponsored ? "sponsored noopener noreferrer" : "noopener noreferrer" } : {})}
+          {...(sponsored ? { "data-umami-event": "Affiliate click", "data-umami-event-item": title } : {})}
           className={cn(rowClass, "group site-transition hover:bg-site-surface active:bg-site-surface active:duration-0 focus-visible:outline-2 focus-visible:outline-site-fg")}
         >
           {body}

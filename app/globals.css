@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @import "./tokens.css";
 
 /* The media kit renderer and its sample data build HTML strings with their own class names (scoped in
@@ -93,4 +92,9 @@ html,
 body {
   background-color: var(--background);
   color: var(--foreground);
+}
+
+/* Balanced line breaks in running text, so a paragraph doesn't end on one stranded word */
+.site p {
+  text-wrap: pretty;
 }

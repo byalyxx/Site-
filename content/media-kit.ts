@@ -16,7 +16,7 @@
 //     thumbnail: "/media-kit/posts/ranked.jpg", url: "https://…", views: 48200, engagementRate: 9.1 }
 // Images go in public/media-kit/ (posts/, deliverables/) and are referenced from "/media-kit/…".
 //
-// Partners are not listed here: the page uses `partners` in content/site.ts, the same rows as /stack.
+// Partners are not listed here: the page uses `partners` in content/site.ts, the same rows as /partners.
 
 export type PlatformId = "tiktok" | "instagram" | "youtube";
 

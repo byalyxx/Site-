@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
 import { gear, profile } from "@/content/site";
+import { pageMetadata } from "@/lib/metadata";
 import { PageTitle, SiteShell } from "@/components/home/site-shell";
 import { GearSwitcher } from "@/components/home/gear-switcher";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: `My Gear | ${profile.name}`,
-  description: "Every product on my desk and in my PC, with links to buy them.",
-};
+  description: "Every product on my desk and inside my PC, from the monitor to the case fans, with links to buy them.",
+  path: "/my-gear",
+});
 
-export default function StackPage() {
+export default function MyGearPage() {
   const total = gear.reduce((n, g) => n + g.items.length, 0);
 
   return (

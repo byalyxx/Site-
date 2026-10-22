@@ -11,6 +11,10 @@ export function FeaturedVideo({ id, title }: { id: string; title: string }) {
       <img
         src={`/videos/${id}.jpg`}
         alt={`Thumbnail for the video “${title}”`}
+        width={480}
+        height={270}
+        decoding="async"
+        fetchPriority="high"
         className="absolute inset-0 size-full object-cover site-transition group-hover:scale-[1.02]"
       />
       {/* Fixed dark scrim so the white caption reads on any thumbnail, in either theme */}

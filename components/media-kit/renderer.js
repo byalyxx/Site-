@@ -346,6 +346,7 @@ export function mountMediaKit(DATA, { signal }) {
           id: "all.countries",
           title: "Top countries",
           unit: "Views",
+          max: MAX_ROWS, // five countries, unlike the other "Top …" lists
           rows: countries.map(([label, value]) => ({ label, value, icon: icon("country", label) })),
           // Country views are all three platforms' views split by country, so the range's total views is the
           // total across every country, including the ones not shown.
@@ -384,15 +385,15 @@ export function mountMediaKit(DATA, { signal }) {
   // The All tab's platform and deliverable lists name the platform in the label, so they carry no icon; only
   // country flags stay.
 
-  // "Top …" lists (countries, videos, posts, deliverables) show three rows; every other list shows five.
+  // "Top …" lists (videos, posts, deliverables) show three rows; every other list, and Top countries, shows five.
+  // A list can set its own `max`.
   const MAX_ROWS = 5;
   const MAX_TOP_ROWS = 3;
 
   // With `total` (the whole dataset's total, hidden rows included), each fill is the row's share of it, never
   // narrower than 8px or 2% so a real value always shows.
   // Without it, the largest row fills the width and the others are measured against it.
-  function listHtml({ title, unit, rows, snapshot, total }) {
-    const max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS;
+  function listHtml({ title, unit, rows, snapshot, total, max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS }) {
     if (!rows || !rows.length) return "";
     const share = isNum(total) && total > 0;
     const top = rows[0].value || 1;
@@ -959,7 +960,8 @@ export function mountMediaKit(DATA, { signal }) {
   function updateChip() {
     const p = PRESETS.find((x) => x.id === state.range.preset);
     chipLabel.textContent = p ? p.label : fmtRange(state.range);
-    chip.setAttribute("aria-label", `Date range: ${fmtRange(state.range)}. Change`);
+    // Starts with the visible text, so voice control ("click Last 30 days") finds it
+    chip.setAttribute("aria-label", `${chipLabel.textContent}, ${fmtRange(state.range)}. Change date range`);
   }
 
   presetsEl.innerHTML = PRESETS.map((p) => `<li><button type="button" data-preset="${p.id}" aria-pressed="false">${p.label}</button></li>`).join("");

@@ -3,7 +3,7 @@ import { RowList } from "./section-block";
 import { StackRow } from "./stack-row";
 import { TabbedSection } from "./tabbed-section";
 
-// Gear lists, one group per tab, with the item count beside each label. Home (with `title`) and /stack.
+// Gear lists, one group per tab, with the item count beside each label. Home (with `title`) and /my-gear.
 export function GearSwitcher({ groups, title, sectionId }: { groups: GearGroup[]; title?: string; sectionId?: string }) {
   return (
     <TabbedSection

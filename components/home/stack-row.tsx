@@ -42,8 +42,9 @@ export function PartnerStackRow({ partner }: { partner: Partner }) {
       sponsored
       leading={
         partner.logo ? (
+          // The name sits right beside it, so the logo is decorative (empty alt) rather than read out twice.
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={partner.logo} alt={`${partner.name} logo`} className="size-6 shrink-0 rounded-[4px] object-cover" />
+          <img src={partner.logo} alt="" width={24} height={24} loading="lazy" decoding="async" className="size-6 shrink-0 rounded-[4px] object-cover" />
         ) : undefined
       }
       title={partner.name}

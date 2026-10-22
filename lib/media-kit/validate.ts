@@ -9,8 +9,12 @@ const PLATFORM_IDS = Object.keys(PLATFORMS) as PlatformId[];
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
 const isCount = (v: unknown): v is number => typeof v === "number" && Number.isFinite(v) && v >= 0;
-const isDate = (v: unknown): v is string =>
-  typeof v === "string" && /^\d{4}-\d{2}-\d{2}$/.test(v) && new Date(v + "T00:00:00Z").toISOString().slice(0, 10) === v;
+// Also rejects dates that look right but don't exist (2026-13-01, 2026-02-30) without throwing on them.
+const isDate = (v: unknown): v is string => {
+  if (typeof v !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false;
+  const t = new Date(v + "T00:00:00Z");
+  return !Number.isNaN(t.getTime()) && t.toISOString().slice(0, 10) === v;
+};
 const isTime = (v: unknown) => typeof v === "string" && /^([01]\d|2[0-3]):[0-5]\d$/.test(v);
 const isText = (v: unknown): v is string => typeof v === "string" && v.trim() !== "";
 const isLink = (v: unknown) => typeof v === "string" && (v.startsWith("https://") || v.startsWith("/"));

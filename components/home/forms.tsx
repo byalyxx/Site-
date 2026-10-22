@@ -2,62 +2,48 @@
 
 import { useState } from "react";
 import { cn } from "./cn";
-import { bracketClass } from "./controls";
+import { bracketClass, linkClass } from "./controls";
 
 // A rule under each field instead of a box, in the link underline's colour (30% of the text), red on focus.
 const fieldClass =
   "w-full rounded-none border-0 border-b border-b-site-fg/30 bg-transparent px-0 text-copy text-site-fg placeholder:text-site-muted site-transition focus-visible:border-b-site-brand focus-visible:outline-none";
 
-// Styled and working in the browser, but not connected to any mailing list yet.
-export function NewsletterForm() {
-  const [sent, setSent] = useState(false);
+// Enquiries go to Formspree (formspree.io), which emails them on. The form's ID comes from the
+// NEXT_PUBLIC_FORMSPREE_FORM_ID environment variable (see README). Without it, submitting opens the visitor's
+// email app with the message filled in, so an enquiry is never dropped silently.
+const FORM_ID = process.env.NEXT_PUBLIC_FORMSPREE_FORM_ID;
 
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        setSent(true);
-      }}
-      className="flex flex-col gap-2"
-    >
-      <div className="flex items-center rounded-control border border-site-border bg-site-surface p-1 pl-0 focus-within:border-site-muted">
-        <label htmlFor="newsletter-email" className="sr-only">
-          Email address
-        </label>
-        <input
-          id="newsletter-email"
-          type="email"
-          required
-          placeholder="Your email"
-          className="h-field min-w-0 flex-1 bg-transparent px-3 text-copy text-site-fg placeholder:text-site-muted focus:outline-none"
-        />
-        <button
-          type="submit"
-          className="h-control shrink-0 rounded-control bg-site-bg px-4 text-copy font-semibold text-site-fg site-transition hover:bg-site-line"
-        >
-          Subscribe
-        </button>
-      </div>
-      <p className="text-small text-site-muted" aria-live="polite">
-        {sent ? "Thanks! Sign-ups aren’t switched on yet, so nothing was sent." : ""}
-      </p>
-    </form>
-  );
-}
+type Status = "idle" | "sending" | "sent" | "error";
 
-// No form backend yet: submitting opens the visitor's email app with the message filled in.
 export function ContactForm({ email }: { email: string }) {
+  const [status, setStatus] = useState<Status>("idle");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    if (!FORM_ID) {
+      const subject = `Collaboration enquiry from ${data.get("name")}`;
+      const body = `${data.get("message")}\n\n${data.get("name")}\n${data.get("email")}`;
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      return;
+    }
+    setStatus("sending");
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORM_ID}`, { method: "POST", body: data, headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(`Formspree answered ${res.status}`);
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        const subject = `Collaboration enquiry from ${data.get("name")}`;
-        const body = `${data.get("message")}\n\n${data.get("name")}\n${data.get("from")}`;
-        window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      }}
-      className="flex flex-col gap-4"
-    >
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      <input type="hidden" name="_subject" value="New enquiry from byalyxx.com" />
+      {/* Honeypot: hidden from people, filled in by bots, and Formspree drops anything that has it */}
+      <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
       <Field id="contact-name" label="Name or brand">
         <input
           id="contact-name"
@@ -71,7 +57,7 @@ export function ContactForm({ email }: { email: string }) {
       <Field id="contact-email" label="Email address">
         <input
           id="contact-email"
-          name="from"
+          name="email"
           type="email"
           required
           autoComplete="email"
@@ -89,9 +75,24 @@ export function ContactForm({ email }: { email: string }) {
           className={cn(fieldClass, "resize-y py-2.5")}
         />
       </Field>
-      <button type="submit" className={cn(bracketClass, "self-start")}>
-        Submit
-      </button>
+      <div>
+        <button type="submit" className={bracketClass} disabled={status === "sending"}>
+          {status === "sending" ? "Sending…" : "Submit"}
+        </button>
+        {/* Empty (and so no height) until there is something to say */}
+        <p className="mt-2 text-small text-site-muted empty:mt-0" aria-live="polite">
+          {status === "sent" && "Thanks, your message is on its way. I’ll reply by email."}
+          {status === "error" && (
+            <>
+              That didn’t send. Email{" "}
+              <a href={`mailto:${email}`} className={cn(linkClass, "text-site-fg")}>
+                {email}
+              </a>{" "}
+              instead.
+            </>
+          )}
+        </p>
+      </div>
     </form>
   );
 }
