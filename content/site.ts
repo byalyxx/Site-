@@ -138,7 +138,7 @@ export const productGroups: { label: string; items: Product[] }[] = [
         title: "Done-for-you creator site",
         description: "Your gear list, live stats, brand enquiries. One site, fully custom.",
         // Repoint to the service's own page once it exists.
-        cta: { label: "DM me", href: "https://instagram.com/byalyxx" },
+        cta: { label: "Contact me", href: "https://instagram.com/byalyxx" },
       },
     ],
   },
