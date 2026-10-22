@@ -28,7 +28,7 @@ The reference's light-mode grey is lighter than ours. It fails WCAG AA on white,
 
 ## Type
 
-Inter (already loaded by `app/layout.tsx`). Small sizes, with weight doing the work. Nothing renders below 12px: the steps that would fall under it sit at 12.
+Geist for text and Geist Mono for brackets and numbers, both loaded by `app/layout.tsx` (same faces as digitalcreator.club). Small sizes, with weight doing the work. Nothing renders below 12px: the steps that would fall under it sit at 12.
 
 | Token | Size / line height | Weight | Letter spacing | Used for |
 | --- | --- | --- | --- | --- |

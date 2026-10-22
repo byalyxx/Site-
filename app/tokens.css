@@ -147,7 +147,7 @@ body:has(.site) {
   --radius-pill: 999px; /* nav */
 
   /* Monospace for functional text (row categories, badges): the same stack as the bracket controls */
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
   /* Motion: colour/background fades only, same curve everywhere */
   --ease-site: cubic-bezier(0.44, 0, 0.56, 1);
@@ -198,7 +198,7 @@ body:has(.site) {
     border-radius: 4px;
     background: none;
     color: var(--site-fg);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
     font-size: var(--text-body);
     font-weight: 500;
     line-height: 1;
