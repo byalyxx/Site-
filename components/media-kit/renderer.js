@@ -389,7 +389,7 @@ export function mountMediaKit(DATA, { signal }) {
   const MAX_TOP_ROWS = 3;
 
   // With `total` (the whole dataset's total, hidden rows included), each fill is the row's share of it, never
-  // narrower than 8px or 2% so a real value always shows, and the share is printed after the value.
+  // narrower than 8px or 2% so a real value always shows.
   // Without it, the largest row fills the width and the others are measured against it.
   function listHtml({ title, unit, rows, snapshot, total }) {
     const max = /^Top\b/.test(title) ? MAX_TOP_ROWS : MAX_ROWS;
@@ -402,10 +402,9 @@ export function mountMediaKit(DATA, { signal }) {
         const value = row.display || exact(row.value);
         const pct = ((row.value / (share ? total : top)) * 100).toFixed(2);
         const width = share ? `max(8px, 2%, ${pct}%)` : `${pct}%`;
-        const shown = Math.round((row.value / total) * 100);
-        return `<li class="row${share ? " has-share" : ""}" data-value="${row.value}">
+        return `<li class="row" data-value="${row.value}">
           <span class="label">${row.icon}<span>${esc(row.label)}</span></span>
-          <span class="value">${esc(value)}</span>${share ? `<span class="share">${shown === 0 && row.value > 0 ? "<1" : shown}%</span>` : ""}
+          <span class="value">${esc(value)}</span>
           <span class="rule" aria-hidden="true"><span class="fill" style="width:${width}"></span></span></li>`;
       })
       .join("");
