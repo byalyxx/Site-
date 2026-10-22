@@ -3,7 +3,8 @@ import { contact, gear, productGroups, videos } from "@/content/site";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
-import { Row, RowList } from "@/components/home/section-block";
+import { RowList } from "@/components/home/section-block";
+import { ProductEntry } from "@/components/home/product-entry";
 import { GearSwitcher } from "@/components/home/gear-switcher";
 import { TabbedSection } from "@/components/home/tabbed-section";
 import { cn } from "@/components/home/cn";
@@ -60,14 +61,8 @@ export default function Home() {
           label: g.label,
           panel: (
             <RowList>
-              {g.items.map((p, i) => (
-                <Row
-                  key={i}
-                  href={p.href}
-                  title={p.title}
-                  label={p.type ? `${p.type} · ${p.description}` : p.description}
-                  placeholder={p.placeholder}
-                />
+              {g.items.map((p) => (
+                <ProductEntry key={p.title} product={p} />
               ))}
             </RowList>
           ),

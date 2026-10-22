@@ -122,7 +122,9 @@ export const blog: BlogPost[] = [
   { title: "PLACEHOLDER: third post title", date: "Jan 1, 2026", placeholder: true },
 ];
 
-export type Product = { title: string; type?: string; description: string; href?: string; placeholder?: boolean };
+export type Cta = { label: string; href: string };
+// `cta` is the entry's bracketed button; `secondaryCta` sits beside it (e.g. a page link next to the DM link).
+export type Product = { title: string; type?: string; description: string; cta?: Cta; secondaryCta?: Cta; placeholder?: boolean };
 // The home page's Products section: one tab per group, in this order. The page opens on Creators.
 export const productGroups: { label: string; items: Product[] }[] = [
   {
@@ -131,7 +133,14 @@ export const productGroups: { label: string; items: Product[] }[] = [
   },
   {
     label: "Creators",
-    items: [{ title: "Done-for-you creator site", description: "Your gear list, live stats, brand enquiries. One site, fully custom. (coming soon)" }],
+    items: [
+      {
+        title: "Done-for-you creator site",
+        description: "Your gear list, live stats, brand enquiries. One site, fully custom.",
+        // Repoint to the service's own page once it exists.
+        cta: { label: "DM me", href: "https://instagram.com/byalyxx" },
+      },
+    ],
   },
 ];
 

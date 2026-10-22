@@ -56,6 +56,7 @@ The headline breaks across lines: line one in `site-fg`, line two in `site-muted
 ## Rows and cards
 
 - List row: 16px vertical padding, at least 44px tall. No icon tiles: only icons that identify something (partner logos, platform icons, flags), bare and square. Name in the site face; category or product beneath, muted, `text-small`; prose descriptions stay in the site face.
+- Product entry (home Products): the page's offer, larger through type and space only. Title `text-figure` 600 in full text colour, description `text-body` muted beneath, 32px vertical padding (double a row), hairlines above and below, no fill, border or radius. CTAs are the plain bracket control on their own line, read from the product's `cta` / `secondaryCta` data.
 - Hover: the row tints with `site-surface` (no radius), spilling 10px past the column on each side, and the bare ↗ on the right turns `site-brand`.
 - Featured card: full column width, 16:9, square corners, 1px border, `[NEW]` top-left, caption bottom-left over a dark gradient. Hover: border brightens, image scales 2%.
 - Inputs: 40px tall, no box: a 1px rule underneath at 30% of the text colour (like the link underline), `site-brand` on focus.
