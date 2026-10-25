@@ -9,7 +9,7 @@ export type Partner = {
   code?: string; // optional discount code shown on the row
 };
 
-export type GearItem = { type: string; name: string; url?: string };
+export type GearItem = { type: string; name: string; url?: string; image?: string }; // image: path under /public, e.g. "/gear/fifine-am8.jpg"
 export type GearGroup = { label: string; items: GearItem[] };
 
 export const profile = {
