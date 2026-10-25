@@ -16,7 +16,7 @@ Each file in `public/gear/` was trimmed and padded onto a 160px white square wit
 | 10 | Apple EarPods | `apple-earpods.jpg` | [Amazon listing photo #1 (Apple EarPods with 3.5mm Headphone Plug ​​​​​​​(2024))](https://m.media-amazon.com/images/I/41FvaOcSBZL._AC_SL500_.jpg) |
 | 11 | Creative Pebble Plus | `creative-pebble-plus.jpg` | [Amazon listing photo #1 (Creative Pebble Plus 2.1 USB-Powered Desktop Speakers with P)](https://m.media-amazon.com/images/I/51lz9iL-WhL._AC_SL500_.jpg) |
 | 12 | UGREEN Vertical Laptop Stand | `ugreen-vertical-laptop-stand.jpg` | [Amazon listing photo #1 (UGREEN Vertical Laptop Stand Holder for Desk Compatible with)](https://m.media-amazon.com/images/I/61TgY7v-jxL._AC_SL500_.jpg) |
-| 13 | Chubby cable | `chubby-cable.jpg` | [Amazon listing photo #1 (LISEN 10FT USB C Cable Fast Charging Chubby 240W USB C to US)](https://m.media-amazon.com/images/I/71ptU9UpBDL._AC_SL500_.jpg) |
+| 13 | Chubby cable | `chubby-cable.jpg` | [Amazon listing photo #1 (chubbycable USB A to USB C Cable, 6.6 FT, Black)](https://m.media-amazon.com/images/I/61nDLHueubL._AC_SL500_.jpg) |
 | 14 | UGREEN DisplayPort Cable | `ugreen-displayport-cable.jpg` | [Amazon listing photo #1 (UGREEN 16K 6.6FT [VESA Certified] DisplayPort Cable 2.1 54Gb)](https://m.media-amazon.com/images/I/61oNlD6mE-L._AC_SL500_.jpg) |
 | 15 | UGREEN USB C Hub 5-in-1 | `ugreen-usb-c-hub-5-in-1.jpg` | [Amazon listing photo #1 (UGREEN USB C Hub, 5-in-1 USB Hub for Laptops, 4K HDMI to USB)](https://m.media-amazon.com/images/I/61yc+I1cbfL._AC_SL500_.jpg) |
 | 16 | 200PCS Cable Management | `200pcs-cable-management.jpg` | [Amazon listing photo #1 (Cable Management Kit with Under Desk Raceway & 4 Long Cable )](https://m.media-amazon.com/images/I/81zxlS2AZpL._AC_SL500_.jpg) |

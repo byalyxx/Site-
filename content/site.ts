@@ -47,7 +47,7 @@ export const gear: GearGroup[] = [
       { type: "Earphones", name: "Apple EarPods", url: "https://link.amazon/B0ea2NQgp", image: "/gear/apple-earpods.jpg" },
       { type: "Speakers", name: "Creative Pebble Plus", url: "https://link.amazon/B0aaBj629", image: "/gear/creative-pebble-plus.jpg" },
       { type: "Laptop stand", name: "UGREEN Vertical Laptop Stand", url: "https://link.amazon/B0gZhi4RB", image: "/gear/ugreen-vertical-laptop-stand.jpg" },
-      { type: "Keyboard cable", name: "Chubby cable", url: "https://link.amazon/B02EqsOrm", image: "/gear/chubby-cable.jpg" },
+      { type: "Keyboard cable", name: "Chubby cable", url: "https://link.amazon/B0iT7ldAK", image: "/gear/chubby-cable.jpg" },
       { type: "DisplayPort cable", name: "UGREEN DisplayPort Cable", url: "https://link.amazon/B00IHHtHH", image: "/gear/ugreen-displayport-cable.jpg" },
       { type: "USB hub", name: "UGREEN USB C Hub 5-in-1", url: "https://link.amazon/B0cd0PXuZ", image: "/gear/ugreen-usb-c-hub-5-in-1.jpg" },
       { type: "Cable management", name: "200PCS Cable Management", url: "https://link.amazon/B0bHyDOSs", image: "/gear/200pcs-cable-management.jpg" },
