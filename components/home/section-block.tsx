@@ -20,7 +20,7 @@ export function SectionBlock({
   className?: string;
 }) {
   return (
-    <section id={id} aria-labelledby={id && `${id}-title`} className={cn("site-reveal flex scroll-mt-8 flex-col gap-4", className)}>
+    <section id={id} aria-labelledby={id && `${id}-title`} className={cn("flex scroll-mt-8 flex-col gap-4", className)}>
       <h2 id={id && `${id}-title`} className="text-title font-semibold text-site-fg">
         {title}
       </h2>

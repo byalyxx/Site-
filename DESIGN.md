@@ -6,7 +6,7 @@ The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap a
 
 ## Colour
 
-Follows the visitor's system setting, and the theme button in the footer switches it. Neutral greys only, no brand accent: the photos and logos bring the colour. The dark greys are taken from digitalcreator.club's dark theme.
+Light by default for every visitor, whatever their system setting; the theme button switches to dark and remembers the choice. Neutral greys only, no brand accent: the photos and logos bring the colour. The dark greys are taken from digitalcreator.club's dark theme.
 
 | Token | Light | Dark | Used for |
 | --- | --- | --- | --- |
@@ -94,8 +94,12 @@ One type exception: `text-flag` (9px), the two-letter country code in 22px tiles
 ## Motion
 
 - Colour, background and border fades: 300ms, `cubic-bezier(0.44, 0, 0.56, 1)` (`site-transition`).
-- Sections fade up 12px as they scroll into view (`site-reveal`), pure CSS, so the page still shows in full without JavaScript or in browsers that don't support it.
-- Both are switched off when the visitor asks for reduced motion.
+- Entrances, presses and page changes use `--ease-out-site`, `cubic-bezier(0.16, 1, 0.3, 1)`: a quick start and a long, soft landing.
+- On load, the hero lines rise 16px and come into focus one after another, 70ms apart. Further down, each section rises in as it scrolls into view, and its list rows follow 35ms apart (again whenever a tab is switched). An inline script in `<head>` (`components/motion-script.ts`) sets this up before the first paint; without JavaScript the page shows in full.
+- Brackets sink to 95% while pressed and spring back.
+- Page changes and the theme switch cross-fade (View Transitions, 450ms). Anchor links scroll smoothly.
+- The featured video's thumbnail zooms 3% over 700ms on hover.
+- All of it is switched off when the visitor asks for reduced motion.
 
 ## Brackets and underlines
 

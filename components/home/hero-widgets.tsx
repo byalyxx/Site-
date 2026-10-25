@@ -28,10 +28,26 @@ export function CopyEmail({ email, className }: { email: string; className?: str
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
 
+  // Cross-fade the whole page between themes where the browser can (the fade is set in app/tokens.css),
+  // otherwise switch at once.
+  function toggle() {
+    const next = resolvedTheme === "dark" ? "light" : "dark";
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduce) return setTheme(next);
+    // The class is set here, inside the transition, so the new theme is what gets captured; setTheme saves it.
+    document.startViewTransition(() => {
+      const root = document.documentElement;
+      root.classList.toggle("dark", next === "dark");
+      root.classList.toggle("light", next === "light");
+      root.style.colorScheme = next;
+      setTheme(next);
+    });
+  }
+
   return (
     <button
       type="button"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      onClick={toggle}
       aria-label="Toggle dark mode"
       className={className}
     >
