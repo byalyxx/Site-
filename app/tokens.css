@@ -149,29 +149,14 @@ body:has(.site) {
   /* Motion: colour/background fades only, same curve everywhere */
   --ease-site: cubic-bezier(0.44, 0, 0.56, 1);
   --duration-site: 300ms;
+  /* Entrances, presses and page changes: quick start, long soft landing, like a spring with no bounce */
+  --ease-out-site: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @utility site-transition {
   transition-property: color, background-color, border-color, opacity, transform;
   transition-timing-function: var(--ease-site);
   transition-duration: var(--duration-site);
-}
-
-/* Sections fade up as they scroll into view. CSS only (scroll-driven animation), so the page
-   shows normally in browsers without support or with JavaScript off. */
-@keyframes site-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-}
-
-@utility site-reveal {
-  @supports (animation-timeline: view()) {
-    animation: site-reveal linear both;
-    animation-timeline: view();
-    animation-range: entry 0% entry 35%;
-  }
 }
 
 /* Touch: no grey flash on tap, no double-tap-zoom wait on controls, text size steady when the phone turns */
@@ -188,6 +173,72 @@ body:has(.site) {
   .site * {
     transition: none !important;
     animation: none !important;
+  }
+}
+
+/* Entrances. components/motion-script.ts marks <html data-motion> before the first paint (never with reduced
+   motion or without JavaScript, so the page always shows in full then), and marks each block `data-in` as it
+   scrolls into view. Blocks already on screen come in one after another, 70ms apart (--reveal-delay). */
+[data-motion] .site :is(main > :not(header), main > header > *, footer) {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+}
+/* The hero lines also come into focus */
+[data-motion] .site main > header > * {
+  filter: blur(6px);
+}
+[data-motion] .site [data-in] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition:
+    opacity 900ms var(--ease-out-site) var(--reveal-delay, 0ms),
+    transform 1100ms var(--ease-out-site) var(--reveal-delay, 0ms),
+    filter 900ms var(--ease-out-site) var(--reveal-delay, 0ms);
+}
+
+/* List rows follow their section in, 35ms apart, and again each time a tab shows its panel */
+@keyframes site-row-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+}
+[data-motion] .site [data-in] [role="tabpanel"] > ul > li {
+  animation: site-row-in 700ms var(--ease-out-site) both;
+  animation-delay: calc(var(--reveal-delay, 0ms) + var(--row, 0) * 35ms);
+}
+.site li:nth-child(2) { --row: 1; }
+.site li:nth-child(3) { --row: 2; }
+.site li:nth-child(4) { --row: 3; }
+.site li:nth-child(5) { --row: 4; }
+.site li:nth-child(6) { --row: 5; }
+.site li:nth-child(7) { --row: 6; }
+.site li:nth-child(8) { --row: 7; }
+.site li:nth-child(n + 9) { --row: 8; }
+
+@media print {
+  [data-motion] .site * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Page changes and the theme switch cross-fade instead of cutting (View Transitions; browsers without it just
+   cut as before). Anchor links glide instead of jumping. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 450ms;
+    animation-timing-function: var(--ease-out-site);
+  }
+  html {
+    scroll-behavior: smooth;
   }
 }
 
@@ -210,6 +261,12 @@ body:has(.site) {
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
+    transition: transform 400ms var(--ease-out-site);
+  }
+  /* A press sinks a touch and springs back on release */
+  .site-bracket:active {
+    transform: scale(0.95);
+    transition-duration: 80ms;
   }
   .site-bracket::before,
   .site-bracket::after {

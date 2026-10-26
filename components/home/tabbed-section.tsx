@@ -39,7 +39,7 @@ export function TabbedSection({
       id={sectionId}
       aria-label={title ? undefined : label}
       aria-labelledby={title ? id(0, "title") : undefined}
-      className="site-reveal flex scroll-mt-8 flex-col gap-4"
+      className="flex scroll-mt-8 flex-col gap-4"
     >
       <div className={cn("flex flex-wrap items-center gap-x-4", title && "justify-between")}>
         {title && (

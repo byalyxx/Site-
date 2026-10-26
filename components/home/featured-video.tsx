@@ -15,7 +15,7 @@ export function FeaturedVideo({ id, title }: { id: string; title: string }) {
         height={270}
         decoding="async"
         fetchPriority="high"
-        className="absolute inset-0 size-full object-cover site-transition group-hover:scale-[1.02]"
+        className="absolute inset-0 size-full object-cover transition-transform duration-700 ease-out-site group-hover:scale-[1.03]"
       />
       {/* Fixed dark scrim so the white caption reads on any thumbnail, in either theme */}
       <span className="absolute inset-0 bg-gradient-to-t from-site-scrim/85 via-site-scrim/30 to-transparent" aria-hidden />

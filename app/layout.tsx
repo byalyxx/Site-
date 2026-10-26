@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@/components/analytics";
+import { motionScript } from "@/components/motion-script";
 import { THEME_TEST_SCRIPT } from "@/components/theme-test";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* Light/dark A/B test: picks a first-time visitor's starting theme before anything paints */}
         <script dangerouslySetInnerHTML={{ __html: THEME_TEST_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: motionScript }} />
       </head>
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

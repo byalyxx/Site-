@@ -29,7 +29,7 @@ export default async function Home() {
     <SiteShell footerToggle={false}>
       <Hero socials={socials} />
 
-      <section id="featured" aria-label="Latest video" className="site-reveal flex scroll-mt-8 flex-col gap-3">
+      <section id="featured" aria-label="Latest video" className="flex scroll-mt-8 flex-col gap-3">
         <FeaturedVideo id={latest.id} title={latest.title} />
         <div className="flex items-center justify-between gap-4">
           {latest.stats && (
