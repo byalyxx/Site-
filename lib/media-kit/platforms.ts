@@ -4,8 +4,9 @@
 // `metrics` and the list keys are what content/media-kit.ts may use for that platform; the validator
 // rejects anything else, so a misspelt key fails the build instead of quietly disappearing.
 //
-// `tooltip` is the secondary figure in the chart tooltip: a count (`sum`) or a rate (`num` ÷ `den`,
-// so a week's rate is weighted by that week's views rather than added up day by day).
+// `tooltip` is the secondary figure in the chart tooltip: a count (`sum`), a rate (`num` ÷ `den`,
+// so a week's rate is weighted by that week's views rather than added up day by day), or a running
+// total (`last`: the latest figure inside the bucket, never added up).
 //
 // `combined` names the metrics that measure the same thing on every platform, for the All tab.
 // Engagements are likes + comments + shares on all three (saves are left out: YouTube has none).
@@ -24,6 +25,7 @@ export type PlatformSpec = {
   combined: { views: string; viewsLabel: string; audience: string; audienceLabel: string };
   tooltip:
     | { label: string; sum: string; format: string }
+    | { label: string; last: string; format: string }
     | { label: string; num: string[]; den: string; scale: number; format: string };
   kpis: { label: string; value: Value; format: string }[];
   // `percent` lists show each row as a share of the list's total (countries, locations, age and gender).
@@ -122,10 +124,11 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
 
   youtube: {
     name: "YouTube",
-    metrics: ["subscribers", "views", "watchMinutes", "impressions", "impressionClicks", "likes", "comments", "shares"],
+    // `subscriberTotal`: subscribers at the end of each day, worked out from YouTube Analytics' daily gains and losses.
+    metrics: ["subscribers", "subscriberTotal", "views", "watchMinutes", "impressions", "impressionClicks", "likes", "comments", "shares"],
     chart: { key: "views", label: "Views" },
     combined: { views: "views", viewsLabel: "views", audience: "subscribers", audienceLabel: "subscribers" },
-    tooltip: { label: "Avg view duration", num: ["watchMinutes"], den: "views", scale: 60, format: "duration" },
+    tooltip: { label: "Subscribers", last: "subscriberTotal", format: "number" },
     kpis: [
       { label: "Subscribers", value: latest("subscribers"), format: "compact" },
       { label: "Views", value: sum("views"), format: "compact" },

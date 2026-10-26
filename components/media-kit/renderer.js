@@ -493,7 +493,16 @@ export function mountMediaKit(DATA, { signal }) {
     return seen ? s : null;
   }
 
-  // A platform's metric per bucket. Counts sum. Rates are averaged across the bucket, weighted by
+  // A running total over a bucket: its latest figure (an hour shows its day's). Null when the bucket has none.
+  function lastIn(get, b) {
+    for (let t = b.end; t >= b.start; t -= DAY) {
+      const v = get(t);
+      if (isNum(v)) return v;
+    }
+    return null;
+  }
+
+  // A platform's metric per bucket. Counts sum, running totals take the latest. Rates are averaged across the bucket, weighted by
   // their denominator (e.g. engagement rate = all engagements ÷ all views), never summed.
   function platformMetric(p, bs, unit, spec) {
     const days = new Map(((DATA.platforms[p] && DATA.platforms[p].days) || []).map((d) => [d.date, d]));
@@ -505,6 +514,7 @@ export function mountMediaKit(DATA, { signal }) {
     };
     return bs.map((b) => {
       if (spec.sum) return sumBucket(metric(spec.sum), b, unit);
+      if (spec.last) return lastIn(metric(spec.last), b);
       const num = spec.num.map((k) => sumBucket(metric(k), b, unit));
       const den = sumBucket(metric(spec.den), b, unit);
       return num.some((v) => v == null) || !den ? null : (num.reduce((a, v) => a + v, 0) / den) * spec.scale;
