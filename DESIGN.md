@@ -6,7 +6,7 @@ The tokens live in [`app/tokens.css`](app/tokens.css). Every colour, size, gap a
 
 ## Colour
 
-Light by default for every visitor, whatever their system setting; the theme button switches to dark and remembers the choice. Neutral greys only, no brand accent: the photos and logos bring the colour. The dark greys are taken from digitalcreator.club's dark theme.
+A first-time visitor starts in light or dark at random (the light vs dark test, see README), otherwise it follows their system setting; the theme button switches it and remembers the choice. Neutral greys only, no brand accent: the photos and logos bring the colour. The dark greys are taken from digitalcreator.club's dark theme.
 
 | Token | Light | Dark | Used for |
 | --- | --- | --- | --- |

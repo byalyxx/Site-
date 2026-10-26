@@ -29,9 +29,25 @@ const open = (
   </span>
 );
 
-// One product in the desk/PC stack: name, category beneath. Opens the affiliate link exactly as stored.
+// One product in the desk/PC stack: photo, name, category beneath. Opens the affiliate link exactly as stored.
+// The photo sits where a partner's logo does, a little larger (as tall as the name and category) since it's a
+// product shot on white rather than a mark: square, 4px corners, white behind it so it reads the same in dark mode.
 export function StackRow({ item }: { item: GearItem }) {
-  return <Row href={item.url} sponsored title={item.name} meta={item.type} trailing={item.url ? open : undefined} />;
+  return (
+    <Row
+      href={item.url}
+      sponsored
+      leading={
+        item.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={item.image} alt="" width={40} height={40} loading="lazy" decoding="async" className="size-10 shrink-0 rounded-[4px] bg-white object-contain" />
+        ) : undefined
+      }
+      title={item.name}
+      meta={item.type}
+      trailing={item.url ? open : undefined}
+    />
+  );
 }
 
 // A partner: logo (bare, 4px corners), name, the product.

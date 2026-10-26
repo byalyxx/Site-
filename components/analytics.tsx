@@ -1,5 +1,6 @@
 import Script from "next/script";
 import { ClickTracking } from "./click-tracking";
+import { ThemeTest } from "./theme-test";
 
 // Visitor analytics, cookieless either way, so no consent banner is needed. Set one of these at build time
 // (see README); with neither, no script loads, so local builds and previews never report visits.
@@ -8,6 +9,7 @@ import { ClickTracking } from "./click-tracking";
 //   Older accounts without a pa- link: NEXT_PUBLIC_PLAUSIBLE_DOMAIN=byalyxx.com instead.
 // - Umami Cloud (cloud.umami.is, free tier): NEXT_PUBLIC_UMAMI_WEBSITE_ID.
 // Clicks on anything with data-track (affiliate rows, Work with me) are sent as events by ClickTracking.
+// ThemeTest reports which half of the light/dark test the visitor is in (components/theme-test.tsx).
 const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
 const PLAUSIBLE_SRC = process.env.NEXT_PUBLIC_PLAUSIBLE_SRC || (PLAUSIBLE_DOMAIN ? "https://plausible.io/js/script.outbound-links.js" : "");
 // New-style snippets (pa-….js) are set up by plausible.init(); the old script reads data-domain instead.
@@ -32,6 +34,7 @@ export function Analytics() {
       {/* data-domains: only visits on the real site count, not local builds or Hostinger's temporary address */}
       {UMAMI_ID && <Script src="https://cloud.umami.is/script.js" data-website-id={UMAMI_ID} data-domains="byalyxx.com,www.byalyxx.com" strategy="afterInteractive" />}
       <ClickTracking />
+      <ThemeTest />
     </>
   );
 }

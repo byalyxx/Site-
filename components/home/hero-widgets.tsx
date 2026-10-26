@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { track } from "@/components/click-tracking";
 
 export function CopyEmail({ email, className }: { email: string; className?: string }) {
   const [copied, setCopied] = useState(false);
@@ -32,6 +33,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   // otherwise switch at once.
   function toggle() {
     const next = resolvedTheme === "dark" ? "light" : "dark";
+    track("Theme switch", { to: next });
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!document.startViewTransition || reduce) return setTheme(next);
     // The class is set here, inside the transition, so the new theme is what gets captured; setTheme saves it.
