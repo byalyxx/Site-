@@ -128,18 +128,52 @@ export const youtube: Connector = {
     };
 
     const daily = await report(
-      { startDate: start, endDate: end, dimensions: "day", sort: "day", metrics: "views,estimatedMinutesWatched,likes,comments,shares" },
+      {
+        startDate: start,
+        endDate: end,
+        dimensions: "day",
+        sort: "day",
+        metrics: "views,estimatedMinutesWatched,likes,comments,shares,subscribersGained,subscribersLost",
+      },
       "daily figures"
     );
-    for (const r of rowsOf(daily)) {
+    const dailyRows = rowsOf(daily);
+    for (const r of dailyRows) {
       Object.assign(day(r.day).m, { views: r.views, watchMinutes: r.estimatedMinutesWatched, likes: r.likes, comments: r.comments, shares: r.shares });
+    }
+
+    const ch = await get(`${DATA}/channels?part=statistics,contentDetails,snippet&mine=true`, "YouTube channel");
+    const channel = ch.items?.[0];
+
+    // Subscribers at the end of each day: every gain and loss since the channel started, added up. The Data API's
+    // count is rounded (to three figures), so it can't be stepped back day by day; Analytics' daily figures are exact.
+    const notes: string[] = [];
+    try {
+      const created = String(channel?.snippet?.publishedAt || "").slice(0, 10);
+      if (!created) throw new Error("no channel start date");
+      let total = 0;
+      if (created < start) {
+        const before = rowsOf(await report({ startDate: created, endDate: addDays(start, -1), metrics: "subscribersGained,subscribersLost" }, "subscribers before"))[0];
+        total = before ? Number(before.subscribersGained) - Number(before.subscribersLost) : 0;
+      }
+      for (const r of dailyRows) {
+        total += Number(r.subscribersGained) - Number(r.subscribersLost);
+        day(r.day).m.subscriberTotal = total;
+      }
+      // A check against the public count: a big gap means Analytics is missing something, so say so on /media-kit/connect.
+      const shown = Number(channel?.statistics?.subscriberCount);
+      if (dailyRows.length && shown && Math.abs(total - shown) > Math.max(10, shown * 0.02)) {
+        notes.push(`subscriber history adds up to ${total}, YouTube shows ${shown}`);
+      }
+    } catch (e) {
+      console.warn(String(e));
+      notes.push(`subscriber history not read (${e instanceof Error ? e.message : e})`);
     }
 
     // Impressions and click-through rate. The Analytics API doesn't give these, so they come from the Reporting
     // API: a "job" that YouTube runs once a day, leaving one CSV per day (it also makes some days from before
     // the job started). The job is created on the first refresh; each refresh after reads the days not stored
     // yet, plus the last week, which YouTube can restate.
-    const notes: string[] = [];
     try {
       const jobs = await get(`${BULK}/jobs`, "YouTube reporting jobs");
       let job = (jobs.jobs || []).find((j: any) => j.reportTypeId === REACH_REPORT);
@@ -244,8 +278,6 @@ export const youtube: Connector = {
     }
 
     // Subscribers as YouTube shows them today. Recorded on today's date only: earlier days aren't guessed.
-    const ch = await get(`${DATA}/channels?part=statistics,contentDetails,snippet&mine=true`, "YouTube channel");
-    const channel = ch.items?.[0];
     if (channel && !channel.statistics.hiddenSubscriberCount) day(today).m.subscribers = Number(channel.statistics.subscriberCount);
 
     // The latest 50 uploads, for the chart tooltip.
