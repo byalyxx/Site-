@@ -75,6 +75,29 @@ Copy [`.env.example`](.env.example) to `.env.local`, or set the same names in Ho
 - **Click tracking.** Every affiliate and partner click is sent as an "Affiliate click" event with the product name as `item`; "Work with me" clicks and sent contact forms are events too. In Plausible, add each as a custom event goal (Site settings → Goals) and `item` as a custom property to see them.
 - **Live media kit stats**: `MEDIA_KIT_ADMIN_KEY`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, and each platform's app keys. See "Live media kit stats" above and `.env.example`.
 
+## Light vs dark test
+
+Half of all new visitors start the site in light mode and half in dark mode, picked at random and kept on every
+later visit. The toggle still works. People who had picked a theme before the test started aren't counted.
+
+Where to read it in Umami: open the site, then **Events**, click an event name, and look at the `theme_test`
+property, which splits the count into `light` and `dark`.
+
+- **Theme test**: one per visit, so this is how many visits each group had.
+- **Visit with affiliate click**: one per visit that clicked at least one affiliate link.
+- **Affiliate click**: every affiliate click (one visit can click several).
+- **Theme switch**: someone changed the theme with the toggle (`to` says which way).
+
+The number to compare is **Visit with affiliate click ÷ Theme test** for each group: the share of visits that
+clicked an affiliate link. Example: light 40 ÷ 800 = 5%, dark 30 ÷ 790 = 3.8%.
+
+Don't call it before each group has at least ~1,000 visits and ~50 visits with an affiliate click, and give it
+two full weeks so weekdays and weekends both count. If the two rates are within about a fifth of each other
+(5% vs 4.5%), treat it as a tie and keep whichever you like the look of.
+
+To end the test, delete `THEME_TEST_SCRIPT` from `app/layout.tsx` and `<ThemeTest />` from
+`components/analytics.tsx`, then set `defaultTheme` in `app/layout.tsx` to the winner.
+
 ## Run it locally
 
 ```bash

@@ -1,21 +1,38 @@
 "use client";
 
 import { useEffect } from "react";
+import { themeTestGroup } from "./theme-test";
 
 declare global {
   interface Window {
     plausible?: (event: string, options?: { props?: Record<string, string> }) => void;
-    umami?: { track: (event: string, data?: Record<string, string>) => void };
+    umami?: {
+      track: (event: string, data?: Record<string, string>) => void;
+      identify?: (data: Record<string, string>) => void;
+    };
   }
 }
 
 // Sends a named event to whichever analytics is loaded. Safe to call when none is.
+// Visitors in the light/dark test also send their group as theme_test.
 export function track(event: string, props: Record<string, string> = {}) {
+  const group = themeTestGroup();
+  if (group) props = { ...props, theme_test: group };
   try {
     window.plausible?.(event, { props });
     window.umami?.track(event, props);
   } catch {
     // analytics must never break the page
+  }
+  // The test's main number: the first affiliate click of each visit, so a visit that clicks 5 links counts once
+  if (group && event === "Affiliate click") {
+    try {
+      if (sessionStorage.getItem("theme-test-clicked")) return;
+      sessionStorage.setItem("theme-test-clicked", "1");
+    } catch {
+      return;
+    }
+    track("Visit with affiliate click");
   }
 }
 

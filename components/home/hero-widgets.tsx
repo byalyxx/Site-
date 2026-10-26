@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { track } from "@/components/click-tracking";
 
 export function CopyEmail({ email, className }: { email: string; className?: string }) {
   const [copied, setCopied] = useState(false);
@@ -31,7 +32,11 @@ export function ThemeToggle({ className }: { className?: string }) {
   return (
     <button
       type="button"
-      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      onClick={() => {
+        const next = resolvedTheme === "dark" ? "light" : "dark";
+        setTheme(next);
+        track("Theme switch", { to: next });
+      }}
       aria-label="Toggle dark mode"
       className={className}
     >
