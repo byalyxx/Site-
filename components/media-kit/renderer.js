@@ -46,6 +46,8 @@ export function mountMediaKit(DATA, { signal }) {
   const state = {
     platform: TABS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "all",
     range: { ...PRESETS[3].range(), preset: "30d" },
+    // The breakdown lists start folded away so the KPIs and chart lead; the choice holds across tabs and ranges
+    more: false,
   };
   const NAMES = { all: "All", tiktok: "TikTok", instagram: "Instagram", youtube: "YouTube" };
 
@@ -236,6 +238,29 @@ export function mountMediaKit(DATA, { signal }) {
     return `<div class="a-head"><span class="updated"><span class="live-dot" aria-hidden="true"></span>${esc(updated)}</span>${link || ""}</div>`;
   }
 
+  // The breakdown lists (followers and views by platform, top countries and deliverables, or a platform's own
+  // lists) sit behind one bracket toggle. The panel stays in the page while closed, so opening it can ease the
+  // height open instead of jumping.
+  function moreHtml(lists) {
+    const open = state.more;
+    return `<div class="more">
+      <button type="button" class="${UI.bracketClass} more-toggle" id="more-toggle" aria-expanded="${open}" aria-controls="more-stats">${open ? "Fewer stats" : "More stats"}</button>
+      <div class="more-panel" id="more-stats"${open ? "" : " inert"}><div class="more-inner">${lists}</div></div>
+    </div>`;
+  }
+  root.addEventListener(
+    "click",
+    (e) => {
+      const btn = e.target.closest("#more-toggle");
+      if (!btn) return;
+      state.more = !state.more;
+      btn.setAttribute("aria-expanded", String(state.more));
+      btn.textContent = state.more ? "Fewer stats" : "More stats";
+      document.getElementById("more-stats").toggleAttribute("inert", !state.more);
+    },
+    { signal }
+  );
+
   function renderAnalytics() {
     root.setAttribute("aria-labelledby", "tab-" + state.platform);
     const parts = state.platform === "all" ? allParts() : platformParts(state.platform);
@@ -245,7 +270,7 @@ export function mountMediaKit(DATA, { signal }) {
       head +
       (kpis.length ? `<dl class="kpis" style="--kpi-cols:${Math.min(kpis.length, 6)}">${kpis.join("")}</dl>` : "") +
       (chart ? chartHtml(chart) : "") +
-      lists +
+      (lists ? moreHtml(lists) : "") +
       (anything ? "" : `<p class="empty">No ${esc(name)} figures for ${esc(fmtRange(state.range))}.</p>`);
     if (chart) bindChart(chart);
   }

@@ -431,6 +431,48 @@
   border-top-style: dotted;
 }
 
+/* More stats: the breakdown lists fold away under one bracket toggle, closed on load. The chart's own hairline
+   sits above it. The panel eases its
+   height open (a 0fr → 1fr grid row) and the lists rise into place, with the site's reveal easing. */
+.media-kit .more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.media-kit .more-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  align-self: stretch;
+  transition: grid-template-rows 600ms --theme(--ease-out-site);
+}
+.media-kit .more-toggle[aria-expanded="true"] + .more-panel {
+  grid-template-rows: 1fr;
+}
+.media-kit .more-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition:
+    padding-top 600ms --theme(--ease-out-site),
+    opacity 400ms --theme(--ease-out-site),
+    transform 600ms --theme(--ease-out-site);
+}
+.media-kit .more-toggle[aria-expanded="true"] + .more-panel .more-inner {
+  padding-top: 20px;
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .media-kit .more-panel,
+  .media-kit .more-inner {
+    transition: none;
+  }
+}
+
 /* Lists: two columns split by a vertical hairline, stacked on phones */
 .media-kit .list-pair {
   display: grid;
