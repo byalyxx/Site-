@@ -2,6 +2,7 @@ import { ArrowUpRight, Eye, MessageCircle, ThumbsUp } from "lucide-react";
 import { contact, gear, productGroups, profile, videos } from "@/content/site";
 import { pageMetadata } from "@/lib/metadata";
 import { loadFollowers } from "@/lib/followers";
+import { loadVideoStats } from "@/lib/video-stats";
 import { SiteShell } from "@/components/home/site-shell";
 import { Hero } from "@/components/home/hero";
 import { FeaturedVideo } from "@/components/home/featured-video";
@@ -18,12 +19,12 @@ export const metadata = pageMetadata({
   path: "/",
 });
 
-// Rebuilt at most once an hour, and straight after each refresh, so the follower counts stay current.
+// Rebuilt at most once an hour, and straight after each refresh, so the follower counts and video stats stay current.
 export const revalidate = 3600;
 
 export default async function Home() {
   const [latest] = videos;
-  const socials = await loadFollowers();
+  const [socials, stats] = await Promise.all([loadFollowers(), loadVideoStats(latest.id)]);
 
   return (
     <SiteShell footerToggle={false}>
@@ -32,23 +33,23 @@ export default async function Home() {
       <section id="featured" aria-label="Latest video" className="flex scroll-mt-8 flex-col gap-3">
         <FeaturedVideo id={latest.id} title={latest.title} />
         <div className="flex items-center justify-between gap-4">
-          {latest.stats && (
+          {stats && (
             <p className="flex items-center gap-2 text-small text-site-muted" aria-label="Video stats">
               <span className="inline-flex items-center gap-1">
                 <Eye className="size-3.5" aria-hidden="true" />
-                {latest.stats.views}
+                {stats.views}
                 <span className="sr-only"> views</span>
               </span>
               <span aria-hidden="true">·</span>
               <span className="inline-flex items-center gap-1">
                 <ThumbsUp className="size-3.5" aria-hidden="true" />
-                {latest.stats.likes}
+                {stats.likes}
                 <span className="sr-only"> likes</span>
               </span>
               <span aria-hidden="true">·</span>
               <span className="inline-flex items-center gap-1">
                 <MessageCircle className="size-3.5" aria-hidden="true" />
-                {latest.stats.comments}
+                {stats.comments}
                 <span className="sr-only"> comments</span>
               </span>
             </p>
