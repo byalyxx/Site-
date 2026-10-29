@@ -44,8 +44,8 @@ export default async function MediaKitPage() {
         </div>
       </header>
 
-      {/* The stats lead the page, straight under the header */}
-      <MediaKit data={data} />
+      {/* The stats lead the page, straight under the header: pulled up from the section gap, with the page's hairline between */}
+      <MediaKit data={data} className="-mt-10 border-t border-site-line pt-6" />
 
       <SectionBlock id="services" title="What I offer">
         <RowList>
