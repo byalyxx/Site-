@@ -44,6 +44,9 @@ export default async function MediaKitPage() {
         </div>
       </header>
 
+      {/* The stats lead the page, straight under the header */}
+      <MediaKit data={data} />
+
       <SectionBlock id="services" title="What I offer">
         <RowList>
           {mediaKit.services.map((s) => (
@@ -59,8 +62,6 @@ export default async function MediaKitPage() {
           ))}
         </RowList>
       </SectionBlock>
-
-      <MediaKit data={data} />
 
       <SectionBlock id="contact" title="Let’s make something">
         <p className="text-copy text-site-muted">
