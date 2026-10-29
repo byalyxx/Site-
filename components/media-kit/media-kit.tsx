@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { MediaKitData } from "@/content/media-kit";
 import { bracketClass } from "@/components/home/controls";
+import { cn } from "@/components/home/cn";
 import { mountMediaKit } from "./renderer.js";
 import "./media-kit.css";
 
@@ -53,7 +54,7 @@ const markup = `
     </form>
   </dialog>`;
 
-export function MediaKit({ data }: { data: MediaKitData }) {
+export function MediaKit({ data, className }: { data: MediaKitData; className?: string }) {
   const host = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -80,5 +81,5 @@ export function MediaKit({ data }: { data: MediaKitData }) {
     };
   }, [data]);
 
-  return <div ref={host} className="media-kit" />;
+  return <div ref={host} className={cn("media-kit", className)} />;
 }
