@@ -111,9 +111,14 @@ export type Cta = { label: string; href: string };
 // `image` is a square preview from public/ shown beside the text.
 export type Product = { title: string; type?: string; description: string; image?: string; cta?: Cta; secondaryCta?: Cta; placeholder?: boolean };
 // The home page's Products section: one tab per group, in this order. The page opens on the first tab (Community).
-export const productGroups: { label: string; items: Product[] }[] = [
+// `intro` is an optional heading and line shown above the group's items.
+export const productGroups: { label: string; intro?: { title: string; description: string }; items: Product[] }[] = [
   {
     label: "Community",
+    intro: {
+      title: "Wallpaper packs",
+      description: "Popular wallpapers from my setup. Dark themed, sized for desktop & mobile.",
+    },
     items: [
       {
         title: "Wave pack",
