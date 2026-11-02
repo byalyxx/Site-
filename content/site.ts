@@ -28,6 +28,7 @@ export const socials = [
 // `stats` on the newest video shows under the featured card. Once YouTube is connected the live counts replace
 // these (lib/video-stats.ts); they're only used if YouTube can't be reached.
 export const videos: { id: string; title: string; stats?: { views: string; likes: string; comments: string } }[] = [
+  { id: "xxdXFTjT7ls", title: "setup upgrades that are actually worth it" },
   { id: "5G1u5PJHsxs", title: "the most powerful tiny pc i’ve ever built", stats: { views: "152k", likes: "2k", comments: "106" } },
   { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)" },
 ];
