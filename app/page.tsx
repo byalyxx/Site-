@@ -69,7 +69,6 @@ export default async function Home() {
         title="Products"
         sectionId="products"
         label="Product groups"
-        initial={productGroups.findIndex((g) => g.label === "Creators")}
         tabs={productGroups.map((g) => ({
           label: g.label,
           panel: (
