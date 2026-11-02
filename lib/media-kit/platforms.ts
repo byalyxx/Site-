@@ -122,10 +122,10 @@ export const PLATFORMS: Record<PlatformId, PlatformSpec> = {
 
   youtube: {
     name: "YouTube",
-    metrics: ["subscribers", "views", "watchMinutes", "impressions", "impressionClicks", "likes", "comments", "shares"],
+    metrics: ["subscribers", "subscribersGained", "views", "watchMinutes", "impressions", "impressionClicks", "likes", "comments", "shares"],
     chart: { key: "views", label: "Views" },
     combined: { views: "views", viewsLabel: "views", audience: "subscribers", audienceLabel: "subscribers" },
-    tooltip: { label: "Avg view duration", num: ["watchMinutes"], den: "views", scale: 60, format: "duration" },
+    tooltip: { label: "Subscribers gained", sum: "subscribersGained", format: "number" },
     kpis: [
       { label: "Subscribers", value: latest("subscribers"), format: "compact" },
       { label: "Views", value: sum("views"), format: "compact" },
