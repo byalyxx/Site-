@@ -118,13 +118,13 @@ export const productGroups: { label: string; items: Product[] }[] = [
       {
         title: "Wave pack",
         description: "Inspired by the PS3 wave.",
-        image: "/products/wave-pack.png",
+        image: "/products/wave-pack-v2.png",
         cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product-1" },
       },
       {
         title: "Underglow pack",
         description: "A soft glow from below.",
-        image: "/products/underglow-pack.png",
+        image: "/products/underglow-pack-v2.png",
         cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product" },
       },
     ],
