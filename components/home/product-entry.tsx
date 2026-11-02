@@ -8,8 +8,8 @@ import { linkClass } from "./controls";
 export function ProductEntry({ product }: { product: Product }) {
   const ctas = [product.cta, product.secondaryCta].filter((c): c is Cta => !!c);
 
-  return (
-    <li className="flex flex-col gap-2 border-b border-site-line py-8">
+  const body = (
+    <>
       <h3 className={cn("text-title font-medium text-site-fg", product.placeholder && "italic text-site-muted")}>{product.title}</h3>
       <p className="text-body text-site-muted">{product.type ? `${product.type} · ${product.description}` : product.description}</p>
       {ctas.length > 0 && (
@@ -19,6 +19,27 @@ export function ProductEntry({ product }: { product: Product }) {
           ))}
         </div>
       )}
+    </>
+  );
+
+  if (!product.image) {
+    return <li className="flex flex-col gap-2 border-b border-site-line py-8">{body}</li>;
+  }
+
+  // With a preview: the image sits left of the text and links to the same place as the main CTA.
+  return (
+    <li className="flex items-center gap-5 border-b border-site-line py-8 sm:gap-6">
+      <a
+        href={product.cta?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        tabIndex={-1}
+        aria-hidden
+        className="shrink-0 overflow-hidden rounded-lg"
+      >
+        <img src={product.image} alt="" width={112} height={112} loading="lazy" decoding="async" className="size-24 object-cover sm:size-28" />
+      </a>
+      <div className="flex min-w-0 flex-col gap-2">{body}</div>
     </li>
   );
 }

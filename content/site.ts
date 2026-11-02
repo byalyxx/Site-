@@ -108,17 +108,24 @@ export const hero = {
 
 export type Cta = { label: string; href: string };
 // `cta` is the entry's underlined link; `secondaryCta` sits beside it (e.g. a page link next to the contact link).
-export type Product = { title: string; type?: string; description: string; cta?: Cta; secondaryCta?: Cta; placeholder?: boolean };
-// The home page's Products section: one tab per group, in this order. The page opens on Creators.
+// `image` is a square preview from public/ shown beside the text.
+export type Product = { title: string; type?: string; description: string; image?: string; cta?: Cta; secondaryCta?: Cta; placeholder?: boolean };
+// The home page's Products section: one tab per group, in this order. The page opens on the first tab (Community).
 export const productGroups: { label: string; items: Product[] }[] = [
   {
     label: "Community",
     items: [
       {
-        title: "Wallpaper pack",
-        description: "Popular wallpapers from my setup. Dark themed, sized for desktop & mobile.",
-        // Swap the label once the store is live.
-        cta: { label: "Coming soon", href: "https://byalyxx.store" },
+        title: "Wave pack",
+        description: "A chrome wave on pure black. Digital download.",
+        image: "/products/wave-pack.png",
+        cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product-1" },
+      },
+      {
+        title: "Underglow pack",
+        description: "A soft white glow rising from the bottom edge. Digital download.",
+        image: "/products/underglow-pack.png",
+        cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product" },
       },
     ],
   },
