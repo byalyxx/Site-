@@ -128,11 +128,11 @@ export const youtube: Connector = {
     };
 
     const daily = await report(
-      { startDate: start, endDate: end, dimensions: "day", sort: "day", metrics: "views,estimatedMinutesWatched,likes,comments,shares" },
+      { startDate: start, endDate: end, dimensions: "day", sort: "day", metrics: "views,estimatedMinutesWatched,likes,comments,shares,subscribersGained" },
       "daily figures"
     );
     for (const r of rowsOf(daily)) {
-      Object.assign(day(r.day).m, { views: r.views, watchMinutes: r.estimatedMinutesWatched, likes: r.likes, comments: r.comments, shares: r.shares });
+      Object.assign(day(r.day).m, { views: r.views, watchMinutes: r.estimatedMinutesWatched, likes: r.likes, comments: r.comments, shares: r.shares, subscribersGained: r.subscribersGained });
     }
 
     // Impressions and click-through rate. The Analytics API doesn't give these, so they come from the Reporting

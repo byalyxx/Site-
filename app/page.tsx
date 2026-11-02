@@ -72,11 +72,19 @@ export default async function Home() {
         tabs={productGroups.map((g) => ({
           label: g.label,
           panel: (
-            <RowList>
-              {g.items.map((p) => (
-                <ProductEntry key={p.title} product={p} />
-              ))}
-            </RowList>
+            <>
+              {g.intro && (
+                <div className="flex flex-col gap-2 border-t border-site-line py-8">
+                  <h3 className="text-title font-medium text-site-fg">{g.intro.title}</h3>
+                  <p className="text-body text-site-muted">{g.intro.description}</p>
+                </div>
+              )}
+              <RowList>
+                {g.items.map((p) => (
+                  <ProductEntry key={p.title} product={p} />
+                ))}
+              </RowList>
+            </>
           ),
         }))}
       />

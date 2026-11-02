@@ -28,6 +28,7 @@ export const socials = [
 // `stats` on the newest video shows under the featured card. Once YouTube is connected the live counts replace
 // these (lib/video-stats.ts); they're only used if YouTube can't be reached.
 export const videos: { id: string; title: string; stats?: { views: string; likes: string; comments: string } }[] = [
+  { id: "xxdXFTjT7ls", title: "setup upgrades that are actually worth it" },
   { id: "5G1u5PJHsxs", title: "the most powerful tiny pc i’ve ever built", stats: { views: "152k", likes: "2k", comments: "106" } },
   { id: "x3XlALrMMuU", title: "do you actually need a sim rig? (Logitech RS50)" },
 ];
@@ -111,9 +112,14 @@ export type Cta = { label: string; href: string };
 // `image` is a square preview from public/ shown beside the text.
 export type Product = { title: string; type?: string; description: string; image?: string; cta?: Cta; secondaryCta?: Cta; placeholder?: boolean };
 // The home page's Products section: one tab per group, in this order. The page opens on the first tab (Community).
-export const productGroups: { label: string; items: Product[] }[] = [
+// `intro` is an optional heading and line shown above the group's items.
+export const productGroups: { label: string; intro?: { title: string; description: string }; items: Product[] }[] = [
   {
     label: "Community",
+    intro: {
+      title: "Wallpaper packs",
+      description: "Popular wallpapers from my setup. Dark themed, sized for desktop & mobile.",
+    },
     items: [
       {
         title: "Wave pack",
