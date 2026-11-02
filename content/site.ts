@@ -123,7 +123,7 @@ export const productGroups: { label: string; items: Product[] }[] = [
       },
       {
         title: "Underglow pack",
-        description: "A soft white glow rising from the bottom edge.",
+        description: "A soft glow from below.",
         image: "/products/underglow-pack.png",
         cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product" },
       },
