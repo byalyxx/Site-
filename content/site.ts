@@ -124,13 +124,13 @@ export const productGroups: { label: string; intro?: { title: string; descriptio
       {
         title: "Wave pack",
         description: "Inspired by the PS3 wave.",
-        image: "/products/wave-pack-v2.png",
+        image: "/products/wave-pack.gif",
         cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product-1" },
       },
       {
         title: "Underglow pack",
         description: "A soft glow from below.",
-        image: "/products/underglow-pack-v2.png",
+        image: "/products/underglow-pack.gif",
         cta: { label: "byalyxx.store", href: "https://byalyxx.store/products/digital-product" },
       },
     ],
