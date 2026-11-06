@@ -22,6 +22,12 @@ export const metadata = pageMetadata({
 // Rebuilt at most once an hour, and straight after each refresh, so the follower counts and video stats stay current.
 export const revalidate = 3600;
 
+// "today", "1 day ago", "12 days ago". Worked out on each rebuild (hourly), so it moves on by itself.
+function daysAgo(iso: string) {
+  const days = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 86_400_000));
+  return days === 0 ? "today" : `${days} ${days === 1 ? "day" : "days"} ago`;
+}
+
 export default async function Home() {
   const [latest] = videos;
   const [socials, stats] = await Promise.all([loadFollowers(), loadVideoStats(latest.id)]);
@@ -52,6 +58,12 @@ export default async function Home() {
                 {stats.comments}
                 <span className="sr-only"> comments</span>
               </span>
+              {stats.published && (
+                <>
+                  <span aria-hidden="true">·</span>
+                  <time dateTime={stats.published}>{daysAgo(stats.published)}</time>
+                </>
+              )}
             </p>
           )}
           <a
